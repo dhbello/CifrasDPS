@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DPS</title>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="DPS" />
+    <meta property="og:description" content="Consulta Informacion sobre los programas del Departamento para la Prosperidad Social (DPS)" />
+    <meta property="og:image" content="http://commondatastorage.googleapis.com/sinesat/logoDPS.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.structure-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.theme-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/themes/mintic.css" rel="stylesheet" />
+    <link href="jqm-icon-pack-2.0-original.css" rel="stylesheet" />
+    <link href="css/dc.css" rel="stylesheet" />
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.mobile-1.3.2.min.js"></script>
+    <script src="js/jquery.form.min.js"></script>
+    <script src="js/json2.js"></script>
+    <script src="js/jquery.validity.js"></script>
+
+    <script src="js/d3.js"></script>
+    <script src="js/crossfilter.js"></script>
+    <script src="js/dc.js"></script>
+
+    <script src="phonegap.js"></script>
+
+    <script src="data/datadptoanual.js"></script>
+    <script src="data/datamunicipalanual.js"></script>
+    <script src="index.js"></script>
+
+    <link rel="stylesheet" href="http://js.arcgis.com/3.7/js/dojo/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="http://js.arcgis.com/3.7/js/esri/css/esri.css" />
+    <script src="http://js.arcgis.com/3.7/"></script>
+
+    <style>
+        .simpleInfoWindow .close
+        {
+            display: none;
+        }
+
+        .ui-popup-screen.in {
+            background: none repeat scroll 0 0 grey;
+            opacity: 0.5;
+            z-index: 100;
+        }
+
+        body
+        {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+
+	<script>
+
+	    if (isPhoneGapExclusive()) {
+	        document.addEventListener("deviceready", onDeviceReady, false);
+	        window.addEventListener('resize', updateSize);
+
+	        function onDeviceReady() {
+	            navigator.geolocation.getCurrentPosition(zoomToLocation, null);
+	            try {
+	                dojo.require("esri.map");
+	                dojo.require("esri.graphic");
+	                dojo.require("esri.tasks.geometry");
+	                dojo.require("esri.tasks.identify");
+	                dojo.require("esri.dijit.InfoWindowLite");
+	                dojo.addOnLoad(init);
+	            } catch (err) {
+	                init();
+	            };
+	        }
+	    } else {
+	        window.addEventListener('resize', updateSize);
+
+	        navigator.geolocation.getCurrentPosition(zoomToLocation, null);
+	        try {
+	            dojo.require("esri.map");
+	            dojo.require("esri.graphic");
+	            dojo.require("esri.tasks.geometry");
+	            dojo.require("esri.tasks.identify");
+	            dojo.require("esri.dijit.InfoWindowLite");
+	            dojo.addOnLoad(init);
+	        } catch (err) {
+	            init();
+	        };
+	    };
+
+    </script>
+
+ </head>
+<body>
+
+    <div data-role="page" id="main" style="width:100%; height:100%; padding:0;">
+
+	    <div id="header" data-role="header">
+            <a href="#" data-role="button" data-icon="star" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>                
+            <h1>DPS</h1>
+            <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">
+                <a href="#" data-role="button" data-icon="link" onclick="$('#fdepto').val(-999);fdeptoChange();">Nivel Nacional</a>
+                <a href="#" data-role="button" data-icon="link" onclick="$('#share').popup('open');">Compartir</a>
+                <a href="#" data-role="button" data-icon="info2" onclick="$('#acerca').popup('open');">Acerca</a>
+            </div>
+	    </div><!-- /header -->
+
+
+	    <div id="container" data-role="content" style="width:100%; height:100%; padding:0;">
+
+
+            <div data-role="popup" id="acerca" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Volver</a>
+		            <h1>DPS</h1>
+                    <a href="#" data-role="button"  onclick="$('#acerca').popup('close');$('#tutorial').popup('open');">Tutorial</a>
+	            </div>
+	            <div data-role="content">
+                   <p style="text-align: center;">
+                       <span style="font-size: large;"><b>DPS v1.0</b></span><br />
+                       DPS<br />
+                       2013 - Derechos Reservados
+                   </p>
+		            <p style="text-align: center;">                        
+                        <!-- <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_IDECA.png" />&nbsp;-->
+                        <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_mintic.png" />
+                    </p>
+                   <p style="text-align: center;">
+                        <b>Autores:</b><br />
+                        David H. Bello - Raphcel M. Bello<br />
+                        david.bello@sinesat.com
+                   </p>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="tutorial" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Volver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content" style="text-align: justify;font-size: small;">
+                   <p>
+                       Para utilizar la aplicaci&oacute;n debes ....
+                   </p>
+                    <br />
+                   <center>
+                   <table cellpadding="5" style="border-collapse: collapse;">
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="info2">Acerca de</a>
+                            </td>
+                            <td style="border: none;">
+                                Ver la informaci&oacute;n de los autores e ingresar nuevamente a este tutorial.
+                            </td>
+                        </tr>
+                    </table>
+                    </center>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="share" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Volver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                   <p style="text-align: center;">Compartir ubicaci&oacute;n por:</p>
+                    <div data-role="controlgroup" data-type="horizontal">
+                        <a href="#" id="btnS1" data-role="button" data-icon="facebook" onclick="share('facebook');">Facebook</a>
+                        <a href="#" id="btnS2" data-role="button" data-icon="twitter" onclick="share('twitter');">Twitter</a>
+                        <!-- <a href="#" id="btnS3" data-role="button" data-icon="email" data-mini="true" onclick="share('email');">E-mail</a>  -->
+                    </div>
+	            </div>
+            </div>
+            
+            <div data-role="popup" id="seleccion" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Volver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div data-role="fieldcontain">
+                        <label for="fdepto" class="select">Departamento:</label>
+                        <select id="fdepto" name="fdepto">
+                             <option value="-999" selected>Consolidado Nacional</option>
+                             <option value="05">Antioquia</option>
+                             <option value="08">Atl&aacute;ntico</option>
+                             <option value="11">Bogot&aacute;, D.C.</option>
+                             <option value="13">Bol&iacute;var</option>
+                             <option value="15">Boyac&aacute;</option>
+                             <option value="17">Caldas</option>
+                             <option value="18">Caquet&aacute;</option>
+                             <option value="19">Cauca</option>
+                             <option value="20">Cesar</option>
+                             <option value="23">C&oacute;rdoba</option>
+                             <option value="25">Cundinamarca</option>
+                             <option value="27">Choc&oacute;</option>
+                             <option value="41">Huila</option>
+                             <option value="44">La Guajira</option>
+                             <option value="47">Magdalena</option>
+                             <option value="50">Meta</option>
+                             <option value="52">Nari&ntilde;o</option>
+                             <option value="54">Norte de Santander</option>
+                             <option value="63">Quindio</option>
+                             <option value="66">Risaralda</option>
+                             <option value="68">Santander</option>
+                             <option value="70">Sucre</option>
+                             <option value="73">Tolima</option>
+                             <option value="76">Valle del Cauca</option>
+                             <option value="81">Arauca</option>
+                             <option value="85">Casanare</option>
+                             <option value="86">Putumayo</option>
+                             <option value="88">Archipi&eacute;lago de San Andr&eacute;s, Providencia y Santa Catalina</option>
+                             <option value="91">Amazonas</option>
+                             <option value="94">Guain&iacute;a</option>
+                             <option value="95">Guaviare</option>
+                             <option value="97">Vaup&eacute;s</option>
+                             <option value="99">Vichada</option>
+                        </select>
+                    </div>
+                    <div id="munidiv" data-role="fieldcontain" style="display: none;">
+                        <label for="fmunicipio" class="select">Municipio:</label>
+                        <select id="fmunicipio" name="fmunicipio">
+                            <option value="-999" selected>Consolidado Departamento</option>
+                        </select>
+                    </div>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="msg" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Volver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div id="msgTXT"></div>
+                </div>
+            </div>
+
+            <div data-role="popup" id="msg2" data-history="false">
+	            <div data-role="header">
+                    <a href="#" data-role="button" data-icon="arrow-l" onclick="$('#msg2').popup('close');$('#reportar').popup('open');">Volver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div id="msgTXT2"></div>
+                </div>
+            </div>
+            
+            <div data-role="popup" id="popupGeneral" data-history="false">
+			        <div data-role="header">
+				        <h1>DPS</h1>
+                        <a href="#" data-role="button"  onclick="$('#popupGeneral').popup('close');$('#tutorial').popup('open');" class="ui-btn-right">Tutorial</a>
+			        </div>
+			        <div data-role="content">
+				        <p>Escoja un punto en el mapa y haga un doble tap para ver la informaci&oacute;n del sitio.</p><br />
+				        <a href="#main" data-role="button">Continuar</a>
+			        </div>
+		    </div>
+             <div id="map" style="padding: 0px;width:100%;height:100%;">
+
+		    </div>     
+	    </div>
+
+        <div id="footer" data-role="footer" data-position="fixed"> 
+
+	         <div id="lista" style="font-size: small;position: absolute;width:100%;bottom:0px;padding: 0;overflow:auto;z-index:100;display:none;text-shadow:none;color:gray;">
+                <table id="table" style="width:100%;border-collapse: collapse;">
+                    <tr>
+                        <td style="width: 150px;">
+                            Programa:
+                        </td>
+                        <td>
+                            <select id="fprograma">
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                             <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
+                             <div id="mainChart" style="text-align: center;background: white;width: 100%;">
+                                <div class="clearfix"></div>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;">
+                            <span id="ruta"></span>
+                        </td>
+                        <td style="text-align: right;">
+                            <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
+
+                            </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td style="width: 150px;">
+                            A&ntilde;o a presentar (Mapa):
+                        </td>
+                        <td>
+                            <select id="fchart">
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div><!-- /page -->
+
+</body>
+</html>
