@@ -6,8 +6,8 @@ PARAMETROS CONFIGURABLES
 // Ubicación de la versión web de la aplicación
 var _url = 'http://dps.azurewebsites.net/';
 // Mensaje que aparece en la opcion compartir desde redes sociales
-var _msg_share_twitter = '@DPSColombia Información DPS';
-var _msg_share_fb = '@DPSColombia Información DPS';
+var _msg_share_tw = '@DPSColombia Información DPS';
+var _msg_share_fb = 'Información DPS';
 
 // Ubicación de la versión web de la aplicación
 var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer';
