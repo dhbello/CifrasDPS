@@ -102,7 +102,7 @@
             <a href="#" data-role="button" data-icon="star" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>                
             <h1>DPS</h1>
             <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">
-                <a href="#" data-role="button" data-icon="link" onclick="$('#fdepto').val(-999);fdeptoChange();">Nivel Nacional</a>
+                <a href="#" data-role="button" data-icon="link" onclick="$('#fdepto').val(-999);$('#fdepto').selectmenu('refresh', true);fdeptoChange();">Nivel Nacional</a>
                 <a href="#" data-role="button" data-icon="link" onclick="$('#share').popup('open');">Compartir</a>
                 <a href="#" data-role="button" data-icon="info2" onclick="$('#acerca').popup('open');">Acerca</a>
             </div>

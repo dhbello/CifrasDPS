@@ -152,6 +152,7 @@ function init() {
         $('#fprograma').append($('<option>', { value: i }).text(variables[i][0]));
     };
     $('#fprograma').val(0);
+    $('#fprograma').selectmenu('refresh', true);
     updatePrograma();
 
     $("#lista").height(parseInt($(document).height() * 0.5));
@@ -255,6 +256,7 @@ function fdeptoChange() {
                     .end()
                     .append('<option value="-999">Consolidado Departamento</option>')
                     .val('-999');
+                $('#fmunicipio').selectmenu('refresh', true);
                 updateDatos();
                 updateDepto();
                 for (var i = 0; i < data.features.length; i++) {
@@ -351,6 +353,7 @@ function updatePrograma() {
         };
         dateName = sizeArray[sizeArray.length - 1].key;
         $('#fchart').val(dateName);
+        $('#fchart').selectmenu('refresh', true);
     }
     updateMapaDatos();
 }
@@ -765,11 +768,13 @@ function analizarDepto(codigo) {
     gl.clear();
     cerrarPopup();
     $("#fdepto").val(codigo);
+    $('#fdepto').selectmenu('refresh', true);
     fdeptoChange();
 }
 
 function analizarDeptoD(codigo) {
     $("#fdepto").val(codigo);
+    $('#fdepto').selectmenu('refresh', true);
     $("#ruta").text("Consolidado " + $('#fdepto').find('option:selected').text().toString());
     cerrarPopup();
     updateDatos();
@@ -777,6 +782,7 @@ function analizarDeptoD(codigo) {
 
 function analizarMuni(codigo) {
     $("#fmunicipio").val(codigo);
+    $('#fmunicipio').selectmenu('refresh', true);
     $("#ruta").text("Detalle " + $('#fmunicipio').find('option:selected').text().toString());
     cerrarPopup();
     updateDatos();
