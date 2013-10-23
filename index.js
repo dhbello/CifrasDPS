@@ -11,8 +11,6 @@ var _msg_share_fb = 'Información DPS';
 
 // Ubicación de la versión web de la aplicación
 var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer';
-var _map_deptos = 'http://190.25.231.249/arcgis/rest/services/Divipola/CentrosPobladosyEntidadesTerritoriales/MapServer/3';
-var _map_municipios = 'http://190.25.231.249/arcgis/rest/services/Divipola/CentrosPobladosyEntidadesTerritoriales/MapServer/5';
 
 var _data_nacional = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalanual/?$format=json&$orderby=anofecha';
 var _data_deptos = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptoanual/?$format=json&$orderby=anofecha&$filter=nombredepartamento%20like%20';
@@ -21,106 +19,13 @@ var _data_municipios = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/
 var cache_data;
 var cache_data_GEO;
 
-var query_muni = 'http://190.25.231.249/arcgis/rest/services/Divipola/CentrosPobladosyEntidadesTerritoriales/MapServer/5/query?text=&orderByFields=NOM_MPIO&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=COD_MPIO%2CNOM_MPIO&returnGeometry=false&maxAllowableOffset=&geometryPrecision=&outSR=&returnIdsOnly=false&returnCountOnly=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&returnDistinctValues=false&f=pjson&where=COD_DPTO+%3D+'
-// Variables a desplejar
-var variables = [
-   ["Activos para la Prosperidad", "act_pros"],
-["AfroPaz", "afro"],
-["Atencion a Victimas de la Violencia por 2 S.M.M.L.V.", "avv2"],
-["Atencion a Victimas de la Violencia por 40 S.M.M.L.V.", "avv40"],
-["Atencion de Victimas de la Violencia por Reparacion Administrativa", "avvra"],
-["Atencion Humanitaria", "ahe"],
-["Ayuda Humanitaria", "ayuhum"],
-["Ayuda Humanitaria", "ayu_hum"],
-["Bancarizacion de Familias en accion ", "fam_ban"],
-["Victimas Expulsadas", "expul"],
-["Victimas Recepcionadas", "recep"],
-["Departamento para la Prosperidad Social", "dps"],
-["Desarraigados", "desarra"],
-["Desarrollo Regional, Paz y Estabilidad", "drpe"],
-["Desarrollo y Paz", "pdp"],
-["Empleo de Emergencia", "gi_pee"],
-["Encargo Fiduciario para Ninos, Ninas y Adolescentes", "en_nna"],
-["Familias con Bienestar", "icbf_fam_biene"],
-["Familias en Accion", "fa_fact"],
-["Familias en Accion - Desplazados", "fa_des"],
-["Familias en Accion - Indigenas", "fa_ind"],
-["Familias en Accion - Sisben", "fa_sis"],
-["Familias en Accion Periodo Presidencial Santos - Desplazados", "fasan_des"],
-["Familias en Accion Periodo Presidencial Santos - Indigenas", "fasan_ind"],
-["Familias en Accion Periodo Presidencial Santos - Sisben", "fasan_sis"],
-["Familias en su Tierra", "irr"],
-["Familias GuardaBosques", "pfg"],
-["Generacion de Ingresos", "giv"],
-["Generacion de Ingresos - Capitalizacion", "gi_cap"],
-["Generacion de Ingresos - Desarrollo Economico Incluyente", "gi_dei"],
-["Generacion de Ingresos - Enfoque Diferencial - IRACA", "gi_iraca"],
-["Generacion de Ingresos - Enfoque Étnico - IRACA", "gi_iraca"],
-["Generacion de Ingresos - Icetex", "gi_icetex"],
-["Generacion de Ingresos - Incentivo a la Capacitacion para el Empleo", "gi_ice"],
-["Generacion de Ingresos - Mujeres Ahorradoras", "gi_ma"],
-["Generacion de Ingresos - Mujeres Productivas", "gi_mp"],
-["Generacion de Ingresos - Otras Estrategias", "gi_otras"],
-["Generacion de Ingresos - Programa de Atencion Integral", "gi_pai"],
-["Generacion de Ingresos - Recuperacion de Activos Improductivos", "gi_rai"],
-["Generacion de Ingresos - Ruta de Ingresos y Empresarismo", "gi_rie"],
-["Generacion de Ingresos - Subsidio Integral de Tierras", "gi_sit"],
-["Generacion de Ingresos - Titulacion de Tierras", "gi_tt"],
-["Generacion de Ingresos - Trabajando Unidos", "gi_tu"],
-["Grupo de Apoyo Misional", "gam"],
-["Grupo Movil de Erradicacion", "gme"],
-["Grupo Paz, Desarrollo y Estabilidad", "gpde"],
-["Habitad - Mejoramiento para la Habitalidad", "hab_mh"],
-["Habitad - Mejoramiento Subsidio Rural", "hab_rur"],
-["Habitat", "hab"],
-["Indemnizacion por ley 1290", "ind1290"],
-["Indemnizacion por ley 418", "ind418"],
-["Ingreso Para la Prosperidad", "ips"],
-["inversion ejecutada total en el Sector", "tot"],
-["Jovenes en Accion", "jea"],
-["Jovenes en Accion Registradas", "jea_reg"],
-["Jovenes en Accion Matriculadas", "jea_mat"],
-["Jovenes en Accion Cupos", "jea_cup"],
-["Jovenes en Accion Enrroladas", "jea_enrol"],
-["Jovenes en Accion Proceso de Matricula", "jea_pro_mat"],
-["Laboratorios de Paz", "lp"],
-["Legion del Afecto", "la"],
-["Mas Familias en Accion Bancarizadas", "mfa_ban"],
-["Mas Familias en Accion - Desplazados", "mfa_des"],
-["Mas Familias en Accion - Indigenas", "mfa_ind"],
-["Mas Familias en Accion - Sisben", "mfa_sis"],
-["Mas Familias en Accion - Unidos", "mfa_uni"],
-["Mas Familias es Accion Inscritas", "mfa_ins"],
-["Musica para la Reconciliacion", "musica"],
-["Musica para la Reconciliacion - Coro", "mpr_cor"],
-["Musica para la Reconciliacion - Discapacidad", "mpr_dis"],
-["Musica para la Reconciliacion - Preorquesta", "mpr_preor"],
-["Musica para la Reconciliacion - Preorquestal", "mpr_preor"],
-["Ninos y ninas atendidos en hogares icbf que brindan atencion, cuidado y nutricion sin el componente de educacion inicial", "icbf_nn_sin_edu_ini"],
-["Ninos y ninas atendidos en programas de atencion integral", "nn_pai"],
-["Ninos, ninas y adolescentes atendidos con el generaciones con bienestar", "icbf_gen_biene"],
-["Ninos, ninas y adolescentes atendidos con el programa PAE", "icbf_nna_pae"],
-["Nuevos Territorios de Paz", "ntp"],
-["Obras para la Prosperidad", "opp"],
-["Programa de Atencion Integral", "gi_pai"],
-["Programa de Desarrollo y Paz", "pdf"],
-["Programa Generacion de Ingresos - Icetex", "gi_icetex"],
-["Proteccion de Tierras", "prot_tier"],
-["Proyectos Especiales", "pe"],
-["Proyectos Productivos", "pp"],
-["Pueblos indigenas", "pi"],
-["Red de Seguridad Alimentaria", "resa"],
-["Retorno - Personas", "retorno"],
-["Retornos - Familias", "retor"],
-["Unidos", "unidos"],
-["Unidos Promovidas", "uni_prom"],
-["Unidos Cogestores", "uni_cog"],
-
-
-
-];
+// Variables de los programas y sus respectivos prefijos
+var programas = [];
 var preffixes = ["fam", "per", "inv", "pro", "has"];
 var preffixesDesc = ["Familias", "Personas", "Inversi&oacute;n", "Proyectos", "Hectareas"];
+
+// Variable de los municipios (DIVIPOLA)
+var municipios = [];
 
 var map;
 var loaded = false;
@@ -147,17 +52,37 @@ var prefixName;
 var dateName = '2012';
 
 function init() {
+    $.ajax({
+        url: "./data/DIVIPOLA.csv",
+        type: 'GET',
+        async: false,
+        success: function (data) {
+            municipios = $.csv.toObjects(data);
+        }
+    });
 
-    for (var i = 0; i < variables.length; i++) {
-        $('#fprograma').append($('<option>', { value: i }).text(variables[i][0]));
-    };
-    $('#fprograma').val(0);
-    $('#fprograma').selectmenu('refresh', true);
-    updatePrograma();
+    $.ajax({
+        url: "./data/Maestro_Programas.csv",
+        type: 'GET',
+        async: false,
+        success: function (data) {
+            programas = $.csv.toObjects(data);
 
-    $("#lista").height(parseInt($(document).height() * 0.5));
-    //$("#lista").height(parseInt(400));
-    $("#lista").show();
+            var tentidades = [];
+            for (var i = 0; i < programas.length; i++) {
+                if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
+                    tentidades.push(programas[i].ENTIDAD);
+                };
+                $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
+            };
+            for (var i = 0; i < tentidades.length; i++) {
+                $('#fentidad').append($('<option>', { value: tentidades[i] }).text(tentidades[i]));
+            };
+            $('#fprograma').val(0);
+            $('#fprograma').selectmenu('refresh', true);
+            updatePrograma();
+        }
+    });   
 
     if (isPhoneGapExclusive()) {
         if ((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE)) {
@@ -183,8 +108,6 @@ function init() {
         }, true);
     }
 
-    updateSize();
-
     /*
     if (getUrlVars()["pos"] == null) {
         $('#popupGeneral').popup('open');
@@ -208,35 +131,46 @@ function init() {
         updateDepto();
     });
 
+    $('#fentidad').change(function () {
+        fentidadChange();
+    });
+
     $('#fprograma').change(function () {
         updatePrograma();
     });
 
     if (isPhoneGap()) {
-
         map = new esri.Map("map", {
             zoom: 5,
+            minZoom: 3,
+            maxZoom: 10,
             infoWindow: popup,
             autoresize: true
         });
-
-        dojo.connect(map, "onLoad", mapLoadHandler);
-        dojo.connect(map, "onDblClick", mapClickHandler);
     } else {
         map = new esri.Map("map", {
             zoom: 5,
+            minZoom: 3,
+            maxZoom: 10,
             nav: true,
             infoWindow: popup,
             autoresize: true
-        });
-
-        dojo.connect(map, "onLoad", mapLoadHandler);
-        dojo.connect(map, "onClick", mapClickHandler);
+        });        
     };
+    dojo.connect(map, "onLoad", mapLoadHandler);
 
-    var streetMapLayer = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
-    map.addLayer(streetMapLayer);
-    map.resize();
+    if (isPhoneGap()) {
+        if (((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE))) {
+            map.addLayer(new esri.layers.GraphicsLayer());
+        } else {
+            var streetMapLayer = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
+            map.addLayer(streetMapLayer);
+        };
+    } else {
+        var streetMapLayer = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
+        map.addLayer(streetMapLayer);        
+    };
+    updateSize();
 }
 
 function fdeptoChange() {
@@ -244,79 +178,69 @@ function fdeptoChange() {
         updateNacional();
         $('#munidiv').hide();
     } else {
-        $.ajax({
-            url: query_muni + "%27" + $('#fdepto')[0].value + "%27",
-            type: 'GET',
-            dataType: 'json',
-            success: function (data) {
-                $('#munidiv').show();
-                $('#fmunicipio')
-                    .find('option')
-                    .remove()
-                    .end()
-                    .append('<option value="-999">Consolidado Departamento</option>')
-                    .val('-999');
-                $('#fmunicipio').selectmenu('refresh', true);
-                updateDatos();
-                updateDepto();
-                for (var i = 0; i < data.features.length; i++) {
-                    $('#fmunicipio').append($('<option>', { value: data.features[i].attributes["COD_MPIO"] })
-                         .text(data.features[i].attributes["NOM_MPIO"]));
-                };
-
-            },
-            error: function () {
-                $('#msgTXT2').html('Servicio de municipios no disponible, por favor, intente m&aacute;s tarde.');
-                $('#msg2').popup('open');
+        $('#munidiv').show();
+        $('#fmunicipio').find('option').remove().end().append('<option value="-999">Consolidado Departamento</option>').val('-999');
+        $('#fmunicipio').selectmenu('refresh', true);
+        updateDatos();
+        updateDepto();
+        $.each(municipios, function (index, value) {
+            if (value.COD_DEPTO == $('#fdepto')[0].value) {
+                $('#fmunicipio').append($('<option>', { value: value.COD_MUNI }).text(value.NOMBRE));
             }
         });
+
     };
 }
+
+function fentidadChange() {
+    $('#fprograma').find('option').remove().end();
+    if ($('#fentidad')[0].value == "-999") {
+        for (var i = 0; i < programas.length; i++) {
+            $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
+        };
+    } else {
+        for (var i = 0; i < programas.length; i++) {
+            if (programas[i].ENTIDAD == $('#fentidad')[0].value) {
+                $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
+            };
+        };
+    };
+    $('#fprograma').val(0);
+    $('#fprograma').selectmenu('refresh', true);
+    updatePrograma();
+};
 
 function updateNacional() {
     updateDatos();
     gl.clear();
-    var queryTask = new esri.tasks.QueryTask(_map_deptos);
-    var queryParams = new esri.tasks.Query();
-    queryParams.spatialReference = new esri.SpatialReference(3857);
-    queryParams.geometry = new esri.geometry.Extent(-1.0761122486903157E7, -482219.85410090536, -6575141.198273913, 1994285.0989090009, new esri.SpatialReference(3857));
-    queryParams.maxAllowableOffset = 0.01;
-    queryParams.outSpatialReference = map.spatialReference;
-    queryParams.outFields = ["COD_DPTO", "NOM_DPTO"]
-    queryParams.returnGeometry = true;
-    
-    queryTask.execute(queryParams, function (results) {
+
+    $.getJSON("./data/mapas/nacional.js", function (results) {
+        for (var i = 0; i < results.features.length; i++) {
+            results.features[i].geometry = esri.geometry.fromJson(results.features[i].geometry);
+        }
         map.setExtent(esri.graphicsExtent(results.features));
         showResultsDepto(results);
         updateMapaDatos();
-    }, function (error) {
-        
     });
+
 };
 
 function updateDepto() {
     gl.clear();
-    var queryTask = new esri.tasks.QueryTask(_map_municipios);
-    var queryParams = new esri.tasks.Query();
-    queryParams.spatialReference = new esri.SpatialReference(3857);
-    queryParams.geometry = new esri.geometry.Extent(-1.0761122486903157E7, -482219.85410090536, -6575141.198273913, 1994285.0989090009, new esri.SpatialReference(3857));
-    queryParams.maxAllowableOffset = 0.01;
-    queryParams.outSpatialReference = map.spatialReference;
-    queryParams.where = "COD_DPTO = '" + $('#fdepto')[0].value + "'"
-    queryParams.outFields = ["COD_MPIO", "NOM_MPIO"]
-    queryParams.returnGeometry = true;
 
-    queryTask.execute(queryParams, function (results) {
+    $.getJSON("./data/mapas/" + $('#fdepto')[0].value + ".js", function (results) {
+        for (var i = 0; i < results.features.length; i++) {
+            results.features[i].geometry = esri.geometry.fromJson(results.features[i].geometry);
+        }
         map.setExtent(esri.graphicsExtent(results.features));
         showResultsMuni(results);
         updateMapaDatos();
-    }, function (error) {
-
     });
+
 };
 
 function updatePrograma() {
-    variableName = variables[parseInt($('#fprograma')[0].value)][1].toString().replace("_", "");
+    variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString().toLowerCase().replace("_", "");
     if (cache_data == null) {
         return;
     };
@@ -450,7 +374,6 @@ function updateMapaDatos() {
 };
 
 function updateDatos() {
-    $('#seleccion').popup('close');
     if ($('#fdepto')[0].value == "-999") {
         // Consolidado Nacional
         $("#ruta").text("Consolidado Nacional");
@@ -592,18 +515,35 @@ function updateNDX(data) {
 
 
 function updateSize() {
-    if ($("#lista").is(":visible")) {
-        $("#lista").height(parseInt($(document).height() * 0.5));
-    } else {
-        $("#lista").height(0);
-    };
-    var the_height = $(window).height() - $("#header").height() - $("#lista").height() - 8;
+    var the_height = $(window).height() - $("#header").height() - $("#footer").height() - 25;   
+    $("#lista").height(the_height);
+    $("#reporte").height(the_height);
     $("#map").height(the_height);
     if (map) {
         map.reposition();
         map.resize();
     }
 };
+
+function setView(id) {
+    switch (id) {
+        case 1:
+            $("#lista").hide();
+            $("#reporte").hide();
+            $("#map").show();
+            break;
+        case 2:
+            $("#reporte").hide();
+            $("#map").hide();
+            $("#lista").show();
+            break;
+        case 3:
+            $("#map").hide();
+            $("#lista").hide();
+            $("#reporte").show();
+            break;
+    };
+}
 
 function share(id) {
     switch (id) {
@@ -642,9 +582,7 @@ function mapLoadHandler(map) {
 
     /*
     if (getUrlVars()["pos"] != null) {
-        var obj = {};
-        obj.mapPoint = currentPoint;
-        mapClickHandler(obj);
+
     };
     */
     updateNacional();
@@ -661,34 +599,6 @@ function zoomToLocation(position) {
     } catch (ex) {
 
     }
-};
-
-function mapClickHandler(evt) {
-    if (isPhoneGapExclusive()) {
-        if ((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE)) {
-            $('#msgTXT').html('DPS requiere una conexi&oacute;n de datos para funcionar correctamente. Por favor, verifique su configuraci&oacute;n de red e intente nuevamente.');
-            $('#msg').popup('open');
-            return;
-        };
-    }
-    if (mapLock) {
-        return;
-    };
-    mapLock = true;
-    gl.clear();
-    map.infoWindow.hide();
-    /*
-    if (!($("#lista").is(":visible"))) {
-        displayLista();
-    };
-    */
-
-    var mapPoint;
-    mapPoint = evt.mapPoint;
-    currentPoint = evt.mapPoint;
-    
-    
-
 };
 
 function orientationChanged() {
