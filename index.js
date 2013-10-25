@@ -1,3 +1,5 @@
+/// <reference path="data/json/datamunicipalanual.js" />
+/// <reference path="data/json/datamunicipalanual.js" />
 /*
 
 PARAMETROS CONFIGURABLES
@@ -12,16 +14,32 @@ var _msg_share_fb = 'Información DPS';
 // Ubicación de la versión web de la aplicación
 var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer';
 
-var _data_nacional = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalanual/?$format=json&$orderby=anofecha';
-var _data_deptos = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptoanual/?$format=json&$orderby=anofecha&$filter=nombredepartamento%20like%20';
-var _data_municipios = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datamunicipalanual?$format=json&$orderby=anofecha&$filter=nombremunicipio%20like%20';
+var _data_nacional_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalanual/?$format=json&$orderby=anofecha';
+var _data_nacional_anual = './data/csv/DPS.metadatanacionalanual.csv';
+var _data_nacional_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalpp/?$format=json';
+var _data_nacional_pp = './data/csv/DPS.metadatanacionalpp.csv';
+
+var _data_deptos_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptoanual/?$format=json&$orderby=anofecha&$filter=nombredepartamento%20like%20';
+var _data_deptos_anual = './data/csv/DPS.datadptoanual.csv';
+var _data_deptos_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptopp/?$format=json&$filter=depto%20like%20';
+var _data_deptos_pp = './data/csv/DPS.datadptopp.csv';
+
+var _data_muni_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datamunicipalanual?$format=json&$orderby=anofecha&$filter=nombremunicipio%20like%20';
+var _data_muni_anual = './data/csv/DPS.datamunicipalanual.csv';
+var _data_muni_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datamunicipalpp?$format=json&$filter=nombremunicipio%20like%20';
+var _data_muni_pp = './data/csv/DPS.datamunicipalpp.csv';
 
 var cache_data;
-var cache_data_GEO;
+var cache_data_nacional_anual;
+var cache_data_nacional_pp;
+var cache_data_deptos_anual;
+var cache_data_deptos_pp;
+var cache_data_muni_anual;
+var cache_data_muni_pp;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
-var preffixes = ["fam", "per", "inv", "pro", "has"];
+var preffixes = ["FAM", "PER", "INV", "PRO", "HAS"];
 var preffixesDesc = ["Familias", "Personas", "Inversi&oacute;n", "Proyectos", "Hectareas"];
 
 // Variable de los municipios (DIVIPOLA)
@@ -50,8 +68,91 @@ var datoGroup;
 var variableName;
 var prefixName;
 var dateName = '2012';
+var datoTipo = 1;
 
 function init() {
+    $.ajax({
+        url: _data_muni_anual,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            var start = new Date().getTime();
+            cache_data_muni_anual = $.csv.toObjects(data);
+            var end = new Date().getTime();
+            var time = end - start;
+        }
+    });
+    $.ajax({
+        url: _data_muni_pp,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            var start = new Date().getTime();
+            cache_data_muni_pp = $.csv.toObjects(data);
+            var end = new Date().getTime();
+            var time = end - start;
+        }
+    });
+    /*
+    $.ajax({
+        url: './data/json/datamunicipalanual.js',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function (data) {
+            var start = new Date().getTime();
+            cache_data_muni_anual = data.d;
+            var end = new Date().getTime();
+            var time = end - start;
+            console.log('Execution time (1): ' + time);
+        }
+    });
+    $.ajax({
+        url: './data/json/datamunicipalpp.js',
+        type: 'GET',
+        async: true,
+        dataType: 'json',
+        success: function (data) {
+            var start = new Date().getTime();
+            cache_data_muni_pp = data.d;
+            var end = new Date().getTime();
+            var time = end - start;
+            console.log('Execution time (2): ' + time);
+        }
+    });
+    */
+    $.ajax({
+        url: _data_nacional_anual,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            cache_data_nacional_anual = $.csv.toObjects(data);
+        }
+    });
+    $.ajax({
+        url: _data_nacional_pp,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            cache_data_nacional_pp = $.csv.toObjects(data);
+        }
+    });
+    $.ajax({
+        url: _data_deptos_anual,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            cache_data_deptos_anual = $.csv.toObjects(data);
+        }
+    });
+    $.ajax({
+        url: _data_deptos_pp,
+        type: 'GET',
+        async: true,
+        success: function (data) {
+            cache_data_deptos_pp = $.csv.toObjects(data);
+        }
+    });
     $.ajax({
         url: "./data/DIVIPOLA.csv",
         type: 'GET',
@@ -80,9 +181,9 @@ function init() {
             };
             $('#fprograma').val(0);
             $('#fprograma').selectmenu('refresh', true);
-            updatePrograma();
         }
-    });   
+    });
+
 
     if (isPhoneGapExclusive()) {
         if ((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE)) {
@@ -92,16 +193,13 @@ function init() {
         };
         document.addEventListener("backbutton", function () {
             if ($(".ui-page-active .ui-popup-active").length > 0) {
-                /*
                 $('#reportar').popup('close');
                 $('#share').popup('close');
-                $('#configuracion').popup('close');
                 $('#acerca').popup('close');
                 $('#tutorial').popup('close');
                 $('#msg').popup('close');
                 $('#msg2').popup('close');
                 $('#popupGeneral').popup('close');
-                */
             } else {
                 navigator.app.exitApp();
             };
@@ -143,7 +241,7 @@ function init() {
         map = new esri.Map("map", {
             zoom: 5,
             minZoom: 3,
-            maxZoom: 10,
+            maxZoom: 9,
             infoWindow: popup,
             autoresize: true
         });
@@ -151,7 +249,7 @@ function init() {
         map = new esri.Map("map", {
             zoom: 5,
             minZoom: 3,
-            maxZoom: 10,
+            maxZoom: 9,
             nav: true,
             infoWindow: popup,
             autoresize: true
@@ -171,6 +269,7 @@ function init() {
         map.addLayer(streetMapLayer);        
     };
     updateSize();
+    updateDatos();
 }
 
 function fdeptoChange() {
@@ -240,7 +339,7 @@ function updateDepto() {
 };
 
 function updatePrograma() {
-    variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString().toLowerCase().replace("_", "");
+    variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString() + "_";
     if (cache_data == null) {
         return;
     };
@@ -294,6 +393,7 @@ function updateMapaDatos() {
 
     if (gl.graphics[0].attributes["COD_DPTO"] != null) {
         // Mapas Deptos
+        var data_dpto = (datoTipo == 0 ? cache_data_deptos_anual : cache_data_deptos_pp);
         for (var j = 0; j < data_dpto.length; j++) {
             if (data_dpto[j][variableName + prefixName] != null) {
                 maxL2 = Math.max(maxL2, parseInt(data_dpto[j][variableName + prefixName]));
@@ -303,8 +403,13 @@ function updateMapaDatos() {
         for (var i = 0; i < gl.graphics.length; i++) {
             var match = false;
             for (var j = 0; j < data_dpto.length; j++) {
-                if ((gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j]["nombredepartamento"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) &&
-                    (dateName == data_dpto[j]["anofecha"])) {
+                if (
+                    (datoTipo == 0 ?
+                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j].Nombre_Departamento.replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) :
+                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j].Depto.replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N"))
+                    )
+                    &&
+                    ((datoTipo == 0 ? dateName == data_dpto[j].Ano_Fecha : true))) {
                     var resultado;
                     if (maxL2 == 0){
                         resultado = 0;
@@ -330,10 +435,11 @@ function updateMapaDatos() {
         };
     } else {
         // Mapas Municipios
+        var data_muni = (datoTipo == 0 ? cache_data_muni_anual : cache_data_muni_pp);
         for (var i = 0; i < gl.graphics.length; i++) {
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["NOM_MPIO"].toString().toUpperCase() == data_muni[j]["nombremunicipio"]) &&
-                    (dateName == data_muni[j]["anofecha"])) {
+                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j].Dane_Importar.trim()) &&
+                    (datoTipo == 0 ? (dateName == data_muni[j].Ano_Fecha) : true)) {
                     if (data_muni[j][variableName + prefixName] != null) {
                         maxL2 = Math.max(maxL2, parseInt(data_muni[j][variableName + prefixName]));
                     }
@@ -344,8 +450,8 @@ function updateMapaDatos() {
         for (var i = 0; i < gl.graphics.length; i++) {
             var match = false;
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["NOM_MPIO"].toString().toUpperCase() == data_muni[j]["nombremunicipio"]) &&
-                    (dateName == data_muni[j]["anofecha"])) {
+                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j].Dane_Importar.trim()) &&
+                    (datoTipo == 0 ? (dateName == data_muni[j].Ano_Fecha) : true)) {
                     var resultado;
                     if (maxL2 == 0) {
                         resultado = 0;
@@ -376,71 +482,65 @@ function updateMapaDatos() {
 function updateDatos() {
     if ($('#fdepto')[0].value == "-999") {
         // Consolidado Nacional
-        $("#ruta").text("Consolidado Nacional");
+        $("#ruta").html("Consolidado Nacional<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
         $("#load_icon").show();
         $("#mainChart").hide();
-        $.ajax({
-            url: _data_nacional,
-            type: 'GET',
-            dataType: 'jsonp',
-            success: function (data) {
-                $("#load_icon").hide();
-                $("#mainChart").show();
-                cache_data = data.d;
-                updatePrograma();
-            },
-            error: function (err) {
-
-            }
-        });
-
+        cache_data = (datoTipo == 0 ? cache_data_nacional_anual : cache_data_nacional_pp);
+        $("#load_icon").hide();
+        $("#mainChart").show();
+        updatePrograma();
     } else {
         if ($('#fmunicipio')[0].value == "-999") {
             // Consolidado Departamental
             var deptoNombre;
-            $("#ruta").text("Consolidado " + $('#fdepto').find('option:selected').text().toString());
+            var daneImportar;
+            $("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString() + "<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
             deptoNombre = $('#fdepto').find('option:selected').text().toString().toUpperCase();
+            daneImportar = $('#fdepto').find('option:selected').val();
             deptoNombre = deptoNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
             $("#load_icon").show();
             $("#mainChart").hide();
-            $.ajax({
-                url: _data_deptos + '%27' + deptoNombre + '%27',
-                type: 'GET',
-                dataType: 'jsonp',
-                success: function (data) {
-                    $("#load_icon").hide();
-                    $("#mainChart").show();
-                    cache_data = data.d;
-                    updatePrograma();
-                },
-                error: function (err) {
-
-                }
+            cache_data = [];
+            $.each((datoTipo == 0 ? cache_data_deptos_anual : cache_data_deptos_pp), function (index, value) {
+                if (datoTipo == 0) {
+                    // TODO CAMBIAR DANEIMPORTAR
+                    if (value.Nombre_Departamento == deptoNombre) {
+                        cache_data.push(value);
+                    };
+                } else {
+                    if (value.Dane_Importar == daneImportar) {
+                        cache_data.push(value);
+                    };
+                };
             });
-
+            $("#load_icon").hide();
+            $("#mainChart").show();
+            updatePrograma();
         } else {
             // Consolidado Municipio
             var muniNombre;
+            var daneImportar;
             muniNombre = $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
             muniNombre = muniNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
-            $("#ruta").text("Detalle " + $('#fmunicipio').find('option:selected').text().toString());
+            daneImportar = $('#fmunicipio').find('option:selected').val();
+            $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + "<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
             $("#load_icon").show();
             $("#mainChart").hide();
-            $.ajax({
-                url: _data_municipios + '%27' + muniNombre + '%27',
-                type: 'GET',
-                dataType: 'jsonp',
-                success: function (data) {
-                    $("#load_icon").hide();
-                    $("#mainChart").show();
-                    cache_data = data.d;
-                    updatePrograma();
-                },
-                error: function (err) {
-
-                }
+            cache_data = [];
+            $.each((datoTipo == 0 ? cache_data_muni_anual : cache_data_muni_pp), function (index, value) {
+                if (datoTipo == 0) {
+                    if (value.Dane_Importar == daneImportar) {
+                        cache_data.push(value);
+                    };
+                } else {
+                    if (value.Dane_Importar.trim() == daneImportar) {
+                        cache_data.push(value);
+                    };
+                };
             });
-
+            $("#load_icon").hide();
+            $("#mainChart").show();
+            updatePrograma();
         };
     };
 };
@@ -455,6 +555,21 @@ function setPreffix(pos) {
     updateMapaDatos();
 };
 
+function setTipo(pos) {
+    datoTipo = pos;
+    if (datoTipo == 0) {
+        $('#btntp0').addClass('ui-btn-active');
+        $('#btntp1').removeClass('ui-btn-active');
+        $("#mapControls").show();
+    } else {
+        $('#btntp1').addClass('ui-btn-active');
+        $('#btntp0').removeClass('ui-btn-active');
+        $("#mapControls").hide();
+    };
+    updateSize();
+    updateDatos();
+};
+
 function updateNDX(data) {
     if (data == null) {
         return;
@@ -464,7 +579,12 @@ function updateNDX(data) {
     all = ndx.groupAll();
 
     dateDimension = ndx.dimension(function (d) {
-        return parseInt(d.anofecha);
+        if (datoTipo == 0) {
+            return parseInt(d.Ano_Fecha);
+        } else {
+            return 1;
+        };
+        
     });
     var sizeArray = dateDimension.group().orderNatural().all();
 
@@ -500,7 +620,7 @@ function updateNDX(data) {
         .valueAccessor(function (d) {
             return d.value.dato;
         })
-        .x(d3.scale.linear().domain([minL, maxL]))
+        .x(d3.scale.linear().domain((datoTipo == 0 ? [minL, maxL] : [minL-1, maxL+1])))
         .renderHorizontalGridLines(true)
         .elasticY(true)
         .centerBar(true)
@@ -508,17 +628,33 @@ function updateNDX(data) {
         .title(function (d) {
             return d.x + ": " + d.y;
         })
-        .xAxis().ticks(5).tickFormat(d3.format("d"));
+        .xAxis().ticks(5)
+        .tickFormat(function (d, i) {
+            if (datoTipo == 0) {
+                return d3.format("d")(d);
+            } else {
+                if (d == 1) {
+                    return "Periodo Presidencial";
+                } else {
+                    return "";
+                };
+            }
+        });
 
     dc.renderAll();
 }
 
 
 function updateSize() {
-    var the_height = $(window).height() - $("#header").height() - $("#footer").height() - 25;   
+    var the_height = $(window).height() - $("#header").height() - $("#footer").height();   
     $("#lista").height(the_height);
     $("#reporte").height(the_height);
-    $("#map").height(the_height);
+    $("#mapExt").height(the_height);
+    if ($("#mapControls").is(":visible")) {
+        $("#map").height(the_height - $("#mapControls").height());
+    } else {
+        $("#map").height(the_height);
+    };    
     if (map) {
         map.reposition();
         map.resize();
@@ -530,15 +666,16 @@ function setView(id) {
         case 1:
             $("#lista").hide();
             $("#reporte").hide();
-            $("#map").show();
+            $("#mapExt").show();
+            map.resize();
             break;
         case 2:
             $("#reporte").hide();
-            $("#map").hide();
+            $("#mapExt").hide();
             $("#lista").show();
             break;
         case 3:
-            $("#map").hide();
+            $("#mapExt").hide();
             $("#lista").hide();
             $("#reporte").show();
             break;

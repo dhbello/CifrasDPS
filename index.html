@@ -26,9 +26,6 @@
     <script src="js/crossfilter.js"></script>
     <script src="js/dc.js"></script>
 
-    <script src="data/datadptoanual.js"></script>
-    <script src="data/datamunicipalanual.js"></script>
-
     <script src="phonegap.js"></script>
     <script src="js/jquery.csv-0.71.min.js"></script>
     <script src="index.js"></script>
@@ -108,6 +105,10 @@
                             <span>Ruta:</span><span id="ruta"></span>
                         </td>
                         <td style="text-align: right;">
+                            <div id="botonesTipo" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">                                
+                                <a href="#" id="btntp1" class="ui-btn-active" data-role="button" data-inline="true" data-mini="true" onclick="setTipo(1);">Periodo Presidencial</a>
+                                <a href="#" id="btntp0" data-role="button" data-inline="true" data-mini="true" onclick="setTipo(0);">Anual</a>
+                            </div>
                             <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
 
                             </div>
@@ -280,30 +281,27 @@
 				        <a href="#main" data-role="button">Continuar</a>
 			        </div>
 		    </div>
-             <div id="map" style="padding: 0px;width:100%;height:100%;">
-
+             <div id="mapExt" style="padding: 0px;width:100%;height:100%;">
+                 <div id="map" style="padding: 0px;width:100%;height:100%;">
+                 </div>
+                 <div id="mapControls" style="display: none;">
+                     <table>
+                         <tr>
+                             <td>
+                                  A&ntilde;o:
+                             </td>
+                             <td>
+                                <select id="fchart"></select>
+                             </td>
+                         </tr>
+                     </table>
+                 </div>
 		    </div>     
             <div id="lista" style="display: none;font-size: small;position: absolute;width:100%;bottom:0px;padding: 0;overflow:auto;z-index:100;display:none;text-shadow:none;color:gray;">
-                <table id="table" style="width:100%;border-collapse: collapse;">
-                    <tr>
-                        <td colspan="2">
-                             <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
-                             <div id="mainChart" style="text-align: center;background: white;width: 100%;">
-                                <div class="clearfix"></div>
-                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="width: 150px;">
-                            A&ntilde;o a presentar (Mapa):
-                        </td>
-                        <td>
-                            <select id="fchart">
-                            </select>
-                        </td>
-                    </tr>
-                </table>
-
+                <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
+                <div id="mainChart" style="text-align: center;background: white;width: 100%;">
+                    <div class="clearfix"></div>
+                </div>
             </div>
             <div id="reporte" style="display: none;">
                 Reporte:
