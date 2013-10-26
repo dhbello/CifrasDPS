@@ -15,19 +15,19 @@ var _msg_share_fb = 'Información DPS';
 var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer';
 
 var _data_nacional_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalanual/?$format=json&$orderby=anofecha';
-var _data_nacional_anual = './data/csv/DPS.metadatanacionalanual.csv';
+var _data_nacional_anual = './data/json/metadatanacionalanual.js';
 var _data_nacional_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalpp/?$format=json';
-var _data_nacional_pp = './data/csv/DPS.metadatanacionalpp.csv';
+var _data_nacional_pp = './data/json/metadatanacionalpp.js';
 
 var _data_deptos_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptoanual/?$format=json&$orderby=anofecha&$filter=nombredepartamento%20like%20';
-var _data_deptos_anual = './data/csv/DPS.datadptoanual.csv';
+var _data_deptos_anual = './data/json/datadptoanual.js';
 var _data_deptos_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datadptopp/?$format=json&$filter=depto%20like%20';
-var _data_deptos_pp = './data/csv/DPS.datadptopp.csv';
+var _data_deptos_pp = './data/json/datadptopp.js';
 
 var _data_muni_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datamunicipalanual?$format=json&$orderby=anofecha&$filter=nombremunicipio%20like%20';
-var _data_muni_anual = './data/csv/DPS.datamunicipalanual.csv';
+var _data_muni_anual = './data/json/datamunicipalanual.js';
 var _data_muni_pp_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/datamunicipalpp?$format=json&$filter=nombremunicipio%20like%20';
-var _data_muni_pp = './data/csv/DPS.datamunicipalpp.csv';
+var _data_muni_pp = './data/json/datamunicipalpp.js';
 
 var cache_data;
 var cache_data_nacional_anual;
@@ -39,7 +39,7 @@ var cache_data_muni_pp;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
-var preffixes = ["FAM", "PER", "INV", "PRO", "HAS"];
+var preffixes = ["fam", "per", "inv", "pro", "has"];
 var preffixesDesc = ["Familias", "Personas", "Inversi&oacute;n", "Proyectos", "Hectareas"];
 
 // Variable de los municipios (DIVIPOLA)
@@ -127,6 +127,7 @@ function init() {
                 if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
                     tentidades.push(programas[i].ENTIDAD);
                 };
+                programas[i].PREFIJO = programas[i].PREFIJO.toString().replace("_", "").toLowerCase();
                 $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
             };
             for (var i = 0; i < tentidades.length; i++) {
@@ -287,7 +288,7 @@ function updateDepto() {
 };
 
 function updatePrograma() {
-    variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString() + "_";
+    variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString();
     if (cache_data == null) {
         return;
     };
@@ -356,11 +357,11 @@ function updateMapaDatos() {
             for (var j = 0; j < data_dpto.length; j++) {
                 if (
                     (datoTipo == 0 ?
-                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j].Nombre_Departamento.replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) :
-                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j].Depto.replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N"))
+                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j]["nombredepartamento"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) :
+                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j]["depto"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N"))
                     )
                     &&
-                    ((datoTipo == 0 ? dateName == data_dpto[j].Ano_Fecha : true))) {
+                    ((datoTipo == 0 ? dateName == data_dpto[j]["anofecha"] : true))) {
                     var resultado;
                     if (maxL2 == 0){
                         resultado = 0;
@@ -392,8 +393,8 @@ function updateMapaDatos() {
         var data_muni = (datoTipo == 0 ? cache_data_muni_anual : cache_data_muni_pp);
         for (var i = 0; i < gl.graphics.length; i++) {
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j].Dane_Importar.trim()) &&
-                    (datoTipo == 0 ? (dateName == data_muni[j].Ano_Fecha) : true)) {
+                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j]["daneimportar"].trim()) &&
+                    (datoTipo == 0 ? (dateName == data_muni[j]["anofecha"]) : true)) {
                     if (data_muni[j][variableName + prefixName] != null) {
                         maxL2 = Math.max(maxL2, parseInt(data_muni[j][variableName + prefixName]));
                     }
@@ -404,8 +405,8 @@ function updateMapaDatos() {
         for (var i = 0; i < gl.graphics.length; i++) {
             var match = false;
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j].Dane_Importar.trim()) &&
-                    (datoTipo == 0 ? (dateName == data_muni[j].Ano_Fecha) : true)) {
+                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j]["daneimportar"].trim()) &&
+                    (datoTipo == 0 ? (dateName == data_muni[j]["anofecha"]) : true)) {
                     var resultado;
                     if (maxL2 == 0) {
                         resultado = 0;
@@ -442,8 +443,9 @@ function validar(txt){
                 url: _data_nacional_anual,
                 type: 'GET',
                 async: false,
+                dataType: 'json',
                 success: function (data) {
-                    cache_data_nacional_anual = $.csv.toObjects(data);
+                    cache_data_nacional_anual = data.d;
                     $('#msg2').popup('close');
                 }
             });
@@ -453,8 +455,9 @@ function validar(txt){
                 url: _data_nacional_pp,
                 type: 'GET',
                 async: false,
+                dataType: 'json',
                 success: function (data) {
-                    cache_data_nacional_pp = $.csv.toObjects(data);
+                    cache_data_nacional_pp = data.d;
                     $('#msg2').popup('close');
                 }
             });
@@ -464,8 +467,9 @@ function validar(txt){
                     url: _data_deptos_anual,
                     type: 'GET',
                     async: false,
+                    dataType: 'json',
                     success: function (data) {
-                        cache_data_deptos_anual = $.csv.toObjects(data);
+                        cache_data_deptos_anual = data.d;
                         $('#msg2').popup('close');
                     }
                 });
@@ -475,8 +479,9 @@ function validar(txt){
                     url: _data_deptos_pp,
                     type: 'GET',
                     async: false,
+                    dataType: 'json',
                     success: function (data) {
-                        cache_data_deptos_pp = $.csv.toObjects(data);
+                        cache_data_deptos_pp = data.d;
                         $('#msg2').popup('close');
                     }
                 });
@@ -487,28 +492,15 @@ function validar(txt){
                     url: _data_muni_anual,
                     type: 'GET',
                     async: false,
+                    dataType: 'json',
                     success: function (data) {
-                        cache_data_muni_anual = $.csv.toObjects(data);  
+                        cache_data_muni_anual = data.d;  
                         var end = new Date().getTime();
                         var time = end - startG2;
                         $("#reporte").append("cache_data_muni_anual:" + time + "<br />");
                         $('#msg2').popup('close');
                     }
-                });
-                startG = new Date().getTime();
-                $.ajax({
-                    url: './data/json/datamunicipalanual.js',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        //cache_data_muni_anual = data.d;
-                        var end = new Date().getTime();
-                        var time = end - startG;
-                        $("#reporte").append("cache_data_muni_anual (JS):" +time + "<br />");
-                        $('#msg2').popup('close');
-                    }
-                });
+            });
         break;
         case "cache_data_muni_pp":
             startG2 = new Date().getTime();
@@ -516,33 +508,18 @@ function validar(txt){
                     url: _data_muni_pp,
                     type: 'GET',
                     async: false,
+                    dataType: 'json',
                     success: function (data) {
-                        cache_data_muni_pp = $.csv.toObjects(data);
+                        cache_data_muni_pp = data.d;
                         var end = new Date().getTime();
                         var time = end - startG2;
                         $("#reporte").append("cache_data_muni_pp:" +time + "<br />");
                         $('#msg2').popup('close');
                     }
-                });
-                startG = new Date().getTime();
-                $.ajax({
-                    url: './data/json/datamunicipalpp.js',
-                    type: 'GET',
-                    async: false,
-                    dataType: 'json',
-                    success: function (data) {
-                        //cache_data_muni_pp = data.d;
-                        var end = new Date().getTime();
-                        var time = end - startG;
-                        $("#reporte").append("cache_data_muni_pp (JS):" +time + "<br />");
-                        $('#msg2').popup('close');
-
-                    }
-                });
+            });
         break;
     };
-
-   
+  
 }
 
 function updateDatos() {
@@ -576,11 +553,11 @@ function updateDatos() {
             $.each((datoTipo == 0 ? cache_data_deptos_anual : cache_data_deptos_pp), function (index, value) {
                 if (datoTipo == 0) {
                     // TODO CAMBIAR DANEIMPORTAR
-                    if (value.Nombre_Departamento == deptoNombre) {
+                    if (value["nombredepartamento"] == deptoNombre) {
                         cache_data.push(value);
                     };
                 } else {
-                    if (value.Dane_Importar == daneImportar) {
+                    if (value["daneimportar"] == daneImportar) {
                         cache_data.push(value);
                     };
                 };
@@ -604,11 +581,11 @@ function updateDatos() {
             };
             $.each((datoTipo == 0 ? cache_data_muni_anual : cache_data_muni_pp), function (index, value) {
                 if (datoTipo == 0) {
-                    if (value.Dane_Importar == daneImportar) {
+                    if (value["daneimportar"] == daneImportar) {
                         cache_data.push(value);
                     };
                 } else {
-                    if (value.Dane_Importar.trim() == daneImportar) {
+                    if (value["daneimportar"].trim() == daneImportar) {
                         cache_data.push(value);
                     };
                 };
@@ -655,7 +632,7 @@ function updateNDX(data) {
 
     dateDimension = ndx.dimension(function (d) {
         if (datoTipo == 0) {
-            return parseInt(d.Ano_Fecha);
+            return parseInt(d["anofecha"]);
         } else {
             return 1;
         };
@@ -744,8 +721,9 @@ function setView(id) {
             $("#mapExt").show();
             if (map) {
                 map.reposition();
-                map.resize();      
-            }
+                map.resize();
+                updateMapaDatos();
+            };
             break;
         case 2:
             $("#reporte").hide();
@@ -835,7 +813,7 @@ function showResultsDepto(results) {
         } catch (e) {
             
         };
-        content = "<a href='#' onclick='analizarDeptoD(\"" + value + "\");' style=''>Ver datos</a><br /><a href='#' onclick='analizarDepto(\"" + value + "\");' style=''>Ver detalle (drill-down)</a><br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
+        content = "<a href='#' onclick='analizarDepto(\"" + value + "\");' style=''>Ver datos</a><br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
 
         popcontent = new esri.InfoTemplate(title, content);
         try {
@@ -897,18 +875,16 @@ function analizarDepto(codigo) {
     fdeptoChange();
 }
 
-function analizarDeptoD(codigo) {
-    $("#fdepto").val(codigo);
-    $('#fdepto').selectmenu('refresh', true);
-    $("#ruta").text("Consolidado " + $('#fdepto').find('option:selected').text().toString());
-    cerrarPopup();
-    updateDatos();
-};
-
 function analizarMuni(codigo) {
     $("#fmunicipio").val(codigo);
     $('#fmunicipio').selectmenu('refresh', true);
     $("#ruta").text("Detalle " + $('#fmunicipio').find('option:selected').text().toString());
+    for (var i = 0; i < gl.graphics.length; i++) {
+        if (gl.graphics[i].attributes["COD_MPIO"].toString() == $('#fmunicipio').find('option:selected').val()){
+            map.setExtent(esri.graphicsExtent([gl.graphics[i]]));
+            break;
+        };
+    };
     cerrarPopup();
     updateDatos();
 }
