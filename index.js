@@ -74,38 +74,7 @@ var startG;
 var startG2;
 
 function init() {    
-    $.ajax({
-        url: _data_nacional_anual,
-        type: 'GET',
-        async: false,
-        success: function (data) {
-            cache_data_nacional_anual = $.csv.toObjects(data);
-        }
-    });
-    $.ajax({
-        url: _data_nacional_pp,
-        type: 'GET',
-        async: false,
-        success: function (data) {
-            cache_data_nacional_pp = $.csv.toObjects(data);
-        }
-    });
-    $.ajax({
-        url: _data_deptos_anual,
-        type: 'GET',
-        async: false,
-        success: function (data) {
-            cache_data_deptos_anual = $.csv.toObjects(data);
-        }
-    });
-    $.ajax({
-        url: _data_deptos_pp,
-        type: 'GET',
-        async: false,
-        success: function (data) {
-            cache_data_deptos_pp = $.csv.toObjects(data);
-        }
-    });
+    
     $.ajax({
         url: "./data/DIVIPOLA.csv",
         type: 'GET',
