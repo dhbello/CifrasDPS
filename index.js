@@ -67,11 +67,14 @@ var dateDimension;
 var datoGroup;
 var variableName;
 var prefixName;
-var dateName = '2012';
-var datoTipo = 1;
 
-var startG;
-var startG2;
+var dateName = '2012';
+var dateNameT = '2012';
+
+var datoTipo = 1;
+var tipoReporte = 0;
+
+var tentidades = [];
 
 function init() {    
     
@@ -90,8 +93,6 @@ function init() {
         async: false,
         success: function (data) {
             programas = $.csv.toObjects(data);
-
-            var tentidades = [];
             for (var i = 0; i < programas.length; i++) {
                 if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
                     tentidades.push(programas[i].ENTIDAD);
@@ -138,6 +139,11 @@ function init() {
         updateMapaDatos();
     });
 
+    $('#ftable').change(function () {
+        dateNameT = parseInt($("#ftable").val());
+        updateReporte();
+    });
+
     $('#fdepto').change(function () {
         fdeptoChange();
     });
@@ -161,7 +167,7 @@ function init() {
             minZoom: 3,
             maxZoom: 9,
             infoWindow: popup,
-            autoresize: true
+            autoresize: false
         });
     } else {
         map = new esri.Map("map", {
@@ -170,7 +176,7 @@ function init() {
             maxZoom: 9,
             nav: true,
             infoWindow: popup,
-            autoresize: true
+            autoresize: false
         });        
     };
     dojo.connect(map, "onLoad", mapLoadHandler);
@@ -295,9 +301,105 @@ function updatePrograma() {
         dateName = sizeArray[sizeArray.length - 1].key;
         $('#fchart').val(dateName);
         $('#fchart').selectmenu('refresh', true);
+
+        $('#ftable').find('option').remove().end();
+        for (var i = 0; i < sizeArray.length; i++) {
+            $('#ftable').append($('<option>', { value: sizeArray[i].key })
+                 .text(sizeArray[i].key));
+        };
+        dateNameT = sizeArray[sizeArray.length - 1].key;
+        $('#ftable').val(dateName);
+        $('#ftable').selectmenu('refresh', true);
     }
     updateMapaDatos();
+    updateReporte();
 }
+
+function updateReporte(){
+    tipoReporte = 0;
+    $("#tEntidades").show();
+    $("#tProgramas").hide();
+    $("#tablaEntidades > tbody").html("");
+    $("#tablaProgramas > tbody").html("");
+    
+    for (var i=0; i<tentidades.length; i++){
+        var resultados = [];
+        var programasC = [];
+
+        for (var j=0; j<programas.length; j++){
+            if (programas[j].ENTIDAD == tentidades[i]){
+                programasC.push(programas[j].PREFIJO);
+            };
+        }
+
+        for (var k=0; k<preffixes.length; k++){
+            var resultadoT = 0;
+            for (var j=0; j<cache_data.length; j++){
+                if (datoTipo == 0){
+                    if (cache_data[j]["anofecha"] != dateNameT){
+                        continue;
+                    };
+                }
+                for (var m = 0; m < programasC.length; m++) {
+                    if (cache_data[j][programasC[m] + preffixes[k]] != null){
+                        resultadoT = resultadoT + parseFloat(cache_data[j][programasC[m] + preffixes[k]]);
+                    }
+                };
+            };
+            resultados.push(resultadoT);
+        };
+
+        var str = "<tr><td><a href='#' onclick='updateReporteDetalle(" + i + ");'>" + tentidades[i] + "</a></td>";
+        for (var j=0; j<resultados.length; j++){
+            str = str + "<td>" + resultados[j] + "</td>"
+        }
+        str = str + "</tr>";
+
+        $("#tablaEntidades > tbody:last").append(str);
+    };
+    $("#tablaEntidades").table( "refresh" );
+
+};
+
+function updateReporteDetalle(pos){
+    $("#tEntidades").hide();
+    $("#tProgramas").show();
+    $("#tablaEntidades:visible > tbody").html("");
+    $("#tablaProgramas:visible > tbody").html("");
+
+    for (var i = 0; i < programas.length; i++) {
+        if (programas[i].ENTIDAD != tentidades[pos]) {
+            continue;
+        };
+        var resultados = [];
+
+        for (var k = 0; k < preffixes.length; k++) {
+            var resultadoT = 0;
+            for (var j = 0; j < cache_data.length; j++) {
+                if (datoTipo == 0) {
+                    if (cache_data[j]["anofecha"] != dateNameT) {
+                        continue;
+                    };
+                }
+                if (cache_data[j][programas[i].PREFIJO + preffixes[k]] != null) {
+                    resultadoT = resultadoT + parseFloat(cache_data[j][programas[i].PREFIJO + preffixes[k]]);
+                }
+
+            };
+            resultados.push(resultadoT);
+        };
+
+        var str = "<tr><td>" + programas[i].NOMBRE_PROGRAMA + "</td>";
+        for (var j = 0; j < resultados.length; j++) {
+            str = str + "<td>" + resultados[j] + "</td>"
+        }
+        str = str + "</tr>";
+
+        $("#tablaProgramas > tbody:last").append(str);
+    };
+    $("#tablaProgramas").table("refresh");
+
+};
 
 function updateMapaDatos() {
     if (gl == null) {
@@ -456,7 +558,6 @@ function validar(txt){
                 });
         break;
         case "cache_data_muni_anual":
-            startG2 = new Date().getTime();
             $.ajax({
                     url: _data_muni_anual,
                     type: 'GET',
@@ -464,15 +565,11 @@ function validar(txt){
                     dataType: 'json',
                     success: function (data) {
                         cache_data_muni_anual = data.d;  
-                        var end = new Date().getTime();
-                        var time = end - startG2;
-                        $("#reporte").append("cache_data_muni_anual:" + time + "<br />");
                         $('#msg2').popup('close');
                     }
             });
         break;
         case "cache_data_muni_pp":
-            startG2 = new Date().getTime();
             $.ajax({
                     url: _data_muni_pp,
                     type: 'GET',
@@ -480,9 +577,6 @@ function validar(txt){
                     dataType: 'json',
                     success: function (data) {
                         cache_data_muni_pp = data.d;
-                        var end = new Date().getTime();
-                        var time = end - startG2;
-                        $("#reporte").append("cache_data_muni_pp:" +time + "<br />");
                         $('#msg2').popup('close');
                     }
             });
@@ -494,7 +588,7 @@ function validar(txt){
 function updateDatos() {
     if ($('#fdepto')[0].value == "-999") {
         // Consolidado Nacional
-        $("#ruta").html("Consolidado Nacional<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
+        $("#ruta").html("Consolidado Nacional - Programa: " + $('#fprograma').find('option:selected').text().toString());
         $("#load_icon").show();
         $("#mainChart").hide();
         if ((datoTipo == 0 ? cache_data_nacional_anual : cache_data_nacional_pp) == null){
@@ -509,7 +603,7 @@ function updateDatos() {
             // Consolidado Departamental
             var deptoNombre;
             var daneImportar;
-            $("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString() + "<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
+            $("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
             deptoNombre = $('#fdepto').find('option:selected').text().toString().toUpperCase();
             daneImportar = $('#fdepto').find('option:selected').val();
             deptoNombre = deptoNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
@@ -541,7 +635,7 @@ function updateDatos() {
             muniNombre = $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
             muniNombre = muniNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
             daneImportar = $('#fmunicipio').find('option:selected').val();
-            $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + "<br/>Programa: " + $('#fprograma').find('option:selected').text().toString());
+            $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
             $("#load_icon").show();
             $("#mainChart").hide();
             cache_data = [];
@@ -582,12 +676,19 @@ function setTipo(pos) {
         $('#btntp0').addClass('ui-btn-active');
         $('#btntp1').removeClass('ui-btn-active');
         $("#mapControls").show();
+        $("#tableControls").show();
     } else {
         $('#btntp1').addClass('ui-btn-active');
         $('#btntp0').removeClass('ui-btn-active');
         $("#mapControls").hide();
+        $("#tableControls").hide();
     };
     updateSize();
+    if (map) {
+        map.reposition();
+        map.resize();
+        updateMapaDatos();
+    };
     updateDatos();
 };
 
@@ -634,7 +735,7 @@ function updateNDX(data) {
 
     dc.barChart("#mainChart")
         .width($("#lista").width() - 150)
-        .height($("#lista").height() - 150)
+        .height($("#lista").height())
         .margins({ top: 10, right: 50, bottom: 30, left: 100 })
         .dimension(dateDimension)
         .group(datoGroup)
@@ -667,7 +768,7 @@ function updateNDX(data) {
 
 
 function updateSize() {
-    var the_height = $(window).height() - $("#header").height() - $("#footer").height();   
+    var the_height = window.innerHeight - $("#header").height() - $("#footer").height() - 10;   
     $("#lista").height(the_height);
     $("#reporte").height(the_height);
     $("#mapExt").height(the_height);
@@ -675,11 +776,11 @@ function updateSize() {
         $("#map").height(the_height - $("#mapControls").height());
     } else {
         $("#map").height(the_height);
-    };    
+    };
     if (map) {
         map.reposition();
         map.resize();
-    }
+    };
 };
 
 function setView(id) {
@@ -687,20 +788,18 @@ function setView(id) {
         case 1:
             $("#lista").hide();
             $("#reporte").hide();
-            $("#mapExt").show();
-            if (map) {
-                map.reposition();
-                map.resize();
-                updateMapaDatos();
-            };
+            //$("#mapExt").show();
+            $("#mapExt").css("right", "0px");
             break;
         case 2:
             $("#reporte").hide();
-            $("#mapExt").hide();
+            $("#mapExt").css("right", "2000px");
+            //$("#mapExt").hide();
             $("#lista").show();
             break;
         case 3:
-            $("#mapExt").hide();
+            //$("#mapExt").hide();
+            $("#mapExt").css("right", "2000px");
             $("#lista").hide();
             $("#reporte").show();
             break;
@@ -847,7 +946,7 @@ function analizarDepto(codigo) {
 function analizarMuni(codigo) {
     $("#fmunicipio").val(codigo);
     $('#fmunicipio').selectmenu('refresh', true);
-    $("#ruta").text("Detalle " + $('#fmunicipio').find('option:selected').text().toString());
+    $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
     for (var i = 0; i < gl.graphics.length; i++) {
         if (gl.graphics[i].attributes["COD_MPIO"].toString() == $('#fmunicipio').find('option:selected').val()){
             map.setExtent(esri.graphicsExtent([gl.graphics[i]]));

@@ -2,11 +2,11 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
         xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "com.dhbello.dps"
-        version   = "0.1.0">
+        version   = "0.2.0">
     <name>DPS</name>
 
     <description>
-        DPS.
+        Control Social - DPS.
     </description>
 
     <author href="http://sinesat.com" email="david.bello@sinesat.com">

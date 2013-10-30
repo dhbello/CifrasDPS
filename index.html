@@ -50,6 +50,7 @@
         {
             width: 100%;
             height: 100%;
+            overflow: hidden;
         }
 
     </style>
@@ -60,8 +61,7 @@
 	        document.addEventListener("deviceready", onDeviceReady, false);
 	        window.addEventListener('resize', updateSize);
 
-	        function onDeviceReady() {
-	            navigator.geolocation.getCurrentPosition(zoomToLocation, null);
+	        function onDeviceReady() {	            
 	            try {
 	                dojo.require("esri.map");
 	                dojo.require("esri.graphic");
@@ -74,7 +74,6 @@
 	    } else {
 	        window.addEventListener('resize', updateSize);
 
-	        navigator.geolocation.getCurrentPosition(zoomToLocation, null);
 	        try {
 	            dojo.require("esri.map");
 	            dojo.require("esri.graphic");
@@ -101,17 +100,16 @@
             </div>
             <table style="width: 100%;">
                 <tr>
-                        <td>
-                            <span>Ruta:</span><span id="ruta"></span>
-                        </td>
-                        <td style="text-align: right;">
+                        <td style="text-align: left;">
                             <div id="botonesTipo" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">                                
                                 <a href="#" id="btntp1" class="ui-btn-active" data-role="button" data-inline="true" data-mini="true" onclick="setTipo(1);">Periodo Presidencial</a>
                                 <a href="#" id="btntp0" data-role="button" data-inline="true" data-mini="true" onclick="setTipo(0);">Anual</a>
                             </div>
+                        </td>
+                        <td style="text-align: right;">
                             <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
 
-                            </div>
+                            </div>                            
                         </td>
                      </tr>
             </table>
@@ -130,11 +128,11 @@
 	            <div data-role="content">
                    <p style="text-align: center;">
                        <span style="font-size: large;"><b>DPS v1.0</b></span><br />
-                       DPS<br />
+                       Control Social - DPS<br />
                        2013 - Derechos Reservados
                    </p>
 		            <p style="text-align: center;">                        
-                        <!-- <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_IDECA.png" />&nbsp;-->
+                        <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_dps.png" />&nbsp;
                         <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_mintic.png" />
                     </p>
                    <p style="text-align: center;">
@@ -280,7 +278,64 @@
 				        <a href="#main" data-role="button">Continuar</a>
 			        </div>
 		    </div>
-             <div id="mapExt" style="padding: 0px;width:100%;height:100%;">
+            <div id="lista" style="display: none;width:100%;height:100%;bottom:0px;padding: 0;text-shadow:none;color:gray;">
+                <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
+                <div id="mainChart" style="text-align: center;background: white;width: 100%;">
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div id="reporte" style="display: none;">
+                 <div id="tableControls" style="display: none;">
+                     <table>
+                         <tr>
+                             <td>
+                                  A&ntilde;o:
+                             </td>
+                             <td>
+                                <select id="ftable"></select>
+                             </td>
+                         </tr>
+                     </table>
+                 </div>
+                    <div id="tEntidades">
+                        <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
+                            data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                            <thead>
+                                <tr>
+                                  <th data-priority="0">Entidad</th>
+                                  <th data-priority="1">Familias</th>
+                                  <th data-priority="2">Personas</th>
+                                  <th data-priority="3">Inversi&oacute;n</th>
+                                  <th data-priority="4">Proyectos</th>
+                                  <th data-priority="5">Hectareas</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>                    
+                        </table>
+                    </div>
+                <div id="tProgramas">
+                    <a href="#" data-role="button" onclick="updateReporte();">Volver</a>
+                    <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke" 
+                        data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                        <thead>
+                            <tr>
+                              <th data-priority="0">Programa</th>
+                              <th data-priority="1">Familias</th>
+                              <th data-priority="2">Personas</th>
+                              <th data-priority="3">Inversi&oacute;n</th>
+                              <th data-priority="4">Proyectos</th>
+                              <th data-priority="5">Hectareas</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>                    
+                    </table>
+                  </div>
+            </div>
+         <div id="mapExt" style="position:absolute;padding: 0px;width:100%;height:100%;">
                  <div id="map" style="padding: 0px;width:100%;height:100%;">
                  </div>
                  <div id="mapControls" style="display: none;">
@@ -295,25 +350,15 @@
                          </tr>
                      </table>
                  </div>
-		    </div>     
-            <div id="lista" style="display: none;font-size: small;position: absolute;width:100%;bottom:0px;padding: 0;overflow:auto;z-index:100;display:none;text-shadow:none;color:gray;">
-                <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
-                <div id="mainChart" style="text-align: center;background: white;width: 100%;">
-                    <div class="clearfix"></div>
-                </div>
-            </div>
-            <div id="reporte" style="display: none;">
-                Reporte:
-
-            </div>
+		    </div>  
 	    </div>
-
         <div id="footer" data-role="footer" data-position="fixed"> 
+            <div><span>Ruta:&nbsp;</span><span id="ruta"></span></div>
 	        <div data-role="navbar">
 		        <ul>
                     <li><a href="#" class="ui-btn-active" onclick="setView(1);">Mapa</a></li>
 			        <li><a href="#" onclick="setView(2);">Gr&aacute;fico</a></li>			        
-                    <li><a href="#"  onclick="setView(3);">Tabla/Informe</a></li>
+                    <li><a href="#"  onclick="setView(3);">Informe</a></li>
 		        </ul>
 	        </div><!-- /navbar -->
         </div>
