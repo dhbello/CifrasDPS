@@ -1,92 +1,92 @@
-NOMBRE_PROGRAMA,PREFIJO,ENTIDAD,DESCRIPCION
-Activos para la Prosperidad,ACT_PROS,Entidad 1,Descripcion 1
-AfroPaz,AFRO,Entidad 2,Descripcion 2
-Atención a Víctimas de la Violencia por 2 S.M.M.L.V.,AVV2,Entidad 3,Descripcion 3
-Atención a Víctimas de la Violencia por 40 S.M.M.L.V.,AVV40,Entidad 4,Descripcion 4
-Atención de Víctimas de la Violencia por Reparación Administrativa,AVVRA,Entidad 5,Descripcion 5
-Atención Humanitaria,AHE,Entidad 1,Descripcion 6
-Ayuda Humanitaria,AYUHUM,Entidad 2,Descripcion 7
-Ayuda Humanitaria,AYU_HUM,Entidad 3,Descripcion 8
-Bancarizacion de Familias en accion ,FAM_BAN,Entidad 4,Descripcion 9
-Víctimas Expulsadas,EXPUL,Entidad 5,Descripcion 10
-Víctimas Recepcionadas,RECEP,Entidad 1,Descripcion 11
-Departamento para la Prosperidad Social,DPS,Entidad 2,Descripcion 12
-Desarraigados,DESARRA,Entidad 3,Descripcion 13
-Desarrollo Regional&#44; Paz y Estabilidad,DRPE,Entidad 4,Descripcion 14
-Desarrollo y Paz,PDP,Entidad 5,Descripcion 15
-Empleo de Emergencia,GI_PEE,Entidad 1,Descripcion 16
-Encargo Fiduciario para Niños&#44; Niñas y Adolescentes,EN_NNA,Entidad 2,Descripcion 17
-Familias con Bienestar,ICBF_FAM_BIENE,Entidad 3,Descripcion 18
-Familias en Acción,FA_FACT,Entidad 4,Descripcion 19
-Familias en Acción - Desplazados,FA_DES,Entidad 5,Descripcion 20
-Familias en Acción - Indígenas,FA_IND,Entidad 1,Descripcion 21
-Familias en Acción - Sisben,FA_SIS,Entidad 2,Descripcion 22
-Familias en Acción Periodo Presidencial Santos - Desplazados,FASAN_DES,Entidad 3,Descripcion 23
-Familias en Acción Periodo Presidencial Santos - Indígenas,FASAN_IND,Entidad 4,Descripcion 24
-Familias en Acción Periodo Presidencial Santos - Sisben,FASAN_SIS,Entidad 5,Descripcion 25
-Familias en su Tierra,IRR,Entidad 1,Descripcion 26
-Familias GuardaBosques,PFG,Entidad 2,Descripcion 27
-Generación de Ingresos,GIV,Entidad 3,Descripcion 28
-Generación de Ingresos - Capitalización,GI_CAP,Entidad 4,Descripcion 29
-Generación de Ingresos - Desarrollo Económico Incluyente,GI_DEI,Entidad 5,Descripcion 30
-Generación de Ingresos - Enfoque Diferencial - IRACA,GI_IRACA,Entidad 1,Descripcion 31
-Generación de Ingresos - Enfoque Étnico - IRACA,GI_IRACA,Entidad 2,Descripcion 32
-Generación de Ingresos - Icetex,GI_ICETEX,Entidad 3,Descripcion 33
-Generación de Ingresos - Incentivo a la Capacitación para el Empleo,GI_ICE,Entidad 4,Descripcion 34
-Generación de Ingresos - Mujeres Ahorradoras,GI_MA,Entidad 5,Descripcion 35
-Generación de Ingresos - Mujeres Productivas,GI_MP,Entidad 1,Descripcion 36
-Generación de Ingresos - Otras Estrategias,GI_OTRAS,Entidad 2,Descripcion 37
-Generación de Ingresos - Programa de Atención Integral,GI_PAI,Entidad 3,Descripcion 38
-Generación de Ingresos - Recuperación de Activos Improductivos,GI_RAI,Entidad 4,Descripcion 39
-Generación de Ingresos - Ruta de Ingresos y Empresarismo,GI_RIE,Entidad 5,Descripcion 40
-Generación de Ingresos - Subsidio Integral de Tierras,GI_SIT,Entidad 1,Descripcion 41
-Generación de Ingresos - Titulación de Tierras,GI_TT,Entidad 2,Descripcion 42
-Generación de Ingresos - Trabajando Unidos,GI_TU,Entidad 3,Descripcion 43
-Grupo de Apoyo Misional,GAM,Entidad 4,Descripcion 44
-Grupo Móvil de Erradicación,GME,Entidad 5,Descripcion 45
-Grupo Paz&#44; Desarrollo y Estabilidad,GPDE,Entidad 1,Descripcion 46
-Habitad - Mejoramiento para la Habitalidad,HAB_MH,Entidad 2,Descripcion 47
-Habitad - Mejoramiento Subsidio Rural,HAB_RUR,Entidad 3,Descripcion 48
-Habitat,HAB,Entidad 4,Descripcion 49
-Indemnización por ley 1290,IND1290,Entidad 5,Descripcion 50
-Indemnización por ley 418,IND418,Entidad 1,Descripcion 51
-Ingreso Para la Prosperidad,IPS,Entidad 2,Descripcion 52
-inversión ejecutada total en el Sector,TOT,Entidad 3,Descripcion 53
-Jóvenes en Acción,JEA,Entidad 4,Descripcion 54
-Jóvenes en Acción Registradas,JEA_REG,Entidad 5,Descripcion 55
-Jóvenes en Acción Matriculadas,JEA_MAT,Entidad 1,Descripcion 56
-Jóvenes en Acción Cupos,JEA_CUP,Entidad 2,Descripcion 57
-Jóvenes en Acción Enrroladas,JEA_ENROL,Entidad 3,Descripcion 58
-Jóvenes en Acción Proceso de Matricula,JEA_PRO_MAT,Entidad 4,Descripcion 59
-Laboratorios de Paz,LP,Entidad 5,Descripcion 60
-Legión del Afecto,LA,Entidad 1,Descripcion 61
-Mas Familias en Accion Bancarizadas,MFA_BAN,Entidad 2,Descripcion 62
-Mas Familias en Accion - Desplazados,MFA_DES,Entidad 3,Descripcion 63
-Mas Familias en Accion - Indígenas,MFA_IND,Entidad 4,Descripcion 64
-Más Familias en Acción - Sisben,MFA_SIS,Entidad 5,Descripcion 65
-Más Familias en Acción - Unidos,MFA_UNI,Entidad 1,Descripcion 66
-Mas Familias es Accion Inscritas,MFA_INS,Entidad 2,Descripcion 67
-Música para la Reconciliación,MUSICA,Entidad 3,Descripcion 68
-Música para la Reconciliación - Coro,MPR_COR,Entidad 4,Descripcion 69
-Música para la Reconciliación - Discapacidad,MPR_DIS,Entidad 5,Descripcion 70
-Música para la Reconciliación - Preorquesta,MPR_PREOR,Entidad 1,Descripcion 71
-Música para la Reconciliación - Preorquestal,MPR_PREOR,Entidad 2,Descripcion 72
-Niños y niñas atendidos en hogares icbf que brindan atención&#44; cuidado y nutrición sin el componente de educación inicial,ICBF_NN_SIN_EDU_INI,Entidad 3,Descripcion 73
-Niños y niñas atendidos en programas de atención integral,NN_PAI,Entidad 4,Descripcion 74
-Niños&#44; niñas y adolescentes atendidos con el generaciones con bienestar,ICBF_GEN_BIENE,Entidad 5,Descripcion 75
-Niños&#44; niñas y adolescentes atendidos con el programa PAE,ICBF_NNA_PAE,Entidad 1,Descripcion 76
-Nuevos Territorios de Paz,NTP,Entidad 2,Descripcion 77
-Obras para la Prosperidad,OPP,Entidad 3,Descripcion 78
-Programa de Atención Integral,GI_PAI,Entidad 4,Descripcion 79
-Programa de Desarrollo y Paz,PDF,Entidad 5,Descripcion 80
-Programa Generación de Ingresos - Icetex,GI_ICETEX,Entidad 1,Descripcion 81
-Protección de Tierras,PROT_TIER,Entidad 2,Descripcion 82
-Proyectos Especiales,PE,Entidad 3,Descripcion 83
-Proyectos Productivos,PP,Entidad 4,Descripcion 84
-Pueblos indígenas,PI,Entidad 5,Descripcion 85
-Red de Seguridad Alimentaria,RESA,Entidad 1,Descripcion 86
-Retorno - Personas,RETORNO,Entidad 2,Descripcion 87
-Retornos - Familias,RETOR,Entidad 3,Descripcion 88
-Unidos,UNIDOS,Entidad 4,Descripcion 89
-Unidos Promovidas,UNI_PROM,Entidad 5,Descripcion 90
-Unidos Cogestores,UNI_COG,Entidad 1,Descripcion 91
+orden,NOMBRE_PROGRAMA,PREFIJO,ENTIDAD,DESCRIPCION,
+89,Unidos,UNIDOS,ANSPE,"La ANSPE busca mejorar las condiciones de vida de las familias para superar la situación de pobreza extrema. Número de familias a las  cuales se les ha implementado las metodologías y planes de la Red UNIDOS,  Brindando así  acompañamiento familiar y comunitario con calidad  a las  familias pobres extremas ubicadas en todos los  municipios del país.",
+90,Unidos Promovidas,UNI_PROM,ANSPE,"El esquema de operación de la Red UNIDOS incorpora a partir del año 2011 el proceso de promoción de familias, metodología que establece criterios para identificar de forma objetiva el avance en las condiciones de vida de la población vinculada. ",
+91,Unidos Cogestores,UNI_COG,ANSPE,Número de cogestores por municipio. Los cogestores sociales son los responsables de asumir el proceso de acompañamiento con las familias vinculadas voluntariamente a UNIDOS.,
+1,Activos para la Prosperidad,ACT_PROS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Gestionamos activos en inventarios de la DIAN para apoyar la gestión de socios estratégicos en el marco de la misión del sector Inclusión Social y Reconciliación.,
+2,AfroPaz,AFRO,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Fortalecimiento Institucional para el Desarrollo, la Participación Social y la Gestión Pública en Municipios con Mayoría de Población Afrocolombiana"", un proyecto piloto que está orientado a fortalecer integralmente a las comunidades afrocolombianas, palanqueras y raizales más vulnerables del país.  Apoya a la gestión de 16 municipalidades Afrocolombianas y promoción de iniciativas de desarrollo.",
+9,Bancarización de Familias en acción ,FAM_BAN,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de familias del programa Familias en Acción inscritas a Bancarización.,
+12,Departamento para la Prosperidad Social,DPS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"El Departamento para la Prosperidad Social-DPS, como cabeza del Sector de la Inclusión Social y la Reconciliación busca fijar políticas, planes generales, programas y proyectos para la asistencia, atención y reparación a las víctimas de la violencia, la inclusión social, la atención a grupos vulnerables y su reintegración social y económica.",
+13,Desarraigados,DESARRA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Programa que aspira a reducir el impacto del desarraigo, mitigar la pobreza y contribuir a la reconstrucción del tejido social, mediante la generación de condiciones para el restablecimiento socioeconómico de la población vulnerable en el marco del desarrollo económico local, todo con el fin de lograr el arraigo.",
+14,"Desarrollo Regional, Paz y Estabilidad",DRPE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"El Grupo Paz, Desarrollo, tiene como objetivo promover condiciones territoriales que favorezcan la cultura de paz, la democracia y el Estado de Derecho y la estabilidad territorial, y fomentar condiciones de vida digna y oportunidades de desarrollo para todos los ciudadanos, consolidando relaciones de confianza entre la institucionalidad pública y la sociedad civil, e identificando insumos para la formulación y ejecución de políticas públicas a través de planes, programas y proyectos para la recuperación territorial.",
+15,Desarrollo y Paz,PDP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Blanco,
+16,Empleo de Emergencia,GI_PEE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Mejorar temporalmente los ingresos de la población vulnerable, pobre extrema y/o victima de la violencia en condición de desplazamiento y/o damnificada por situaciones coyunturales  declaradas por el gobierno nacional.",
+19,Familias en Acción,FA_FACT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Es un programa de transferencias monetarias condicionadas que busca contribuir a la reducción de la pobreza y la desigualdad de ingresos, a la formación de capital humano y al mejoramiento de las condiciones de vida de las familias pobres y vulnerables mediante un complemento al ingreso. Además se obtienen beneficios no esperados gracias a los espacios de participación comunitarios y el papel activo que desempeña la mujer en el programa como receptora de las transferencias.",
+20,Familias en Acción - Desplazados,FA_DES,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias Actuales del programa Familias en Acción que se encuentran en condición de Desplazamiento.,
+21,Familias en Acción - Indígenas,FA_IND,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias actuales del programa Familias en Acción que pertenecen a grupos étnicos indígenas.,
+22,Familias en Acción - Sisben,FA_SIS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias actuales del programa Familias en Acción que se encuentran registradas en el SISBEN.,
+23,Familias en Acción Periodo Presidencial Santos - Desplazados,FASAN_DES,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias  del programa Familias en Acción vinculadas desde agosto de 2010 que se encuentran en condición de Desplazamiento.,
+24,Familias en Acción Periodo Presidencial Santos - Indígenas,FASAN_IND,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias del programa Familias en Acción vinculadas desde agosto de 2010 que pertenecen a grupos étnicos indígenas.,
+25,Familias en Acción Periodo Presidencial Santos - Sisben,FASAN_SIS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Familias beneficiarias del programa Familias en Acción vinculadas desde agosto de 2010 que se encuentran registradas en el SISBEN.,
+26,Familias en su Tierra,IRR,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"En coordinación con la Unidad para la Atención y Reparación Integral a las Víctimas, se implementan medidas rápidas de asistencia y acompañamiento a la población víctima del desplazamiento forzoso que retornó o se reubicó, dirigidas a la generación y potenciación de capacidades para el auto sostenimiento en condiciones dignas. 
+",
+28,Generación de Ingresos,GIV,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Contribuye en el mejoramiento del potencial productivo de las familias vulnerables y desplazadas a través de actividades sociales, económicas y ambientalmente viables y sostenibles.",
+29,Generación de Ingresos - Capitalización,GI_CAP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Tiene por objetivo primordial  crear condiciones propicias para el fortalecimiento de las organizaciones productivas y microempresas, a través de la generación de ingresos, empleo e integración de las instancias locales que promueven el desarrollo competitivo de las regiones de intervención.",
+30,Generación de Ingresos - Desarrollo Económico Incluyente,GI_DEI,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,,
+31,Generación de Ingresos - Enfoque Diferencial - IRACA,GI_IRACA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Promueve transformaciones a nivel institucional para lograr una atención pertinente bajo un enfoque de derechos a las particularidades socio-culturales y condiciones de género, discapacidad, orientación sexual y ciclo de vida de la población vulnerable de especial protección.",
+33,Generación de Ingresos - Icetex,GI_ICETEX,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Incentivo a la Educación Superior: convenio suscrito entre ACCIÓN SOCIAL y el Instituto Colombiano de Crédito Educativo y Estudios Técnicos en el Exterior -ICETEX, que busca incentivar el acceso a la Educación Superior de las Familias en Acción, otorgando a través del crédito educativo, un subsidio del 25% del valor del crédito, que permita mejorar las condiciones de acceso y permanencia de los estudiantes en su proceso de formación en la educación superior.",
+34,Generación de Ingresos - Incentivo a la Capacitación para el Empleo,GI_ICE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Identifica la demanda de personal de la empresa privada y a  través de alianzas público privadas,  genera la  inserción de nuestra población objetivo, facilitando el proceso de formación a la medida de la necesidad de las empresas participantes.",
+35,Generación de Ingresos - Mujeres Ahorradoras,GI_MA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Busca que mujeres ingresen al sistema microfinanciero y tengan acceso a incentivos que fomenten la cultura del ahorro y el desarrollo de capacidades.
+En una segunda fase reciben asistencia y acceso a microcréditos para la capitalización del proyecto productivo asociativo",
+36,Generación de Ingresos - Mujeres Productivas,GI_MP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,,
+37,Generación de Ingresos - Otras Estrategias,GI_OTRAS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,,
+38,Generación de Ingresos - Programa de Atención Integral,GI_PAI,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Poner en funcionamiento estrategias para que las responsabilidades de ACCIÓN SOCIAL, en la política de reducción de la pobreza extrema, se concreten en el mejoramiento de los ingresos de las familias priorizadas en la RED JUNTOS y de las que habitan en territorios en recuperación social por el Estado.",
+39,Generación de Ingresos - Recuperación de Activos Improductivos,GI_RAI,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Es una herramienta para la generación de autoempleo, empleo e ingresos, que parte de la identificación de activos con vocación productiva que se encuentren subutilizados, inutilizados o desviados de su uso, para que mediante su aprovechamiento, se desarrollen proyectos productivos que beneficien a grupos de población pobre extrema, vulnerables, víctimas de la violencia y del desplazamiento.",
+40,Generación de Ingresos - Ruta de Ingresos y Empresarismo,GI_RIE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Incrementar las capacidades sociales, productivas y empresariales para la generación de ingresos y el emprendimiento, que contribuyan a procesos de auto sostenimiento, a través de acompañamiento psicosocial, para el desarrollo de una cultura productiva.",
+41,Generación de Ingresos - Subsidio Integral de Tierras,GI_SIT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Brindar acompañamiento a población vulnerable para facilitar su participación en proyectos de acceso a tierras y desarrollo rural en el marco de las convocatorias del INCODER del Subsidio Integral de Tierras, Convocatoria de Agricultura y Pesca y el programa “Portafolio de Proyectos de Desarrollo Rural para la Prosperidad”",
+42,Generación de Ingresos - Titulación de Tierras,GI_TT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Contribuir al desarrollo de los procesos de protección, formalización, restitución de los derechos de las víctimas sobre la tierra y los territorios, así como a la generación de conocimiento acerca de la tenencia en el país. Cuenta con el respaldo de diferentes cooperantes, interesados en promover la protección jurídica de los derechos de las víctimas sobre sus tierras y territorios.","Identificar 1.000 predios baldíos ubicados en la zona de consolidación del departamento de Caquetá y titular de ellos todos los que se postulen y cumplan los requerimientos legales, a fin de generar arraigo en la zona y contribuir, por medio de la legalización de tenencia de la tierra al mejoramiento de la calidad de vida de los pobladores rurales objeto, así como facilitar el acceso a los programas de crédito y desarrollo rural procesando las solicitudes de adjudicación de predios baldíos a favor de la población beneficiaria incluida la población desplazada en el proyecto."
+43,Generación de Ingresos - Trabajando Unidos,GI_TU,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Identifica, caracteriza y hace formación en habilidades socioemocionales para la empleabilidad, orientación ocupacional y remisión y acompañamiento dentro de la Ruta de Generación de Ingresos a la población desplazada e inscrita en el Red Unidos",
+44,Grupo de Apoyo Misional,GAM,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Convenio de Cooperación Internacional entre el Programa Mundial de Alimentos-PMA, el Instituto Colombiano de Bienestar Familiar-ICBF, La Agencia Presidencial para la Cooperación Internacional-APC Colombia y el Departamento Administrativo para la Prosperidad Social-DPS.",
+46,"Grupo Paz, Desarrollo y Estabilidad",GPDE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"A través de esta estrategia se gestionan programas de apoyo a iniciativas de paz y desarrollo en zonas de conflicto, promovidas por organizaciones de la sociedad civil y que reciben la cofinanciación del Gobierno Nacional, el Banco Mundial y la Cooperación Internacional.",
+47,Habitad - Mejoramiento para la Habitabilidad,HAB_MH,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Promover el mejoramiento de la calidad de vida de la población desplazada objeto de
+intervención.",
+49,Hábitat,HAB,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Ejecución de proyectos de mejoramiento de condiciones de habitabilidad que permitan mejorar las condiciones de vida de la población vulnerable.,
+48,Hábitat - Mejoramiento Subsidio Rural,HAB_RUR,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Busca aportar al cumplimiento de los logros prioritarios de la dimensión de habitabilidad en el sector rural. ,
+52,Ingreso Para la Prosperidad,IPS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Busca incentivar a jefes de hogar o cónyuges de la Red UNIDOS entre los 18 y 35 años a completar su educación básica (9º)  y formarse en carreras técnicas o tecnológicas para aumentar su nivel de ingreso.,
+53,inversión ejecutada total en el Sector,TOT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Monto Total de la Inversión Ejecutada en un determinado territorio, Nacional, Departamental o Municipal.",
+54,Jóvenes en Acción,JEA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Estrategia del Gobierno Nacional que pretende apoyar a los jóvenes que han finalizado con éxito su educación secundaria, para que continúen con su proceso de formación y desarrollo de competencias para el trabajo, con el ánimo de generarles mayores oportunidades y mejores condiciones de inserción futura al mercado laboral a través de la acumulación de capital humano.",
+57,Jóvenes en Acción Cupos,JEA_CUP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de cupos por municipio estimados para la vinculación del Programa Jóvenes en acción,
+58,Jóvenes en Acción Enroladas,JEA_ENROL,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de jóvenes que inician el proceso de vinculación al Programa Jóvenes en Acción.,
+56,Jóvenes en Acción Matriculados,JEA_MAT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de jóvenes Matriculados en el Programa Jóvenes en Acción.,
+59,Jóvenes en Acción Proceso de Matricula,JEA_PRO_MAT,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de jóvenes en Proceso de Matricula en el Programa Jóvenes en Acción.,
+55,Jóvenes en Acción Registrados,JEA_REG,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Número de jóvenes Registrados en el Programa Jóvenes en Acción.,
+60,Laboratorios de Paz,LP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Blanco,
+61,Legión del Afecto,LA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Genera espacios para la inclusión social y la reconciliación de poblaciones vulnerables y víctimas de la violencia, en situación de riesgo y marginalidad a través de la implementación de metodologías comunitarias de acompañamiento socialmente masivo…",
+63,Mas Familias en Acción - Desplazados,MFA_DES,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Indica las familias vinculadas al programa Más Familias en Acción y que se encuentran en condición de desplazamiento.,
+64,Mas Familias en Acción - Indígenas,MFA_IND,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Indica las familias vinculadas al programa Más Familias en Acción que pertenecen a grupos étnicos indígenas.,
+65,Más Familias en Acción - Sisben,MFA_SIS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Indica las familias vinculadas al programa Más Familias en Acción que se encuentran registradas en el SISBEN.,
+66,Más Familias en Acción - Unidos,MFA_UNI,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Indica las familias vinculadas al programa Más Familias en Acción que se encuentran vinculadas a la Red Juntos,",
+62,Mas Familias en Acción Bancarizadas,MFA_BAN,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Indica las familias vinculadas al programa Mas Familias en Acción y que han sido bancarizadas.,
+67,Mas Familias es Acción Inscritas,MFA_INS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Es un programa de transferencias monetarias condicionadas que busca contribuir a la reducción de la pobreza y la desigualdad de ingresos, a la formación de capital humano y al mejoramiento de las condiciones de vida de las familias pobres y vulnerables mediante un complemento al ingreso. ",
+68,Música para la Reconciliación,MUSICA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Ofrecer formación artística musical a niños, niñas, adolescentes y jóvenes como parte de la atención integral a las víctimas de infracciones al derecho internacional humanitario o violaciones graves y manifiestas a las normas internacionales de derechos humanos, ocurridos con ocasión del conflicto armado interno y a la población más vulnerable.",
+69,Música para la Reconciliación - Coro,MPR_COR,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Ofrece formación musical a desplazados y víctimas de la violencia como parte de medidas de atención psicosocial integral,
+70,Música para la Reconciliación - Discapacidad,MPR_DIS,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Ofrece formación musical a población discapacitada como parte de medidas de atención psicosocial integral.,
+71,Música para la Reconciliación - Preorquesta,MPR_PREOR,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Ofrece formación musical a niños, niñas, adolescentes y jóvenes entre 6 y 25 años desplazados y víctimas de la violencia como parte de medidas de atención psicosocial integral.",
+77,Nuevos Territorios de Paz,NTP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Blanco,
+78,Obras para la Prosperidad,OPP,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Construir obras para las comunidades como centros de salud, colegios, vías, puentes, saneamiento básico, parques culturales y deportivos que permiten mejorar su calidad de vida.
+Realizar acompañamiento social para fortalecer la participación ciudadana y generar sentido de pertenencia por los bienes públicos.",
+80,Programa de Desarrollo y Paz,PDF,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Blanco,
+82,Protección de Tierras,PROT_TIER,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Blanco,
+83,Proyectos Especiales,PE,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,Programa Plan Departamental Aguas orientado a la atención de sistemas de acueducto y alcantarillado.,
+85,Pueblos indígenas,PI,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Implementa programas de garantías de los derechos de los pueblos indígenas, mediante la realización de acciones que permiten abonar el camino para el goce de los derechos de las comunidades indígenas y el fortalecimiento de sus organizaciones.",
+86,Red de Seguridad Alimentaria,RESA,DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL,"Mejorar el acceso y consumo de los alimentos de las familias objetivo del Sector Administrativo de Inclusión Social y Reconciliación mediante la producción de alimentos para el autoconsumo, la promoción de hábitos alimentarios saludables y el uso de alimentos y productos locales para contribuir con la disminución del hambre y el mejoramiento de la seguridad alimentaria en el país.",
+18,Familias con Bienestar,ICBF_FAM_BIENE,INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR,"Desarrollar y potenciar capacidades en las familias Colombianas para la Promoción de la convivencia armónica de todos sus integrantes, la prevención de la Violencia en el contexto familiar, a través de una estrategia pedagógica diferencial, psicológica y social que promueva el mejoramiento de su calidad de vida y bienestar.",
+73,"Niños y niñas atendidos en hogares ICBF que brindan atención, cuidado y nutrición sin el componente de educación inicial",ICBF_NN_SIN_EDU_INI,INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR,"Apoyar a las familias en desarrollo en la cualificación de las relaciones intrafamiliares y el fortalecimiento de vínculos afectivos, para que apoyen el desarrollo de los niños y niñas desde su gestación, vinculando además a otros adultos para que participen de la crianza de los niños",
+74,Niños y niñas atendidos en programas de atención integral,NN_PAI,INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR,"Atiende integralmente a niños, niñas y adolescentes, en la etapa de la vida donde se generan los mayores impactos para así garantizar acceso igualitario a las oportunidades. Propende por el bienestar y estabilidad de las  Familias Colombianas. ",
+75,"Niños, niñas y adolescentes atendidos con el generaciones con bienestar",ICBF_GEN_BIENE,INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR,"Promover la garantía de los derechos, prevenir su vulneración y gestionar la activación de las rutas de restablecimiento, a partir del empoderamiento de los niños, niñas y adolescentes como sujetos de derechos y la promoción de la corresponsabilidad con la familia, sociedad y Estado en su protección integral.",
+76,"Niños, niñas y adolescentes atendidos con el programa PAE",ICBF_NNA_PAE,INSTITUTO COLOMBIANO DE BIENESTAR FAMILIAR,"Contribuir a mejorar el desempeño académico de los niños, niñas y adolescentes, promover el ingreso y la permanencia en el sistema educativo y la formación de hábitos alimentarios saludables en la población escolar, con la participación activa de la familia, la comunidad y el estado a través de los entes territoriales.",
+27,Familias Guardabosques,PFG,UNIDAD ADMINISTRATIVA PARA LA CONSOLIDACIÓN TERRITORIAL,"Programa que hace parte de la estrategia de erradicación manual voluntaria, de sustitución y prevención de cultivos ilícitos del PCI.
+- Es una iniciativa de Desarrollo Alternativo, ya que adelanta acciones de erradicación manual voluntaria, sustitución y prevención de cultivos ilícitos.",
+45,Grupo Móvil de Erradicación,GME,UNIDAD ADMINISTRATIVA PARA LA CONSOLIDACIÓN TERRITORIAL,Los Grupos Moviles de Erradicación tienen por objeto erradicar cultivos ilícitos en el territorio nacional mediante la estrategia de erradicación manual forzosa.,"La Unidad de Consolidación, canaliza, articula y coordina la intervención institucional diferenciada en las regiones de consolidación focalizadas y en las zonas afectadas por los cultivos ilícitos."
+84,Proyectos Productivos,PP,UNIDAD ADMINISTRATIVA PARA LA CONSOLIDACIÓN TERRITORIAL,"Establecer, como su nombre lo dice, proyectos productivos auto sostenibles y rentables, con la finalidad de ofrecer alternativas lícitas y estables de empleo e ingresos, así como mejorar la seguridad alimentaria de los campesinos y comunidades, mediante el uso sostenible de los recursos naturales.",
+3,Atención a Víctimas de la Violencia por 2 S.M.M.L.V.,AVV2,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"El Decreto 1290 de 2008 constituye indemnización por vía administrativa hasta por 2 s.m.m.l.v. La medida de indemnización individual por la vía administrativa a las víctimas tiene como fin otorgarle a las víctimas la indemnización material de carácter administrativo, la cual se entregará teniendo en cuenta la naturaleza y el impacto del hecho victimizante, el daño causado y el estado de vulnerabilidad actual de la víctima, desde un enfoque diferencial y étnico, y con observancia de los principios de progresividad y gradualidad.",
+4,Atención a Víctimas de la Violencia por 40 S.M.M.L.V.,AVV40,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"La Ley 418 de 1997  constituye indemnización por vía administrativa hasta por 40 s.m.m.l.v. La medida de indemnización individual por la vía administrativa a las víctimas tiene como fin otorgarle a las víctimas la indemnización material de carácter administrativo, la cual se entregará teniendo en cuenta la naturaleza y el impacto del hecho victimizante, el daño causado y el estado de vulnerabilidad actual de la víctima, desde un enfoque diferencial y étnico, y con observancia de los principios de progresividad y gradualidad.",
+5,Atención de Víctimas de la Violencia por Reparación Administrativa,AVVRA,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"La UARIV responde por la atención y reparación integral de la población víctima del conflicto armado, coordinando políticas encaminadas a satisfacer los derechos de verdad, justicia y reparación. ",
+6,Atención Humanitaria,AHE,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"Las medidas de atención y asistencia dirigidas a las víctimas en el marco del conflicto armado interno, tienen por objeto generar condiciones que les permitan volver a gozar efectivamente de los derechos que les han sido vulnerados.",
+8,Ayuda Humanitaria,AYU_HUM,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"Corresponde a la Unidad para las Víctimas suministrar, por una sola vez, la referida ayuda humanitaria de acuerdo a la afectación derivada del hecho victimizante y de las circunstancias de tiempo, modo y lugar del mismo y en los casos en que la victimización obedezca a múltiples hechos, la ayuda humanitaria estará dirigida a mitigar la afectación derivada de estos hechos de manera integral.",
+10,Víctimas Expulsadas,EXPUL,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,Numero de Familias o personas victimas de desplazamiento Forzoso que ha sido registradas como expulsadas de un municipio en el Registro Único de Víctimas RUV,
+11,Víctimas Recepcionadas,RECEP,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,Numero de Familias o personas víctimas de desplazamiento Forzoso que ha sido registradas como recepcionadas en un municipio en el Registro Único de Víctimas RUV,
+17,"Encargo Fiduciario para Niños, Niñas y Adolescentes",EN_NNA,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"La Ley 418 de 1997  constituye indemnización por vía administrativa hasta por 40 s.m.m.l.v. La medida de indemnización individual por la vía administrativa a las víctimas tiene como fin otorgarle a los niños, niñas y adolescentes víctimas la indemnización material de carácter administrativo, la cual se entregará teniendo en cuenta la naturaleza y el impacto del hecho victimizante, el daño causado y el estado de vulnerabilidad actual de la víctima, desde un enfoque diferencial y étnico, y con observancia de los principios de progresividad y gradualidad.",
+50,Indemnización por ley 1290,IND1290,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"El Decreto 1290 de 2008 constituye indemnización por vía administrativa hasta por 2 s.m.m.l.v. La medida de indemnización individual por la vía administrativa a las víctimas tiene como fin otorgarle a las víctimas la indemnización material de carácter administrativo, la cual se entregará teniendo en cuenta la naturaleza y el impacto del hecho victimizante, el daño causado y el estado de vulnerabilidad actual de la víctima, desde un enfoque diferencial y étnico, y con observancia de los principios de progresividad y gradualidad.",
+51,Indemnización por ley 418,IND418,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,"La Ley 418 de 1997  constituye indemnización por vía administrativa hasta por 40 s.m.m.l.v. La medida de indemnización individual por la vía administrativa a las víctimas tiene como fin otorgarle a las víctimas la indemnización material de carácter administrativo, la cual se entregará teniendo en cuenta la naturaleza y el impacto del hecho victimizante, el daño causado y el estado de vulnerabilidad actual de la víctima, desde un enfoque diferencial y étnico, y con observancia de los principios de progresividad y gradualidad.",
+87,Retorno - Personas,RETORNO,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,Blanco,
+88,Retornos - Familias,RETOR,UNIDAD ADMINISTRATIVA PARA LA REPARACIÓN INTEGRAL DE VÍCTIMAS,Blanco,

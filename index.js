@@ -39,11 +39,51 @@ var cache_data_muni_pp;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
+var cPreffix;
 var preffixes = ["fam", "per", "inv", "pro", "has"];
 var preffixesDesc = ["Familias", "Personas", "Inversi&oacute;n", "Proyectos", "Hectareas"];
+var preffixesDescValor = ["Número de familias", "Número de personas", "Cifras en millones de pesos", "Número de proyectos", "Cifras en hectareas"];
+var mapaColores = [[
+                        { r: 86, g: 168, b: 45, a: 0.45 },
+                        { r: 141, g: 209, b: 107, a: 0.45 },
+                        { r: 211, g: 255, b: 191, a: 0.45 },
+                        { r: 166, g: 154, b: 166, a: 0.45 },
+                        { r: 118, g: 69, b: 138, a: 0.45 }
+                    ], // Familias
+                    [
+                        { r: 86, g: 168, b: 45, a: 0.45 },
+                        { r: 141, g: 209, b: 107, a: 0.45 },
+                        { r: 211, g: 255, b: 191, a: 0.45 },
+                        { r: 166, g: 154, b: 166, a: 0.45 },
+                        { r: 118, g: 69, b: 138, a: 0.45 }
+                    ], // Personas
+                    [
+                        { r: 255, g: 255, b: 115, a: 0.45 },
+                        { r: 230, g: 230, b: 0, a: 0.45 },
+                        { r: 255, g: 170, b: 0, a: 0.45 },
+                        { r: 255, g: 0, b: 0, a: 0.45 },
+                        { r: 168, g: 0, b: 0, a: 0.45 }
+                    ], // Inversión
+                    [
+                        { r: 229, g: 213, b: 242, a: 0.45 },
+                        { r: 191, g: 163, b: 207, a: 0.45 },
+                        { r: 157, g: 120, b: 173, a: 0.45 },
+                        { r: 123, g: 79, b: 140, a: 0.45 },
+                        { r: 93, g: 44, b: 112, a: 0.45 }                    
+                    ], //Proyectos
+                    [
+                        { r: 211, g: 255, b: 191, a: 0.45 },
+                        { r: 156, g: 219, b: 125, a: 0.45 },
+                        { r: 108, g: 184, b: 70, a: 0.45 },
+                        { r: 68, g: 148, b: 28, a: 0.45 },
+                        { r: 38, g: 115, b: 0, a: 0.45 }
+                    ] // Hectareas
+                    ];
 
 // Variable de los municipios (DIVIPOLA)
 var municipios = [];
+
+var annios_seleccion = ["2010", "2011", "2012", "2013"];
 
 var map;
 var loaded = false;
@@ -69,7 +109,6 @@ var variableName;
 var prefixName;
 
 var dateName = '2012';
-var dateNameT = '2012';
 
 var datoTipo = 1;
 var tipoReporte = 0;
@@ -78,6 +117,14 @@ var tentidades = [];
 
 function init() {    
     
+    $('#ftime').find('option').remove().end().append('<option value="-999">Presidencial Actual</option>').val('-999');
+    for (var i = 0; i < annios_seleccion.length; i++) {
+        $('#ftime').append($('<option>', { value: annios_seleccion[i] }).text(annios_seleccion[i]));
+    };
+    datoTipo = 1;
+    $('#ftime').val(0);
+    $('#ftime').selectmenu('refresh', true);
+
     $.ajax({
         url: "./data/DIVIPOLA.csv",
         type: 'GET',
@@ -93,17 +140,21 @@ function init() {
         async: false,
         success: function (data) {
             programas = $.csv.toObjects(data);
+            var seleccion = 0;
             for (var i = 0; i < programas.length; i++) {
                 if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
                     tentidades.push(programas[i].ENTIDAD);
                 };
                 programas[i].PREFIJO = programas[i].PREFIJO.toString().replace("_", "").toLowerCase();
                 $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
+                if (programas[i].PREFIJO == "dps"){
+                    seleccion = i;
+                };
             };
             for (var i = 0; i < tentidades.length; i++) {
                 $('#fentidad').append($('<option>', { value: tentidades[i] }).text(tentidades[i]));
             };
-            $('#fprograma').val(0);
+            $('#fprograma').val(seleccion);
             $('#fprograma').selectmenu('refresh', true);
         }
     });
@@ -118,30 +169,29 @@ function init() {
                 $('#tutorial').popup('close');
                 $('#msg').popup('close');
                 $('#msg2').popup('close');
-                $('#popupGeneral').popup('close');
+                $('#descripcion').popup('close');
             } else {
                 navigator.app.exitApp();
             };
         }, true);
     }
-
-    /*
+    
     if (getUrlVars()["pos"] == null) {
-        $('#popupGeneral').popup('open');
+        $('#acerca').popup('open');
     };
-    */
+    
 
     popup = new esri.dijit.InfoWindowLite(null, dojo.create("div"));
     popup.startup();
-    
-    $('#fchart').change(function () {
-        dateName = parseInt($("#fchart").val());
-        updateMapaDatos();
-    });
 
-    $('#ftable').change(function () {
-        dateNameT = parseInt($("#ftable").val());
-        updateReporte();
+    $('#ftime').change(function () {
+        if ($('#ftime')[0].value == "-999") {
+            datoTipo = 1;
+        } else {
+            datoTipo = 0;
+            dateName = parseInt($("#ftime").val());            
+        };
+        updateDatos();
     });
 
     $('#fdepto').change(function () {
@@ -264,6 +314,9 @@ function updateDepto() {
 
 function updatePrograma() {
     variableName = programas[parseInt($('#fprograma')[0].value)].PREFIJO.toString();
+    $('#nombre_programa').html(programas[parseInt($('#fprograma')[0].value)].NOMBRE_PROGRAMA.toString());
+    $('#descripcion_programa').html(programas[parseInt($('#fprograma')[0].value)].DESCRIPCION.toString());
+    
     if (cache_data == null) {
         return;
     };
@@ -273,11 +326,12 @@ function updatePrograma() {
         try {
             if (cache_data[0][variableName + preffixes[i]] != null) {
                 if (first) {
-                    strBotones += '<a href="#" id="btn' + i + '" class="ui-btn-active" data-role="button" data-inline="true" data-mini="true" onclick="setPreffix(' + i + ')">' + preffixesDesc[i] + '</a>';
+                    strBotones += '<a href="#" id="btn' + i + '" class="ui-btn-active boton-grupo" data-role="button" data-inline="true" data-mini="true" onclick="setPreffix(' + i + ')">' + preffixesDesc[i] + '</a>';
                     first = false;
                     prefixName = preffixes[i];
+                    cPreffix = i;
                 } else {
-                    strBotones += '<a href="#" id="btn' + i + '" data-role="button" data-inline="true" data-mini="true" onclick="setPreffix(' + i + ')">' + preffixesDesc[i] + '</a>';
+                    strBotones += '<a href="#" id="btn' + i + '" class="boton-grupo" data-role="button" data-inline="true" data-mini="true" onclick="setPreffix(' + i + ')">' + preffixesDesc[i] + '</a>';
                 };
             };
 
@@ -286,31 +340,10 @@ function updatePrograma() {
         }
     };
     $("#botones").html(strBotones);
-    for (var i = 0; i < preffixes.length; i++) {
-        $('#btn' + i).button();
-    };
+    $('.boton-grupo').button();
+    $("#botones").controlgroup('refresh');
 
     updateNDX(cache_data);
-    var sizeArray = dateDimension.group().orderNatural().all();
-    if (sizeArray.length > 0) {
-        $('#fchart').find('option').remove().end();
-        for (var i = 0; i < sizeArray.length; i++) {
-            $('#fchart').append($('<option>', { value: sizeArray[i].key })
-                 .text(sizeArray[i].key));
-        };
-        dateName = sizeArray[sizeArray.length - 1].key;
-        $('#fchart').val(dateName);
-        $('#fchart').selectmenu('refresh', true);
-
-        $('#ftable').find('option').remove().end();
-        for (var i = 0; i < sizeArray.length; i++) {
-            $('#ftable').append($('<option>', { value: sizeArray[i].key })
-                 .text(sizeArray[i].key));
-        };
-        dateNameT = sizeArray[sizeArray.length - 1].key;
-        $('#ftable').val(dateName);
-        $('#ftable').selectmenu('refresh', true);
-    }
     updateMapaDatos();
     updateReporte();
 }
@@ -336,7 +369,7 @@ function updateReporte(){
             var resultadoT = 0;
             for (var j=0; j<cache_data.length; j++){
                 if (datoTipo == 0){
-                    if (cache_data[j]["anofecha"] != dateNameT){
+                    if (cache_data[j]["anofecha"] != dateName){
                         continue;
                     };
                 }
@@ -372,12 +405,12 @@ function updateReporteDetalle(pos){
             continue;
         };
         var resultados = [];
-
+        var sumaPrograma = 0;
         for (var k = 0; k < preffixes.length; k++) {
             var resultadoT = 0;
             for (var j = 0; j < cache_data.length; j++) {
                 if (datoTipo == 0) {
-                    if (cache_data[j]["anofecha"] != dateNameT) {
+                    if (cache_data[j]["anofecha"] != dateName) {
                         continue;
                     };
                 }
@@ -386,16 +419,18 @@ function updateReporteDetalle(pos){
                 }
 
             };
+            sumaPrograma += resultadoT;
             resultados.push(resultadoT);
         };
-
-        var str = "<tr><td>" + programas[i].NOMBRE_PROGRAMA + "</td>";
-        for (var j = 0; j < resultados.length; j++) {
-            str = str + "<td>" + resultados[j] + "</td>"
-        }
-        str = str + "</tr>";
-
-        $("#tablaProgramas > tbody:last").append(str);
+        if (sumaPrograma > 0){
+            var str = "<tr><td>" + programas[i].NOMBRE_PROGRAMA + "</td>";
+            for (var j = 0; j < resultados.length; j++) {
+                str = str + "<td>" + resultados[j] + "</td>"
+            }
+            str = str + "</tr>";
+            $("#tablaProgramas > tbody:last").append(str);
+        };
+        
     };
     $("#tablaProgramas").table("refresh");
 
@@ -428,32 +463,33 @@ function updateMapaDatos() {
             for (var j = 0; j < data_dpto.length; j++) {
                 if (
                     (datoTipo == 0 ?
-                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j]["nombredepartamento"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) :
-                        (gl.graphics[i].attributes["NOM_DPTO"].toString().toUpperCase() == data_dpto[j]["depto"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N"))
+                        (gl.graphics[i].attributes["NOMBRE"].toString().toUpperCase() == data_dpto[j]["nombredepartamento"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N")) :
+                        (gl.graphics[i].attributes["NOMBRE"].toString().toUpperCase() == data_dpto[j]["depto"].replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U").replace("Ñ", "N"))
                     )
                     &&
                     ((datoTipo == 0 ? dateName == data_dpto[j]["anofecha"] : true))) {
-                    var resultado;
+                    var cresultado;
                     if (maxL2 == 0){
-                        resultado = 0;
+                        cresultado = { r: 0, g: 0, b: 0, a: 0 };
                     } else {
                         if (parseInt(data_dpto[j][variableName + prefixName]) == 0){
-                            resultado = 0;
+                            cresultado = { r: 0, g: 0, b: 0, a: 0 };
                         } else {
-                            resultado = Math.max(parseInt(data_dpto[j][variableName + prefixName]) / maxL2, 0.15);
+                            cresultado = mapaColores[cPreffix][parseInt(Math.min((parseInt(data_dpto[j][variableName + prefixName]) / maxL2) * 5, 4))];
                         }
                     }
+	
                     gl.graphics[i].setSymbol(new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 255, g: 0, b: 0, a: 0.45 }), 2),
-                                                                       new dojo.Color({ r: 255, g: 0, b: 0, a: resultado })));
+                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                                       cresultado));
                     match = true;
                     break;
                 };
             };
             if (!match) {
                 gl.graphics[i].setSymbol(new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                  new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 255, g: 0, b: 0, a: 0.45 }), 2),
-                                                   new dojo.Color({ r: 255, g: 0, b: 0, a: 0 })));
+                                                  new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                   new dojo.Color({ r: 0, g: 0, b: 0, a: 0 })));
             };
         };
     } else {
@@ -464,7 +500,7 @@ function updateMapaDatos() {
         var data_muni = (datoTipo == 0 ? cache_data_muni_anual : cache_data_muni_pp);
         for (var i = 0; i < gl.graphics.length; i++) {
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j]["daneimportar"].trim()) &&
+                if ((gl.graphics[i].attributes["COD_DANE"].toString() == data_muni[j]["daneimportar"].trim()) &&
                     (datoTipo == 0 ? (dateName == data_muni[j]["anofecha"]) : true)) {
                     if (data_muni[j][variableName + prefixName] != null) {
                         maxL2 = Math.max(maxL2, parseInt(data_muni[j][variableName + prefixName]));
@@ -476,29 +512,29 @@ function updateMapaDatos() {
         for (var i = 0; i < gl.graphics.length; i++) {
             var match = false;
             for (var j = 0; j < data_muni.length; j++) {
-                if ((gl.graphics[i].attributes["COD_MPIO"].toString() == data_muni[j]["daneimportar"].trim()) &&
+                if ((gl.graphics[i].attributes["COD_DANE"].toString() == data_muni[j]["daneimportar"].trim()) &&
                     (datoTipo == 0 ? (dateName == data_muni[j]["anofecha"]) : true)) {
-                    var resultado;
+                    var cresultado;
                     if (maxL2 == 0) {
-                        resultado = 0;
+                        cresultado = { r: 0, g: 0, b: 0, a: 0 };
                     } else {
                         if (parseInt(data_muni[j][variableName + prefixName]) == 0) {
-                            resultado = 0;
+                            cresultado = { r: 0, g: 0, b: 0, a: 0 };
                         } else {
-                            resultado = Math.max(parseInt(data_muni[j][variableName + prefixName]) / maxL2, 0.15);
+                            cresultado = mapaColores[cPreffix][parseInt(Math.min((parseInt(data_muni[j][variableName + prefixName]) / maxL2)*5, 4))];
                         }
                     }
                     gl.graphics[i].setSymbol(new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 255, a: 0.45 }), 2),
-                                                                       new dojo.Color({ r: 0, g: 0, b: 255, a: resultado })));
+                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                                       cresultado));
                     match = true;
                     break;
                 };
             };
             if (!match) {
                 gl.graphics[i].setSymbol(new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                  new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 255, a: 0.45 }), 2),
-                                                   new dojo.Color({ r: 0, g: 0, b: 255, a: 0 })));
+                                                  new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                   new dojo.Color({ r: 0, g: 0, b: 0, a: 0 })));
             };
         };
     };
@@ -661,6 +697,7 @@ function updateDatos() {
 };
 
 function setPreffix(pos) {
+    cPreffix = pos;
     prefixName = preffixes[pos];
     updateNDX(cache_data);
     for (var i = 0; i < preffixes.length; i++) {
@@ -668,28 +705,6 @@ function setPreffix(pos) {
     };
     $('#btn' + pos).addClass('ui-btn-active');
     updateMapaDatos();
-};
-
-function setTipo(pos) {
-    datoTipo = pos;
-    if (datoTipo == 0) {
-        $('#btntp0').addClass('ui-btn-active');
-        $('#btntp1').removeClass('ui-btn-active');
-        $("#mapControls").show();
-        $("#tableControls").show();
-    } else {
-        $('#btntp1').addClass('ui-btn-active');
-        $('#btntp0').removeClass('ui-btn-active');
-        $("#mapControls").hide();
-        $("#tableControls").hide();
-    };
-    updateSize();
-    if (map) {
-        map.reposition();
-        map.resize();
-        updateMapaDatos();
-    };
-    updateDatos();
 };
 
 function updateNDX(data) {
@@ -877,11 +892,11 @@ function showResultsDepto(results) {
 
         try {
             value = results.features[i].attributes["COD_DPTO"];
-            title = results.features[i].attributes["NOM_DPTO"];
+            title = results.features[i].attributes["NOMBRE"];
         } catch (e) {
             
         };
-        content = "<a href='#' onclick='analizarDepto(\"" + value + "\");' style=''>Ver datos</a><br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
+        content = "<a href='#' onclick='analizarDepto(\"" + value + "\");' style=''>Seleccionar</a>"; //<br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
 
         popcontent = new esri.InfoTemplate(title, content);
         try {
@@ -909,12 +924,12 @@ function showResultsMuni(results) {
         var title = "";
 
         try {
-            value = results.features[i].attributes["COD_MPIO"];
-            title = results.features[i].attributes["NOM_MPIO"];
+            value = results.features[i].attributes["COD_DANE"];
+            title = results.features[i].attributes["NOMBRE"];
         } catch (e) {
 
         };
-        content = "<a href='#' onclick='analizarMuni(\"" + value + "\");' style=''>Ver datos</a><br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
+        content = "<a href='#' onclick='analizarMuni(\"" + value + "\");' style=''>Seleccionar</a>"; //<br /><a href='#' onclick='cerrarPopup();' style=''>Cerrar</a>";
 
         popcontent = new esri.InfoTemplate(title, content);
         try {
@@ -948,7 +963,7 @@ function analizarMuni(codigo) {
     $('#fmunicipio').selectmenu('refresh', true);
     $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
     for (var i = 0; i < gl.graphics.length; i++) {
-        if (gl.graphics[i].attributes["COD_MPIO"].toString() == $('#fmunicipio').find('option:selected').val()){
+        if (gl.graphics[i].attributes["COD_DANE"].toString() == $('#fmunicipio').find('option:selected').val()){
             map.setExtent(esri.graphicsExtent([gl.graphics[i]]));
             break;
         };

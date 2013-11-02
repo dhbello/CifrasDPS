@@ -1,1 +1,130 @@
-{"displayFieldName":"COD_MPIO","fieldAliases":{"COD_MPIO":"Código Municipio","NOM_MPIO":"Municipio"},"geometryType":"esriGeometryPolygon","spatialReference":{"wkid":4326,"latestWkid":4326},"fields":[{"name":"COD_MPIO","type":"esriFieldTypeString","alias":"Código Municipio","length":5},{"name":"NOM_MPIO","type":"esriFieldTypeString","alias":"Municipio","length":60}],"features":[{"attributes":{"COD_MPIO":"88001","NOM_MPIO":"SAN ANDRES"},"geometry":{"rings":[[[-81.704,12.594],[-81.687,12.581],[-81.708,12.573],[-81.703,12.544],[-81.73,12.48],[-81.733,12.555],[-81.704,12.594]]]}},{"attributes":{"COD_MPIO":"88564","NOM_MPIO":"PROVIDENCIA"},"geometry":{"rings":[[[-81.365,13.386],[-81.35,13.357],[-81.389,13.321],[-81.392,13.359],[-81.365,13.386]],[[-81.37,13.394],[-81.377,13.382],[-81.38,13.392],[-81.37,13.394]]]}}]}
+{
+ "displayFieldName": "NOMBRE",
+ "fieldAliases": {
+  "NOMBRE": "NOMBRE",
+  "COD_DANE": "COD_DANE"
+ },
+ "geometryType": "esriGeometryPolygon",
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "fields": [
+  {
+   "name": "NOMBRE",
+   "type": "esriFieldTypeString",
+   "alias": "NOMBRE",
+   "length": 80
+  },
+  {
+   "name": "COD_DANE",
+   "type": "esriFieldTypeString",
+   "alias": "COD_DANE",
+   "length": 10
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "NOMBRE": "SAN ANDRÉS",
+    "COD_DANE": "88001"
+   },
+   "geometry": {
+    "rings": [
+     [
+      [
+       -81.689955963999978,
+       12.583594661000006
+      ],
+      [
+       -81.705836664000003,
+       12.577800638999975
+      ],
+      [
+       -81.709499569000002,
+       12.535099478999996
+      ],
+      [
+       -81.733523658000024,
+       12.483069397999998
+      ],
+      [
+       -81.735530707999999,
+       12.557788555999991
+      ],
+      [
+       -81.706603565000023,
+       12.597489693
+      ],
+      [
+       -81.689955963999978,
+       12.583594661000006
+      ]
+     ]
+    ]
+   }
+  },
+  {
+   "attributes": {
+    "NOMBRE": "PROVIDENCIA Y SANTA CATALINA",
+    "COD_DANE": "88564"
+   },
+   "geometry": {
+    "rings": [
+     [
+      [
+       -81.362939903999973,
+       13.33685828199998
+      ],
+      [
+       -81.392333244999975,
+       13.323379009000007
+      ],
+      [
+       -81.395579855999983,
+       13.361583563000011
+      ],
+      [
+       -81.369781568000008,
+       13.388406229999987
+      ],
+      [
+       -81.361438872000008,
+       13.374060826000004
+      ],
+      [
+       -81.352653127999986,
+       13.364124488000016
+      ],
+      [
+       -81.362939903999973,
+       13.33685828199998
+      ]
+     ],
+     [
+      [
+       -81.371961364000015,
+       13.396423774000027
+      ],
+      [
+       -81.373816858999987,
+       13.385202306999986
+      ],
+      [
+       -81.384035051000012,
+       13.38861823000002
+      ],
+      [
+       -81.380526230999976,
+       13.396189386000003
+      ],
+      [
+       -81.371961364000015,
+       13.396423774000027
+      ]
+     ]
+    ]
+   }
+  }
+ ]
+}
