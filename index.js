@@ -42,7 +42,7 @@ var programas = [];
 var cPreffix;
 var preffixes = ["fam", "per", "inv", "pro", "has"];
 var preffixesDesc = ["Familias", "Personas", "Inversi&oacute;n", "Proyectos", "Hectareas"];
-var preffixesDescValor = ["Número de familias", "Número de personas", "Cifras en millones de pesos", "Número de proyectos", "Cifras en hectareas"];
+var preffixesDescValor = ["Numero de familias", "Numero de personas", "Millones de pesos", "Numero de proyectos", "Hectareas"];
 var mapaColores = [[
                         { r: 86, g: 168, b: 45, a: 0.45 },
                         { r: 141, g: 209, b: 107, a: 0.45 },
@@ -384,7 +384,7 @@ function updateReporte(){
 
         var str = "<tr><td><a href='#' onclick='updateReporteDetalle(" + i + ");'>" + tentidades[i] + "</a></td>";
         for (var j=0; j<resultados.length; j++){
-            str = str + "<td>" + resultados[j] + "</td>"
+            str = str + "<td>" + numberWithCommas(resultados[j]) + "</td>"
         }
         str = str + "</tr>";
 
@@ -425,7 +425,7 @@ function updateReporteDetalle(pos){
         if (sumaPrograma > 0){
             var str = "<tr><td>" + programas[i].NOMBRE_PROGRAMA + "</td>";
             for (var j = 0; j < resultados.length; j++) {
-                str = str + "<td>" + resultados[j] + "</td>"
+                str = str + "<td>" + numberWithCommas(resultados[j]) + "</td>"
             }
             str = str + "</tr>";
             $("#tablaProgramas > tbody:last").append(str);
@@ -751,19 +751,34 @@ function updateNDX(data) {
     dc.barChart("#mainChart")
         .width($("#lista").width() - 150)
         .height($("#lista").height())
-        .margins({ top: 10, right: 50, bottom: 30, left: 100 })
+        .margins({ top: 30, right: 50, bottom: 30, left: 100 })
         .dimension(dateDimension)
         .group(datoGroup)
         .valueAccessor(function (d) {
             return d.value.dato;
         })
-        .x(d3.scale.linear().domain((datoTipo == 0 ? [minL, maxL] : [minL-1, maxL+1])))
+        .x(d3.scale.linear().domain((datoTipo == 0 ? [minL-0.5, maxL+0.5] : [minL-1, maxL+1])))
         .renderHorizontalGridLines(true)
         .elasticY(true)
         .centerBar(true)
         .brushOn(false)
         .title(function (d) {
             return d.x + ": " + d.y;
+        })
+        .yAxisLabel(preffixesDescValor[cPreffix])
+        .on("postRender", function (chart) {
+            chart.selectAll("rect.bar").each(function(d, i) { 
+                   
+                var text2 = document.createElementNS("http://www.w3.org/2000/svg", "text");
+                text2.setAttribute("x", parseInt(this.getAttribute("x"))+parseInt(this.getAttribute("width"))/2);
+                text2.setAttribute("y", parseInt(this.getAttribute("y"))+parseInt(this.getAttribute("height"))/2);
+                text2.setAttribute("style", "text-anchor: middle;");
+                text2.setAttribute("fill", "white");
+                var textContent = document.createTextNode(numberWithCommas(d.y));
+                text2.appendChild(textContent);
+                this.parentNode.appendChild(text2, this);
+               
+            });            
         })
         .xAxis().ticks(5)
         .tickFormat(function (d, i) {
@@ -781,6 +796,11 @@ function updateNDX(data) {
     dc.renderAll();
 }
 
+function numberWithCommas(x) {
+    var parts = x.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    return parts.join(",");
+}
 
 function updateSize() {
     var the_height = window.innerHeight - $("#header").height() - $("#footer").height() - 10;   
