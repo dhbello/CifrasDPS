@@ -18,9 +18,7 @@
 
 	<script src="js/jquery-1.9.1.min.js"></script>
     <script src="js/jquery.mobile-1.3.2.min.js"></script>
-    <script src="js/jquery.form.min.js"></script>
     <script src="js/json2.js"></script>
-    <script src="js/jquery.validity.js"></script>
 
     <script src="js/d3.min.js"></script>
     <script src="js/crossfilter.js"></script>
@@ -65,7 +63,7 @@
 	        document.addEventListener("deviceready", onDeviceReady, false);
 	        window.addEventListener('resize', updateSize);
 
-	        function onDeviceReady() {
+	        function onDeviceReady() {	            
 	            try {
 	                dojo.require("esri.map");
 	                dojo.require("esri.graphic");
@@ -96,7 +94,7 @@
     <div data-role="page" id="main" style="width:100%; height:100%; padding:0;">
 
 	    <div id="header" data-role="header">
-            <a href="#" data-role="button" data-icon="star" data-theme="b" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>
+            <a href="#" data-role="button" data-icon="star" data-theme="b" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>                
             <h1>Control Social - DPS</h1>
             <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="$('#fdepto').val(-999);$('#fdepto').selectmenu('refresh', true);fdeptoChange();">Limpiar consulta</a>
@@ -114,7 +112,7 @@
                         <td style="text-align: right;">
                             <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
 
-                            </div>
+                            </div>                            
                         </td>
                      </tr>
             </table>
@@ -136,7 +134,7 @@
                        Control Social - DPS<br />
                        2013 - Derechos Reservados
                    </p>
-		            <p style="text-align: center;">
+		            <p style="text-align: center;">                        
                         <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_dps.png" />&nbsp;
                         <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_mintic.png" />
                     </p>
@@ -200,7 +198,7 @@
                     </div>
 	            </div>
             </div>
-
+            
             <div data-role="popup" id="seleccion" data-history="false">
 	            <div data-role="header">
                     <a href="#main" data-role="button" data-icon="arrow-l">Ver</a>
@@ -261,9 +259,9 @@
                     <div id="programadiv" data-role="fieldcontain">
                         <label for="fprograma" class="select">Programa:</label>
                         <select id="fprograma" name="fprograma">
-
+                            
                         </select>
-                    </div>
+                    </div>                        
 	            </div>
             </div>
 
@@ -294,7 +292,7 @@
             </div>
             <div id="reporte" style="display: none;">
                     <div id="tEntidades">
-                        <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke"
+                        <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
                             data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
                             <thead>
                                 <tr>
@@ -308,12 +306,12 @@
                               </thead>
                               <tbody>
 
-                              </tbody>
+                              </tbody>                    
                         </table>
                     </div>
                 <div id="tProgramas">
                     <a href="#" data-role="button" data-inline="true" onclick="updateReporte();">Volver</a>
-                    <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke"
+                    <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke" 
                         data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
                         <thead>
                             <tr>
@@ -327,21 +325,21 @@
                           </thead>
                           <tbody>
 
-                          </tbody>
+                          </tbody>                    
                     </table>
                   </div>
             </div>
          <div id="mapExt" style="position:absolute;padding: 0px;width:100%;height:100%;">
                  <div id="map" style="padding: 0px;width:100%;height:100%;">
                  </div>
-		    </div>
+		    </div>  
 	    </div>
-        <div id="footer" data-role="footer" data-position="fixed">
+        <div id="footer" data-role="footer" data-position="fixed"> 
             <div><span>Consulta:&nbsp;</span><span id="ruta"></span></div>
 	        <div data-role="navbar">
 		        <ul>
                     <li><a href="#" class="ui-btn-active" onclick="setView(1);">Mapa</a></li>
-			        <li><a href="#" onclick="setView(2);">Gr&aacute;fico</a></li>
+			        <li><a href="#" onclick="setView(2);">Gr&aacute;fico</a></li>			        
                     <li><a href="#"  onclick="setView(3);">Informe</a></li>
 		        </ul>
 	        </div><!-- /navbar -->
