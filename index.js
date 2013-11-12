@@ -246,6 +246,20 @@ function init() {
     updateDatos();
 }
 
+function home(){
+    $('#fdepto').val(-999);
+    $('#fdepto').selectmenu('refresh', true);
+    $('#fentidad').val(-999);
+    $('#fentidad').selectmenu('refresh', true);
+    for (var i = 0; i < programas.length; i++) {
+        if (programas[i].PREFIJO == "dps"){
+            $('#fprograma').val(i);
+            $('#fprograma').selectmenu('refresh', true);
+        };
+    };
+    fdeptoChange();
+}
+
 function fdeptoChange() {
     if ($('#fdepto')[0].value == "-999") {
         updateNacional();
@@ -330,6 +344,9 @@ function updatePrograma() {
                     first = false;
                     prefixName = preffixes[i];
                     cPreffix = i;
+                    for (var j=0; j<mapaColores[cPreffix].length; j++){
+                        $("#cScale" + j).css("background", (new dojo.Color(mapaColores[cPreffix][j])).toHex());
+                    }
                 } else {
                     strBotones += '<a href="#" id="btn' + i + '" class="boton-grupo" data-role="button" data-inline="true" data-mini="true" onclick="setPreffix(' + i + ')">' + preffixesDesc[i] + '</a>';
                 };
@@ -698,6 +715,9 @@ function updateDatos() {
 
 function setPreffix(pos) {
     cPreffix = pos;
+    for (var j=0; j<mapaColores[cPreffix].length; j++){
+        $("#cScale" + j).css("background", (new dojo.Color(mapaColores[cPreffix][j])).toHex());
+    }
     prefixName = preffixes[pos];
     updateNDX(cache_data);
     for (var i = 0; i < preffixes.length; i++) {
@@ -816,6 +836,7 @@ function updateSize() {
         map.reposition();
         map.resize();
     };
+    updatePrograma();
 };
 
 function setView(id) {
@@ -823,19 +844,19 @@ function setView(id) {
         case 1:
             $("#lista").hide();
             $("#reporte").hide();
-            //$("#mapExt").show();
+            $("#botones").show();
             $("#mapExt").css("right", "0px");
             break;
         case 2:
             $("#reporte").hide();
-            $("#mapExt").css("right", "2000px");
-            //$("#mapExt").hide();
+            $("#mapExt").css("right", "20000px");
+            $("#botones").show();
             $("#lista").show();
             break;
         case 3:
-            //$("#mapExt").hide();
-            $("#mapExt").css("right", "2000px");
+            $("#mapExt").css("right", "20000px");
             $("#lista").hide();
+            $("#botones").hide();
             $("#reporte").show();
             break;
     };

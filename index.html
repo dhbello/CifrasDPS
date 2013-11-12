@@ -55,6 +55,19 @@
             overflow: hidden;
         }
 
+        .title {
+            background: none repeat scroll 0 0 rgba(255, 255, 255, 0.65);
+            border-radius: 3px;
+            box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            font-family: arial;
+            line-height: 28px;
+            padding: 5px 10px;
+            position: absolute;
+            left: 20px;
+            bottom: 20px;
+            z-index: 99;
+        }
     </style>
 
 	<script>
@@ -97,7 +110,7 @@
             <a href="#" data-role="button" data-icon="star" data-theme="b" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>                
             <h1>Control Social - DPS</h1>
             <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">
-                <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="$('#fdepto').val(-999);$('#fdepto').selectmenu('refresh', true);fdeptoChange();">Limpiar consulta</a>
+                <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="$('#share').popup('open');">Compartir</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
             </div>
@@ -330,6 +343,15 @@
                   </div>
             </div>
          <div id="mapExt" style="position:absolute;padding: 0px;width:100%;height:100%;">
+                 <div id="title" class="title">
+                    <span style='font-size: x-small;'>Min</span>
+                    <div style="width: 20px; height: 20px;" id="cScale0"></div>
+                    <div style="width: 20px; height: 20px;" id="cScale1"></div>
+                    <div style="width: 20px; height: 20px;" id="cScale2"></div>
+                    <div style="width: 20px; height: 20px;" id="cScale3"></div>
+                    <div style="width: 20px; height: 20px;" id="cScale4"></div>
+                    <span style='font-size: x-small;'>Max</span>
+                 </div>
                  <div id="map" style="padding: 0px;width:100%;height:100%;">
                  </div>
 		    </div>  
