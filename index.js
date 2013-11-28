@@ -12,7 +12,8 @@ var _msg_share_tw = '@DPSColombia Información DPS';
 var _msg_share_fb = 'Información DPS';
 
 // Ubicación de la versión web de la aplicación
-var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/ESRI_StreetMap_World_2D/MapServer';
+var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer';
+var _map_url2 = 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer';
 
 var _data_nacional_anual_web = 'http://servicedatosabiertoscolombia.cloudapp.net/v1/dps/metadatanacionalanual/?$format=json&$orderby=anofecha';
 var _data_nacional_anual = './data/json/metadatanacionalanual.js';
@@ -112,7 +113,7 @@ var dateName = '2012';
 
 var datoTipo = 1;
 var tipoReporte = 0;
-
+var currentView = 1;
 var tentidades = [];
 
 function init() {    
@@ -124,6 +125,7 @@ function init() {
     datoTipo = 1;
     $('#ftime').val(0);
     $('#ftime').selectmenu('refresh', true);
+    $("#btn_seleccion .ui-btn-text").css("font-size", "large");
 
     $.ajax({
         url: "./data/DIVIPOLA.csv",
@@ -208,7 +210,7 @@ function init() {
     });
 
     $('#fprograma').change(function () {
-        updatePrograma();
+        updateDatos();
     });
 
     if (isPhoneGap()) {
@@ -239,8 +241,10 @@ function init() {
             map.addLayer(streetMapLayer);
         };
     } else {
-        var streetMapLayer = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
-        map.addLayer(streetMapLayer);        
+        var mapLayerGris = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
+        var mapLayerEtiquetado = new esri.layers.ArcGISTiledMapServiceLayer(_map_url2);
+        map.addLayer(mapLayerGris);        
+        map.addLayer(mapLayerEtiquetado); 
     };
     updateSize();
     updateDatos();
@@ -369,6 +373,20 @@ function updateReporte(){
     tipoReporte = 0;
     $("#tEntidades").show();
     $("#tProgramas").hide();
+
+    var headerTXT = "<h3>INFORME SECTORIAL PERIODO " + $("#ftime option:selected").text().toString().toUpperCase() + "<br />";
+    if ($('#fdepto')[0].value == "-999") {
+        headerTXT = headerTXT + "CONSOLIDADO NACIONAL";
+    } else {
+        if ($('#fmunicipio')[0].value == "-999") {
+            headerTXT = headerTXT + "CONSOLIDADO " + $('#fdepto').find('option:selected').text().toString().toUpperCase();
+        } else {
+            headerTXT = headerTXT + "DEPARTAMENTO " + $('#fdepto').find('option:selected').text().toString().toUpperCase() + " - MUNICIPIO " + $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
+        };
+    };
+    headerTXT = headerTXT + "</h3>";
+
+    $("#header1").html(headerTXT);
     $("#tablaEntidades > tbody").html("");
     $("#tablaProgramas > tbody").html("");
     
@@ -401,7 +419,7 @@ function updateReporte(){
 
         var str = "<tr><td><a href='#' onclick='updateReporteDetalle(" + i + ");'>" + tentidades[i] + "</a></td>";
         for (var j=0; j<resultados.length; j++){
-            str = str + "<td>" + numberWithCommas(resultados[j]) + "</td>"
+            str = str + "<td style='text-align: right;'>" + numberWithCommas(resultados[j]) + "</td>"
         }
         str = str + "</tr>";
 
@@ -414,6 +432,21 @@ function updateReporte(){
 function updateReporteDetalle(pos){
     $("#tEntidades").hide();
     $("#tProgramas").show();
+
+    var headerTXT = "<h3>INFORME " + tentidades[pos].toString().toUpperCase() + " PERIODO " + $("#ftime option:selected").text().toString().toUpperCase() + "<br />";
+    if ($('#fdepto')[0].value == "-999") {
+        headerTXT = headerTXT + "CONSOLIDADO NACIONAL";
+    } else {
+        if ($('#fmunicipio')[0].value == "-999") {
+            headerTXT = headerTXT + "CONSOLIDADO " + $('#fdepto').find('option:selected').text().toString().toUpperCase();
+        } else {
+            headerTXT = headerTXT + "DEPARTAMENTO " + $('#fdepto').find('option:selected').text().toString().toUpperCase() + " - MUNICIPIO " + $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
+        };
+    };
+    headerTXT = headerTXT + "</h3>";
+
+    $("#header2").html(headerTXT);
+
     $("#tablaEntidades:visible > tbody").html("");
     $("#tablaProgramas:visible > tbody").html("");
 
@@ -442,7 +475,7 @@ function updateReporteDetalle(pos){
         if (sumaPrograma > 0){
             var str = "<tr><td>" + programas[i].NOMBRE_PROGRAMA + "</td>";
             for (var j = 0; j < resultados.length; j++) {
-                str = str + "<td>" + numberWithCommas(resultados[j]) + "</td>"
+                str = str + "<td style='text-align: right;'>" + numberWithCommas(resultados[j]) + "</td>"
             }
             str = str + "</tr>";
             $("#tablaProgramas > tbody:last").append(str);
@@ -639,9 +672,9 @@ function validar(txt){
 }
 
 function updateDatos() {
+    updateRuta();
     if ($('#fdepto')[0].value == "-999") {
         // Consolidado Nacional
-        $("#ruta").html("Consolidado Nacional - Programa: " + $('#fprograma').find('option:selected').text().toString());
         $("#load_icon").show();
         $("#mainChart").hide();
         if ((datoTipo == 0 ? cache_data_nacional_anual : cache_data_nacional_pp) == null){
@@ -656,7 +689,6 @@ function updateDatos() {
             // Consolidado Departamental
             var deptoNombre;
             var daneImportar;
-            $("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
             deptoNombre = $('#fdepto').find('option:selected').text().toString().toUpperCase();
             daneImportar = $('#fdepto').find('option:selected').val();
             deptoNombre = deptoNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
@@ -688,7 +720,6 @@ function updateDatos() {
             muniNombre = $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
             muniNombre = muniNombre.replace("Á", "%").replace("É", "%").replace("Í", "%").replace("Ó", "%").replace("Ú", "%");
             daneImportar = $('#fmunicipio').find('option:selected').val();
-            $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
             $("#load_icon").show();
             $("#mainChart").hide();
             cache_data = [];
@@ -709,6 +740,30 @@ function updateDatos() {
             $("#load_icon").hide();
             $("#mainChart").show();
             updatePrograma();
+        };
+    };
+};
+
+function updateRuta(){
+    if (currentView == 3){
+        if ($('#fdepto')[0].value == "-999") {
+        $("#ruta").html("Consolidado Nacional");
+    } else {
+	    if ($('#fmunicipio')[0].value == "-999") {
+    		$("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString());
+	    } else {
+    		$("#ruta").html("Municipio " + $('#fmunicipio').find('option:selected').text().toString());
+	    };
+    };
+    } else {
+        if ($('#fdepto')[0].value == "-999") {
+            $("#ruta").html("Consolidado Nacional - Programa: " + $('#fprograma').find('option:selected').text().toString());
+        } else {
+	        if ($('#fmunicipio')[0].value == "-999") {
+    		    $("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
+	        } else {
+    		    $("#ruta").html("Municipio " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
+	        };
         };
     };
 };
@@ -777,6 +832,18 @@ function updateNDX(data) {
         .valueAccessor(function (d) {
             return d.value.dato;
         })
+        .colors(['red', '#0071BC'])
+        .colorAccessor(function (d, i) {
+            if (datoTipo == 0) {
+                if (d.data.key == dateName){
+                    return 0;
+                } else {
+                    return 1;
+                };
+            } else {
+                return 1;
+            };
+        })
         .x(d3.scale.linear().domain((datoTipo == 0 ? [minL-0.5, maxL+0.5] : [minL-1, maxL+1])))
         .renderHorizontalGridLines(true)
         .elasticY(true)
@@ -817,9 +884,9 @@ function updateNDX(data) {
 }
 
 function numberWithCommas(x) {
-    var parts = x.toString().split(".");
+    var parts = x.toFixed(2).toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    return parts.join(",");
+    return parts.join(",").replace(",00", "");
 }
 
 function updateSize() {
@@ -840,6 +907,8 @@ function updateSize() {
 };
 
 function setView(id) {
+    currentView = id;
+    updateRuta();
     switch (id) {
         case 1:
             $("#lista").hide();
@@ -864,14 +933,26 @@ function setView(id) {
 
 function share(id) {
     switch (id) {
-        case 'facebook':
-            window.open(encodeURI('http://www.facebook.com/sharer.php?t=' + _msg_share_fb + '&u=' + _url + '?pos='), '_blank', '');
+        case 1:
+            html2canvas(document.getElementById('mapExt'), {
+                onrendered: function (canvas) {
+                    window.open(canvas.toDataURL("image/png"));
+                }
+            });
             break;
-        case 'twitter':
-            window.open(encodeURI('https://twitter.com/intent/tweet?text=' + _msg_share_tw + '&url=' + _url + '?pos='), '_blank', '');
+        case 2:
+            html2canvas(document.getElementById('lista'), {
+                onrendered: function (canvas) {
+                    window.open(canvas.toDataURL("image/png"));
+                }
+            });
             break;
-        case 'email':
-            window.open('mailto:?subject=Encontré este lugar en Vivi&body=' + _url + '?pos=', '_system', '');
+        case 3:
+            html2canvas(document.getElementById('reporte'), {
+                onrendered: function (canvas) {
+                    window.open(canvas.toDataURL("image/png"));
+                }
+            });
             break;
     }
 }
@@ -1002,7 +1083,6 @@ function analizarDepto(codigo) {
 function analizarMuni(codigo) {
     $("#fmunicipio").val(codigo);
     $('#fmunicipio').selectmenu('refresh', true);
-    $("#ruta").html("Detalle " + $('#fmunicipio').find('option:selected').text().toString() + " - Programa: " + $('#fprograma').find('option:selected').text().toString());
     for (var i = 0; i < gl.graphics.length; i++) {
         if (gl.graphics[i].attributes["COD_DANE"].toString() == $('#fmunicipio').find('option:selected').val()){
             map.setExtent(esri.graphicsExtent([gl.graphics[i]]));
