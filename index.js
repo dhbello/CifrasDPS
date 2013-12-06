@@ -718,7 +718,6 @@ function validar(txt){
 }
 
 function updateDatos() {
-    updateRuta();
     if ($('#fdepto')[0].value == "-999") {
         // Consolidado Nacional
         $("#load_icon").show();
@@ -775,12 +774,17 @@ function updateDatos() {
             updatePrograma();
         };
     };
+    updateRuta();
 };
 
 function updateRuta(){
+    if (cache_data.length > 0){
+        $("#actualizacion1, #actualizacion2, #actualizacion3, #actualizacion4").html("Fecha de corte: " + cache_data[0].mescarga + "/" + cache_data[0].anocarga + "&nbsp;");
+    };
     if (currentView == 3){
         if ($('#fdepto')[0].value == "-999") {
-        $("#ruta").html("Consolidado Nacional");
+            $("#ruta").html("Consolidado Nacional");
+            
     } else {
 	    if ($('#fmunicipio')[0].value == "-999") {
     		$("#ruta").html("Consolidado " + $('#fdepto').find('option:selected').text().toString());

@@ -127,6 +127,7 @@
                 <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="$('#tbar').toggle();updateSize();">Twitter1</a>
                 <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="abrirTw();">Twitter2</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
+                <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
             </div>
             <table style="width: 100%;">
                 <tr>
@@ -159,7 +160,8 @@
                    <p style="text-align: center;">
                        <span style="font-size: large;"><b>DPS v1.0</b></span><br />
                        Control Social - DPS<br />
-                       2013 - Derechos Reservados
+                       2013 - Derechos Reservados<br />
+                       <span id="actualizacion1"></span>                       
                    </p>
 		            <p style="text-align: center;">                        
                         <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_dps.png" />&nbsp;
@@ -177,13 +179,14 @@
 	            <div data-role="header">
                     <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
 		            <h1>Descripci&oacute;n</h1>
-                    <a href="#" data-role="button"  onclick="$('#acerca').popup('close');$('#tutorial').popup('open');">Tutorial</a>
+                    <a href="#" data-role="button"  onclick="$('#descripcion').popup('close');$('#tutorial').popup('open');">Tutorial</a>
 	            </div>
 	            <div data-role="content">
                    <p style="text-align: center;">
                        <span style="font-size: large;"><b><span id="nombre_programa"></span></b></span><br /><br />
                        <span id="descripcion_programa"></span>
                    </p>
+                    <p id="actualizacion2" style="text-align: right;"></p>
 	            </div>
             </div>
 
@@ -329,6 +332,7 @@
                 </div>
             </div>
             <div id="reporte" style="display: none;">
+                    <p id="actualizacion3" style="text-align: right;"></p>
                     <div id="tEntidades">
                         <div id="header1" style="width: 100%; text-align: center;"></div>
                         <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
@@ -384,7 +388,7 @@
 		    </div>  
 	    </div>
         <div id="footer" data-role="footer" data-position="fixed"> 
-            <div><span>Consulta:&nbsp;</span><span id="ruta"></span></div>
+            <div><span>Consulta:&nbsp;</span><span id="ruta" style="text-overflow: ellipsis; white-space: pre-wrap;"></span></div>
             <div id="tbar" style="display: none;">
                 <a class="twitter-timeline" data-chrome="nofooter noborders transparent" lang="es" height="50" href="https://twitter.com/DPSColombia"  data-widget-id="408995444887257088">Tweets de @DPSColombia</a>                
             </div>
