@@ -39,6 +39,16 @@
             display: block;
         }
 
+        #tw-popup
+        {
+            width: 80%;
+            left: 10%;
+            right: 10%;
+            top: 10%;
+        }
+        iframe[id^='twitter-widget-']{ width:100%;}
+
+
         .ui-select {
             display:inline-block;
         }
@@ -113,6 +123,9 @@
             <div class="ui-btn-right" data-role="controlgroup" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="$('#share').popup('open');">Compartir</a>
+                <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="$('#tbar').toggle();updateSize();">Twitter1</a>
+                <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="abrirTw();">Twitter2</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
             </div>
             <table style="width: 100%;">
@@ -211,6 +224,16 @@
                         <a href="#" id="btnS2" data-role="button" data-mini="true"onclick="share(2);">Grafico</a>
                         <a href="#" id="btnS3" data-role="button" data-mini="true" onclick="share(3);">Informe</a>
                     </div>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="tw" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content" id="contenedor2">
+                    
 	            </div>
             </div>
             
@@ -362,6 +385,9 @@
 	    </div>
         <div id="footer" data-role="footer" data-position="fixed"> 
             <div><span>Consulta:&nbsp;</span><span id="ruta"></span></div>
+            <div id="tbar" style="display: none;">
+                <a class="twitter-timeline" data-chrome="nofooter noborders transparent" lang="es" height="50" href="https://twitter.com/DPSColombia"  data-widget-id="408995444887257088">Tweets de @DPSColombia</a>                
+            </div>
 	        <div data-role="navbar">
 		        <ul>
                     <li><a href="#" class="ui-btn-active" onclick="setView(1);">Mapa</a></li>
@@ -372,6 +398,6 @@
         </div>
 
     </div><!-- /page -->
-
+    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
 </body>
 </html>
