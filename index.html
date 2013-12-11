@@ -20,6 +20,7 @@
     <script src="js/jquery.mobile-1.3.2.min.js"></script>
     <script src="js/json2.js"></script>
     <script src="js/html2canvas.min.js"></script>
+    <script src="js/jquery.ticker.js"></script>
 
     <script src="js/d3.min.js"></script>
     <script src="js/crossfilter.js"></script>
@@ -33,53 +34,7 @@
     <link rel="stylesheet" href="js/3.6compact/js/esri/css/esri.css" />
     <script src="js/3.6compact/init.js"></script>
 
-    <style>
-        .simpleInfoWindow .close
-        {
-            display: block;
-        }
-
-        #tw-popup
-        {
-            width: 80%;
-            left: 10%;
-            right: 10%;
-            top: 10%;
-        }
-        iframe[id^='twitter-widget-']{ width:100%;}
-
-
-        .ui-select {
-            display:inline-block;
-        }
-
-        .ui-popup-screen.in {
-            background: none repeat scroll 0 0 grey;
-            opacity: 0.5;
-            z-index: 100;
-        }
-
-        body
-        {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .titleRampa {
-            background: none repeat scroll 0 0 rgba(255, 255, 255, 0.65);
-            border-radius: 3px;
-            box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
-            display: inline-block;
-            font-family: arial;
-            line-height: 28px;
-            padding: 5px 10px;
-            position: absolute;
-            left: 20px;
-            bottom: 20px;
-            z-index: 99;
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
 
 	<script>
 
@@ -124,8 +79,7 @@
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="$('#share').popup('open');">Compartir</a>
                 <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
-                <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="$('#tbar').toggle();updateSize();">Twitter1</a>
-                <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="abrirTw();">Twitter2</a>
+                <a href="#" data-role="button" data-icon="twitter" data-iconpos="notext" onclick="toggleTwitter();">Twitter</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
                 <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
             </div>
@@ -227,16 +181,6 @@
                         <a href="#" id="btnS2" data-role="button" data-mini="true"onclick="share(2);">Grafico</a>
                         <a href="#" id="btnS3" data-role="button" data-mini="true" onclick="share(3);">Informe</a>
                     </div>
-	            </div>
-            </div>
-
-            <div data-role="popup" id="tw" data-history="false">
-	            <div data-role="header">
-                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
-		            <h1>DPS</h1>
-	            </div>
-	            <div data-role="content" id="contenedor2">
-                    
 	            </div>
             </div>
             
@@ -390,7 +334,7 @@
         <div id="footer" data-role="footer" data-position="fixed"> 
             <div><span>Consulta:&nbsp;</span><span id="ruta" style="text-overflow: ellipsis; white-space: pre-wrap;"></span></div>
             <div id="tbar" style="display: none;">
-                <a class="twitter-timeline" data-chrome="nofooter noborders transparent" lang="es" height="50" href="https://twitter.com/DPSColombia"  data-widget-id="408995444887257088">Tweets de @DPSColombia</a>                
+                
             </div>
 	        <div data-role="navbar">
 		        <ul>
@@ -402,6 +346,5 @@
         </div>
 
     </div><!-- /page -->
-    <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
 </body>
 </html>

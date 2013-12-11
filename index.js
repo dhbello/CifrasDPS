@@ -8,6 +8,7 @@ PARAMETROS CONFIGURABLES
 // Ubicación de la versión web de la aplicación
 var _url = 'http://dps.azurewebsites.net/';
 var _url_encuesta = 'http://www.dps.gov.co';
+var _url_tw_service = 'http://dps.azurewebsites.net/tweets.ashx'
 
 // Mensaje que aparece en la opcion compartir desde redes sociales
 var _msg_share_tw = '@DPSColombia Información DPS';
@@ -49,6 +50,7 @@ var cache_data_deptos_anual;
 var cache_data_deptos_pp;
 var cache_data_muni_anual;
 var cache_data_muni_pp;
+var twdata;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
@@ -190,12 +192,7 @@ function init() {
             };
         }, true);
     }
-    
-    if (getUrlVars()["pos"] == null) {
-        $('#acerca').popup('open');
-    };
-    
-
+   
     popup = new esri.dijit.InfoWindowLite(null, dojo.create("div"));
     popup.startup();
 
@@ -211,6 +208,7 @@ function init() {
 
     $('#fdepto').change(function () {
         fdeptoChange();
+        $('#seleccion').popup('reposition', 'positionTo: window');
     });
 
     $('#fmunicipio').change(function () {
@@ -255,13 +253,13 @@ function init() {
     if (isPhoneGap()) {
         if (((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE))) {
             map.addLayer(new esri.layers.GraphicsLayer());
-            map.addLayer(gl);
+            map.addLayer(gl, 0);
         } else {
             var mapLayerGris = new esri.layers.ArcGISTiledMapServiceLayer(_map_url);
             var mapLayerEtiquetado = new esri.layers.ArcGISTiledMapServiceLayer(_map_url2);
             map.addLayer(mapLayerGris);
             map.addLayer(mapLayerEtiquetado);
-            map.addLayer(gl);
+            map.addLayer(gl, 0);
 
         };
     } else {
@@ -269,11 +267,24 @@ function init() {
         var mapLayerEtiquetado = new esri.layers.ArcGISTiledMapServiceLayer(_map_url2);
         map.addLayer(mapLayerGris);
         map.addLayer(mapLayerEtiquetado);
-        map.addLayer(gl);
+        map.addLayer(gl, 0);
 
     };
+
+    
+    if (getUrlVars()["pos"] == null) {
+        $('#acerca').popup('open');
+    } else {
+
+    };
+
     updateSize();
     updateDatos();
+
+    $.getJSON(_url_tw_service + "?callback=?", function(data){
+        twdata = data;
+         toggleTwitter();
+    });
 }
 
 function home(){
@@ -302,7 +313,7 @@ function fdeptoChange() {
         updateDepto();
         $.each(municipios, function (index, value) {
             if (value.codigodanedpto == $('#fdepto')[0].value) {
-                if (!(value.nombremunicipio.contains("(DP)"))){
+                if ((value.nombremunicipio.indexOf("(DP)")) == -1) {
                     $('#fmunicipio').append($('<option>', { value: value.codigodanempio }).text(value.nombremunicipio));
                 };                
             }
@@ -931,8 +942,6 @@ function updateSize() {
     $("#lista").height(the_height);
     $("#reporte").height(the_height);
     $("#mapExt").height(the_height);
-    $("#contenedor2").html("<a class='twitter-timeline' data-chrome='nofooter noborders' width=" + parseInt(window.innerWidth * 0.8) + " height=" + parseInt(window.innerHeight * 0.6) + " lang='es' href='https://twitter.com/DPSColombia'  data-widget-id='408995444887257088'>Tweets de @DPSColombia</a>");
-    twttr.widgets.load();
     if ($("#mapControls").is(":visible")) {
         $("#map").height(the_height - $("#mapControls").height());
     } else {
@@ -992,6 +1001,12 @@ function share(id) {
                     window.open(canvas.toDataURL("image/png"));
                 }
             });
+            break;
+        case 'facebook':
+            window.open(encodeURI('http://www.facebook.com/sharer.php?t=' + _msg_share + '&u=' + _url + '?pos=' + currentView + 'A'), '_blank', '');
+            break;
+        case 'twitter':
+            window.open(encodeURI('https://twitter.com/intent/tweet?text=' + _msg_share + '&url=' + _url + '?pos=' + currentView + 'A'), '_blank', '');
             break;
     }
 }
@@ -1182,13 +1197,36 @@ function isPhoneGap() {
 }
 
 function abrirEncuesta(){
-    window.open(encodeURI(_url_encuesta), '_blank', '');
+    window.open(_url_encuesta, '_blank', '');
 }
 
-function abrirTw() {       
-    $('#tw').popup('open');
-    $( "#tw" ).bind({
-        popupafteropen: function (event, ui) { $('#tw').popup('reposition', 'positionTo: window'); }
-    });
-    
+function abrirTweet(id){
+    window.open('http://www.twitter.com/DPSColombia/status/' + id, '_blank', '');
+}
+
+function toggleTwitter(){
+    if (!($("#tbar").is(":visible"))) {
+        $("#tbar").show();
+        var str = '';
+        $.each(twdata, function (index, value) {
+            str = str + "<li class='news-item'><a href='#' onclick='abrirTweet(" + value.id_str.toString() + ");'>" + value.text.toString() + "</a></li>";
+        });
+        $('#tbar').html("<ul id='js-news' class='js-hidden'>" + str + "</ul>");
+        $('#js-news').ticker({
+                speed: 0.05,
+                htmlFeed: true,
+                controls: false,
+                titleText: '',
+                titleText: 'Noticias:',
+                displayType: 'fade',
+                direction: 'ltr',
+                pauseOnItems: 5000,
+                fadeInSpeed: 900,
+                fadeOutSpeed: 450
+        });        
+    } else {
+        $("#tbar").hide();
+        $('#tbar').html("");
+    };
+    updateSize();
 };
