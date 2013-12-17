@@ -50,7 +50,7 @@ var cache_data_deptos_anual;
 var cache_data_deptos_pp;
 var cache_data_muni_anual;
 var cache_data_muni_pp;
-var twdata;
+var twdata = null;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
@@ -99,6 +99,7 @@ var mapaColores = [[
 var municipios = [];
 
 var annios_seleccion = ["2010", "2011", "2012", "2013"];
+var dpsName = "DEPARTAMENTO PARA LA PROSPERIDAD SOCIAL";
 
 var map;
 var loaded = false;
@@ -139,7 +140,7 @@ function init() {
     datoTipo = 1;
     $('#ftime').val(0);
     $('#ftime').selectmenu('refresh', true);
-    $("#btn_seleccion .ui-btn-text").css("font-size", "large");
+    //$("#btn_seleccion .ui-btn-text").css("font-size", "large");
 
     $.ajax({
         url: "./data/json/divipola.js",
@@ -160,7 +161,11 @@ function init() {
             var seleccion = 0;
             for (var i = 0; i < programas.length; i++) {
                 if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
-                    tentidades.push(programas[i].ENTIDAD);
+                    if (programas[i].ENTIDAD == dpsName){
+                        tentidades.unshift(programas[i].ENTIDAD);
+                    } else {
+                        tentidades.push(programas[i].ENTIDAD);
+                    }
                 };
                 programas[i].PREFIJO = programas[i].PREFIJO.toString().replace("_", "").toLowerCase();
                 $('#fprograma').append($('<option>', { value: i }).text(programas[i].NOMBRE_PROGRAMA));
@@ -281,10 +286,6 @@ function init() {
     updateSize();
     updateDatos();
 
-    $.getJSON(_url_tw_service + "?callback=?", function(data){
-        twdata = data;
-         toggleTwitter();
-    });
 }
 
 function home(){
@@ -872,9 +873,9 @@ function updateNDX(data) {
     );
 
     dc.barChart("#mainChart")
-        .width($("#lista").width() - 150)
+        .width($("#lista").width()-10)
         .height($("#lista").height())
-        .margins({ top: 30, right: 50, bottom: 30, left: 100 })
+        .margins({ top: 30, right: 10, bottom: 30, left: 75 })
         .dimension(dateDimension)
         .group(datoGroup)
         .valueAccessor(function (d) {
@@ -909,7 +910,7 @@ function updateNDX(data) {
                 text2.setAttribute("y", parseInt(this.getAttribute("y"))+parseInt(this.getAttribute("height"))/2);
                 text2.setAttribute("style", "text-anchor: middle;");
                 text2.setAttribute("fill", "white");
-                var textContent = document.createTextNode(numberWithCommas(d.y));
+                var textContent = document.createTextNode(d3.format(".2s")(d.y));
                 text2.appendChild(textContent);
                 this.parentNode.appendChild(text2, this);
                
@@ -932,21 +933,17 @@ function updateNDX(data) {
 }
 
 function numberWithCommas(x) {
-    var parts = x.toFixed(2).toString().split(".");
+    var parts = x.toFixed(1).toString().split(".");
     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     return parts.join(",").replace(",00", "");
 }
 
 function updateSize() {
-    var the_height = window.innerHeight - $("#header").height() - $("#footer").height() - 10;   
+    var the_height = window.innerHeight - $("#header").height() - $("#footer").height();
     $("#lista").height(the_height);
     $("#reporte").height(the_height);
     $("#mapExt").height(the_height);
-    if ($("#mapControls").is(":visible")) {
-        $("#map").height(the_height - $("#mapControls").height());
-    } else {
-        $("#map").height(the_height);
-    };
+    $("#map").height(the_height);
     if (map) {
         map.reposition();
         map.resize();
@@ -977,6 +974,8 @@ function setView(id) {
             $("#reporte").show();
             break;
     };
+    updateSize();
+
 }
 
 function share(id) {
@@ -1206,6 +1205,16 @@ function abrirTweet(id){
 
 function toggleTwitter(){
     if (!($("#tbar").is(":visible"))) {
+        if (twdata == null){
+            $.getJSON(_url_tw_service + "?callback=?", function(data){
+                twdata = data;
+                toggleTwitter();
+            });
+            return;
+        };
+
+
+
         $("#tbar").show();
         var str = '';
         $.each(twdata, function (index, value) {
@@ -1217,7 +1226,6 @@ function toggleTwitter(){
                 htmlFeed: true,
                 controls: false,
                 titleText: '',
-                titleText: 'Noticias:',
                 displayType: 'fade',
                 direction: 'ltr',
                 pauseOnItems: 5000,
