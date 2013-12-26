@@ -282,9 +282,8 @@ function init() {
 
     };
 
-    updateSize();
     updateDatos();
-
+    updateSize();
 }
 
 function home(){
