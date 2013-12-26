@@ -50,7 +50,6 @@ var cache_data_deptos_anual;
 var cache_data_deptos_pp;
 var cache_data_muni_anual;
 var cache_data_muni_pp;
-var twdata = null;
 
 // Variables de los programas y sus respectivos prefijos
 var programas = [];
@@ -1202,39 +1201,3 @@ function abrirEncuesta(){
 function abrirTweet(id){
     window.open('http://www.twitter.com/DPSColombia/status/' + id, '_blank', '');
 }
-
-function toggleTwitter(){
-    if (!($("#tbar").is(":visible"))) {
-        if (twdata == null){
-            $.getJSON(_url_tw_service + "?callback=?", function(data){
-                twdata = data;
-                toggleTwitter();
-            });
-            return;
-        };
-
-
-
-        $("#tbar").show();
-        var str = '';
-        $.each(twdata, function (index, value) {
-            str = str + "<li class='news-item'><a href='#' onclick='abrirTweet(" + value.id_str.toString() + ");'>" + value.text.toString() + "</a></li>";
-        });
-        $('#tbar').html("<ul id='js-news' class='js-hidden'>" + str + "</ul>");
-        $('#js-news').ticker({
-                speed: 0.05,
-                htmlFeed: true,
-                controls: false,
-                titleText: '',
-                displayType: 'fade',
-                direction: 'ltr',
-                pauseOnItems: 5000,
-                fadeInSpeed: 900,
-                fadeOutSpeed: 450
-        });        
-    } else {
-        $("#tbar").hide();
-        $('#tbar').html("");
-    };
-    updateSize();
-};
