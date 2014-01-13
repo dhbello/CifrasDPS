@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>CifrasDPS</title>
+    <meta charset="UTF-8">
+    <meta property="og:title" content="DPS" />
+    <meta property="og:description" content="Consulta Informacion sobre los programas del Departamento para la Prosperidad Social (DPS)" />
+    <meta property="og:image" content="http://commondatastorage.googleapis.com/sinesat/logoDPS.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link href="css/jquery.mobile-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.structure-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/jquery.mobile.theme-1.3.2.min.css" rel="stylesheet" />
+    <link href="css/themes/mintic.min.css" rel="stylesheet" />
+    <link href="jqm-icon-pack-2.0-original.css" rel="stylesheet" />
+    <link href="css/dc.css" rel="stylesheet" />
+
+	<script src="js/jquery-1.9.1.min.js"></script>
+    <script src="js/jquery.mobile-1.3.2.min.js"></script>
+    <script src="js/json2.js"></script>
+    <script src="js/html2canvas.min.js"></script>
+
+    <script src="js/d3.min.js"></script>
+    <script src="js/crossfilter.js"></script>
+    <script src="js/dc.min.js"></script>
+
+    <script src="phonegap.js"></script>
+    <script src="js/plugins/SocialSharing.js"></script>
+    <script src="js/jquery.csv-0.71.min.js"></script>
+    <script src="index.js"></script>
+
+    <link rel="stylesheet" href="js/3.6compact/js/dojo/dijit/themes/claro/claro.css" />
+    <link rel="stylesheet" href="js/3.6compact/js/esri/css/esri.css" />
+    <script src="js/3.6compact/init.js"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+	<script>
+
+	    if (isPhoneGapExclusive()) {
+	        document.addEventListener("deviceready", onDeviceReady, false);
+	        window.addEventListener('resize', updateSize);
+
+	        function onDeviceReady() {	            
+	            try {
+	                dojo.require("esri.map");
+	                dojo.require("esri.graphic");
+	                dojo.require("esri.dijit.InfoWindowLite");
+	                dojo.addOnLoad(init);
+	            } catch (err) {
+	                init();
+	            };
+	        }
+	    } else {
+	        window.addEventListener('resize', updateSize);
+
+	        try {
+	            dojo.require("esri.map");
+	            dojo.require("esri.graphic");
+	            dojo.require("esri.dijit.InfoWindowLite");
+	            dojo.addOnLoad(init);
+	        } catch (err) {
+	            init();
+	        };
+	    };
+
+    </script>
+
+ </head>
+<body>
+
+    <div data-role="page" id="main" style="width:100%; height:100%; padding:0;">
+
+	    <div id="header" data-role="header">
+            <a href="#" data-role="button" id="btn_seleccion" data-icon="star" data-theme="b" onclick="$('#seleccion').popup('open');">Selecci&oacute;n</a>                
+            <h1></h1>
+            <div class="ui-btn-right" data-role="controlgroup" data-mini="true" data-type="horizontal">
+                <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
+                <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="$('#share').popup('open');">Compartir</a>
+                <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <a id="updateBtn" href="#" data-role="button" style="display: none;" data-icon="wrench" data-iconpos="notext" onclick="abrirActualizar();">Actualizar</a>
+                <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
+                <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
+            </div>
+            <table style="width: 100%;">
+                <tr>
+                        <td style="text-align: left;">
+                        <span style="font-size: small;">Periodo:</span>
+                        <select id="ftime" name="fdepto" data-mini="true" data-inline="true" style="display: inline-block;">
+
+			            </select>
+                        </td>
+                        <td style="text-align: right;">
+                            <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
+
+                            </div>                            
+                        </td>
+                     </tr>
+            </table>
+	    </div><!-- /header -->
+
+
+	    <div id="container" data-role="content" style="width:100%; height:100%; padding:0;">
+
+
+            <div data-role="popup" id="acerca" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+                    <a href="#" data-role="button"  onclick="$('#acerca').popup('close');$('#tutorial').popup('open');">Tutorial</a>
+	            </div>
+	            <div data-role="content">
+                   <p style="text-align: center;">
+                       <span style="font-size: large;"><b>DPS v1.0</b></span><br />
+                       Control Social - DPS<br />
+                       2013 - Derechos Reservados<br />
+                       <span id="actualizacion1"></span>                       
+                   </p>
+		            <p style="text-align: center;">                        
+                        <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_dps.png" />&nbsp;
+                        <img style="width: auto; height: auto; max-width: 100%; max-height: 100%;" src="images/logo_mintic.png" />
+                    </p>
+                   <p style="text-align: center;">
+                        <b>Autores:</b><br />
+                        David H. Bello - Raphcel M. Bello<br />
+                        david.bello@sinesat.com
+                   </p>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="update" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+
+                    <div>
+                        <p>Fecha de corte datos de la aplicaci&oacute;n:&nbsp;<span id="actualizacion5"></span></p>
+                        <p>Fecha de corte disponible para descarga:&nbsp;<span id="actualizacion6"></span></p>                                                               
+                        <p><span id="actualizacion7"></span></p>
+                    </div>
+
+                    <a href="#" data-role="button" onclick="actualizar();">Actualizar Datos</a>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="descripcion" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>Descripci&oacute;n</h1>
+                    <a href="#" data-role="button"  onclick="$('#descripcion').popup('close');$('#tutorial').popup('open');">Tutorial</a>
+	            </div>
+	            <div data-role="content">
+                   <p style="text-align: center;">
+                       <span style="font-size: large;"><b><span id="nombre_programa"></span></b></span><br /><br />
+                       <span id="descripcion_programa"></span>
+                   </p>
+                    <p id="actualizacion2" style="text-align: right;"></p>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="tutorial" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content" style="text-align: justify;font-size: small;">
+                   <center>
+                   <table cellpadding="5" style="border-collapse: collapse;">
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="star">Selecci&oacute;n</a>
+                            </td>
+                            <td style="border: none;">
+                                Cambiar la selecci&oacute;n actual (Departamento, municipio, entidad o programa).
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="home">Inicio</a>
+                            </td>
+                            <td style="border: none;">
+                                Ir a la selecci&oacute;n por defecto.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="link">Compartir</a>
+                            </td>
+                            <td style="border: none;">
+                                Compartir la selecci&oacute;n actual mediante Twitter o Facebook.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="page">Encuesta</a>
+                            </td>
+                            <td style="border: none;">
+                                Diligenciar una encuesta sobre ________________.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question">Descripci&oacute;n</a>
+                            </td>
+                            <td style="border: none;">
+                                Consultar la descripci&oacute;n del programa actualmente seleccionado.
+                            </td>
+                        </tr>
+                    </table>
+                    </center>
+	            </div>
+            </div>
+
+            <div data-role="popup" id="share" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                   <p style="text-align: center;">Compartir:</p>
+                    <div data-role="controlgroup" data-type="horizontal">
+                        <a href="#" id="btnS1" data-role="button" data-mini="true" data-icon="facebook" onclick="share('facebook');">Facebook</a>
+                        <a href="#" id="btnS2" data-role="button" data-mini="true" data-icon="twitter" onclick="share('twitter');">Twitter</a>
+                        <a href="#" id="btnS3" data-role="button" data-mini="true" onclick="share(3);">Informe</a>
+
+                    </div>
+	            </div>
+            </div>
+            
+            <div data-role="popup" id="seleccion" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Ver</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div data-role="fieldcontain">
+                        <label for="fdepto" class="select">Departamento:</label>
+                        <select id="fdepto" name="fdepto" data-mini="true">
+                             <option value="-999" selected>Consolidado Nacional</option>
+                             <option value="05">Antioquia</option>
+                             <option value="08">Atl&aacute;ntico</option>
+                             <option value="11">Bogot&aacute;, D.C.</option>
+                             <option value="13">Bol&iacute;var</option>
+                             <option value="15">Boyac&aacute;</option>
+                             <option value="17">Caldas</option>
+                             <option value="18">Caquet&aacute;</option>
+                             <option value="19">Cauca</option>
+                             <option value="20">Cesar</option>
+                             <option value="23">C&oacute;rdoba</option>
+                             <option value="25">Cundinamarca</option>
+                             <option value="27">Choc&oacute;</option>
+                             <option value="41">Huila</option>
+                             <option value="44">La Guajira</option>
+                             <option value="47">Magdalena</option>
+                             <option value="50">Meta</option>
+                             <option value="52">Nari&ntilde;o</option>
+                             <option value="54">Norte de Santander</option>
+                             <option value="63">Quindio</option>
+                             <option value="66">Risaralda</option>
+                             <option value="68">Santander</option>
+                             <option value="70">Sucre</option>
+                             <option value="73">Tolima</option>
+                             <option value="76">Valle del Cauca</option>
+                             <option value="81">Arauca</option>
+                             <option value="85">Casanare</option>
+                             <option value="86">Putumayo</option>
+                             <option value="88">Archipi&eacute;lago de San Andr&eacute;s, Providencia y Santa Catalina</option>
+                             <option value="91">Amazonas</option>
+                             <option value="94">Guain&iacute;a</option>
+                             <option value="95">Guaviare</option>
+                             <option value="97">Vaup&eacute;s</option>
+                             <option value="99">Vichada</option>
+                        </select>
+                    </div>
+                    <div id="munidiv" data-role="fieldcontain" style="display: none;">
+                        <label for="fmunicipio" class="select">Municipio:</label>
+                        <select id="fmunicipio" name="fmunicipio" data-mini="true">
+                            <option value="-999" selected>Consolidado Departamento</option>
+                        </select>
+                    </div>
+                    <div id="entidaddiv" data-role="fieldcontain">
+                        <label for="fentidad" class="select">Entidad:</label>
+                        <select id="fentidad" name="fentidad" data-mini="true">
+                            <option value="-999" selected>Todas las entidades</option>
+                        </select>
+                    </div>
+                    <div id="programadiv" data-role="fieldcontain">
+                        <label for="fprograma" class="select">Programa:</label>
+                        <select id="fprograma" name="fprograma" data-mini="true">
+                            
+                        </select>
+                    </div>                        
+	            </div>
+            </div>
+
+            <div data-role="popup" id="msg" data-history="false">
+	            <div data-role="header">
+                    <a href="#main" data-role="button" data-icon="arrow-l">Cerrar</a>
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div id="msgTXT"></div>
+                </div>
+            </div>
+
+            <div data-role="popup" id="msg2" data-history="false">
+	            <div data-role="header">
+		            <h1>DPS</h1>
+	            </div>
+	            <div data-role="content">
+                    <div id="msgTXT2"></div>
+                </div>
+            </div>
+
+            <div id="lista" style="display: none;width:100%;height:100%;bottom:0px;padding: 0;text-shadow:none;color:gray;">
+                <div id="load_icon" style="display: none;text-align: center;"><br /><br /><img src='images/ajax-loader2.gif' /></div>
+                <div id="mainChart" style="text-align: center;background: white;width: 100%;">
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div id="reporte" style="display: none;position:absolute;padding: 0px;width:100%;height:100%;overflow: auto;">
+                    <p id="actualizacion3" style="text-align: right;"></p>
+                    <div id="tEntidades">
+                        <div id="header1" style="width: 100%; text-align: center;"></div>
+                        <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
+                            data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                            <thead>
+                                <tr>
+                                  <th data-priority="0">Entidad</th>
+                                  <th data-priority="1">Familias</th>
+                                  <th data-priority="2">Personas</th>
+                                  <th data-priority="3">Inversi&oacute;n</th>
+                                  <th data-priority="4">Proyectos</th>
+                                  <th data-priority="5">Hectareas</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+
+                              </tbody>                    
+                        </table>
+                    </div>
+                <div id="tProgramas">
+                    <a href="#" data-role="button" data-inline="true" onclick="updateReporte();">Volver</a>
+                    <div id="header2" style="width: 100%; text-align: center;"></div>
+                    <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke" 
+                        data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                        <thead>
+                            <tr>
+                              <th data-priority="0">Programa</th>
+                              <th data-priority="1">Familias</th>
+                              <th data-priority="2">Personas</th>
+                              <th data-priority="3">Inversi&oacute;n</th>
+                              <th data-priority="4">Proyectos</th>
+                              <th data-priority="5">Hectareas</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                          </tbody>                    
+                    </table>
+                  </div>
+            </div>
+         <div id="mapExt" style="position:absolute;padding: 0px;width:100%;height:100%;">
+                 <div id="title" class="titleRampa">
+                    <span style='font-size: x-small;float: left; margin: 3px;'>Min&nbsp;</span>
+                    <span style='font-size: x-small;float: right; margin: 3px;'>&nbsp;Max</span>
+                    <span class="escala" id="cScale0"></span>
+                    <span class="escala" id="cScale1"></span>
+                    <span class="escala" id="cScale2"></span>
+                    <span class="escala" id="cScale3"></span>
+                    <span class="escala" id="cScale4"></span>
+                 </div>
+                 <div id="map" style="padding: 0px;width:100%;height:100%;">
+                 </div>
+		    </div>  
+	    </div>
+        <div id="footer" data-role="footer" data-position="fixed" data-tap-toggle="false"> 
+	        <div data-role="navbar">
+            <div id="rbar"><span id="ruta" style="text-overflow: ellipsis; white-space: pre-wrap; font-size: small;"></span></div>
+            <div id="tbar" style="display: none;">
+                
+            </div>
+		        <ul>
+                    <li><a href="#" id="barBtn1" onclick="setView(1);">Mapa</a></li>
+			        <li><a href="#" id="barBtn2" onclick="setView(2);">Gr&aacute;fico</a></li>			        
+                    <li><a href="#" id="barBtn3" onclick="setView(3);">Informe</a></li>
+		        </ul>
+	        </div><!-- /navbar -->
+        </div>
+
+    </div><!-- /page -->
+</body>
+</html>
