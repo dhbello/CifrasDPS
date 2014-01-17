@@ -212,15 +212,14 @@ function init() {
                 $('#descripcion').popup('close');
             } else {
                 navigator.notification.confirm(
-                     'Estás seguro que quieres salir?',
+                     'Estas seguro que quieres salir?',
                      function (button) {
-                         alert(button);
-                         if (button == "Sí") {
+                         if (button == 2) {
                              navigator.app.exitApp();
                          };
                      },
                      'Salir',
-                     'No,Sí'
+                     'No,Si'
                  );                
             };
         }, true);
