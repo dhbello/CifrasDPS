@@ -77,7 +77,7 @@
             <h1></h1>
             <div class="ui-btn-right" data-role="controlgroup" data-mini="true" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
-                <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="$('#share').popup('open');">Compartir</a>
+                <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="abrirShare();">Compartir</a>
                 <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
                 <a id="updateBtn" href="#" data-role="button" style="display: none;" data-icon="wrench" data-iconpos="notext" onclick="abrirActualizar();">Actualizar</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
@@ -112,8 +112,7 @@
 	            </div>
 	            <div data-role="content">
                    <p style="text-align: center;">
-                       <span style="font-size: large;"><b>DPS v1.0</b></span><br />
-                       Control Social - DPS<br />
+                       <span style="font-size: large;"><b>CifrasDPS v1.0</b></span><br />
                        2013 - Derechos Reservados<br />
                        <span id="actualizacion1"></span>                       
                    </p>
@@ -240,37 +239,37 @@
                         <label for="fdepto" class="select">Departamento:</label>
                         <select id="fdepto" name="fdepto" data-mini="true">
                              <option value="-999" selected>Consolidado Nacional</option>
+                             <option value="91">Amazonas</option>
                              <option value="05">Antioquia</option>
+                             <option value="81">Arauca</option>
+                             <option value="88">Archipi&eacute;lago de San Andr&eacute;s, Providencia y Santa Catalina</option>
                              <option value="08">Atl&aacute;ntico</option>
                              <option value="11">Bogot&aacute;, D.C.</option>
                              <option value="13">Bol&iacute;var</option>
                              <option value="15">Boyac&aacute;</option>
                              <option value="17">Caldas</option>
                              <option value="18">Caquet&aacute;</option>
+                             <option value="85">Casanare</option>
                              <option value="19">Cauca</option>
                              <option value="20">Cesar</option>
+                             <option value="27">Choc&oacute;</option>
                              <option value="23">C&oacute;rdoba</option>
                              <option value="25">Cundinamarca</option>
-                             <option value="27">Choc&oacute;</option>
+                             <option value="94">Guain&iacute;a</option>
+                             <option value="95">Guaviare</option>
                              <option value="41">Huila</option>
                              <option value="44">La Guajira</option>
                              <option value="47">Magdalena</option>
                              <option value="50">Meta</option>
                              <option value="52">Nari&ntilde;o</option>
                              <option value="54">Norte de Santander</option>
+                             <option value="86">Putumayo</option>
                              <option value="63">Quindio</option>
                              <option value="66">Risaralda</option>
                              <option value="68">Santander</option>
                              <option value="70">Sucre</option>
                              <option value="73">Tolima</option>
                              <option value="76">Valle del Cauca</option>
-                             <option value="81">Arauca</option>
-                             <option value="85">Casanare</option>
-                             <option value="86">Putumayo</option>
-                             <option value="88">Archipi&eacute;lago de San Andr&eacute;s, Providencia y Santa Catalina</option>
-                             <option value="91">Amazonas</option>
-                             <option value="94">Guain&iacute;a</option>
-                             <option value="95">Guaviare</option>
                              <option value="97">Vaup&eacute;s</option>
                              <option value="99">Vichada</option>
                         </select>
@@ -326,7 +325,7 @@
                     <div id="tEntidades">
                         <div id="header1" style="width: 100%; text-align: center;"></div>
                         <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
-                            data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                            data-column-btn-text="Variables" align="center" style="width: 90%;text-align: center;">
                             <thead>
                                 <tr>
                                   <th data-priority="0">Entidad</th>

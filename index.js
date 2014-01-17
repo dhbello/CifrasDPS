@@ -173,6 +173,9 @@ function init() {
         async: false,
         success: function (data) {
             programas = $.csv.toObjects(data);
+            programas.sort(function(a, b) {
+                return parseInt(a.orden) - parseInt(b.orden);
+            })
             var seleccion = 0;
             for (var i = 0; i < programas.length; i++) {
                 if ($.inArray(programas[i].ENTIDAD, tentidades) == -1) {
@@ -208,7 +211,17 @@ function init() {
                 $('#msg2').popup('close');
                 $('#descripcion').popup('close');
             } else {
-                navigator.app.exitApp();
+                navigator.notification.confirm(
+                     'Estás seguro que quieres salir?',
+                     function (button) {
+                         alert(button);
+                         if (button == "Sí") {
+                             navigator.app.exitApp();
+                         };
+                     },
+                     'Salir',
+                     'No,Sí'
+                 );                
             };
         }, true);
         $("#updateBtn").show();
@@ -234,19 +247,19 @@ function init() {
     });
 
     $('#fmunicipio').change(function () {
+        $('#seleccion').popup('reposition', 'positionTo: window');
         updateDatos();
         updateDepto();
-        $('#seleccion').popup('reposition', 'positionTo: window');
     });
 
     $('#fentidad').change(function () {
-        fentidadChange();
         $('#seleccion').popup('reposition', 'positionTo: window');
+        fentidadChange();
     });
 
     $('#fprograma').change(function () {
-        updateDatos();
         $('#seleccion').popup('reposition', 'positionTo: window');
+        updateDatos();
     });
 
     if (isPhoneGap()) {
@@ -255,6 +268,7 @@ function init() {
             minZoom: 3,
             maxZoom: 9,
             infoWindow: popup,
+            extent: new esri.geometry.Extent({ xmin: -11613536.329533452, ymin: -731349.486632372, xmax: -4931105.56873198, ymax: 1768447.0864053678, spatialReference: { wkid: 102100 } }),
             autoresize: false
         });
     } else {
@@ -264,6 +278,7 @@ function init() {
             maxZoom: 9,
             nav: true,
             infoWindow: popup,
+            extent: new esri.geometry.Extent({ xmin: -11613536.329533452, ymin: -731349.486632372, xmax: -4931105.56873198, ymax: 1768447.0864053678, spatialReference: { wkid: 102100 } }),
             autoresize: false
         });        
     };
@@ -1141,21 +1156,37 @@ function setView(id) {
     updateSize();
 }
 
-var cache_writer;
+function abrirShare() {
+    if (isPhoneGap()) {
+        if (((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE))) {
+            $('#msgTXT').html('Esta funcionalidad requiere acceso a internet. Por favor, verifique su conexión e intente de nuevamente.');
+            $('#msg').popup('open');
+            return;
+        };
+    };
+    if (currentView == 3) {
+        $("#btnS3").show();
+    } else {
+        $("#btnS3").hide();
+    };
+    $('#share').popup('open');
+}
 
 function share(id) {
     var _url_params = getParams();
     switch (id) {
         case 3:
             $('#share').popup('close');
-            html2canvas(document.getElementById('reporte'), {
+            html2canvas($("#tEntidades").is(':visible') ? document.getElementById('tEntidades') : document.getElementById('tProgramas'), {
                 onrendered: function (canvas) {
                     if (!isPhoneGap()) {
                         window.open(canvas.toDataURL("image/png"));
                     } else {
                         window.plugins.socialsharing.share('CifrasDPS: ' + _url + '?pos=' + _url_params, 'CifrasDPS', canvas.toDataURL("image/png"), null);
                     }
-                }
+                },
+                width: 5000,
+                height: 5000
             });
             break;
         case 'facebook':
@@ -1364,6 +1395,13 @@ function abrirTweet(id){
 }
 
 function abrirActualizar() {
+    if (isPhoneGap()) {
+        if (((navigator.network.connection.type == Connection.UNKNOWN) || (navigator.network.connection.type == Connection.NONE))) {
+            $('#msgTXT').html('Esta funcionalidad requiere acceso a internet. Por favor, verifique su conexión e intente de nuevamente.');
+            $('#msg').popup('open');
+            return;
+        };
+    };
     $('#update').popup('open');
     $.ajax({
         url: _data_web[1][1],
