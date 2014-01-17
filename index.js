@@ -1164,10 +1164,8 @@ function abrirShare() {
             return;
         };
     };
-    if (currentView == 3) {
-        $("#btnS3").show();
-    } else {
-        $("#btnS3").hide();
+    if (!isPhoneGap()) {
+        $("#btnS3").addClass('ui-disabled');
     };
     $('#share').popup('open');
 }
@@ -1176,18 +1174,7 @@ function share(id) {
     var _url_params = getParams();
     switch (id) {
         case 3:
-            $('#share').popup('close');
-            html2canvas($("#tEntidades").is(':visible') ? document.getElementById('tEntidades') : document.getElementById('tProgramas'), {
-                onrendered: function (canvas) {
-                    if (!isPhoneGap()) {
-                        window.open(canvas.toDataURL("image/png"));
-                    } else {
-                        window.plugins.socialsharing.share('CifrasDPS: ' + _url + '?pos=' + _url_params, 'CifrasDPS', canvas.toDataURL("image/png"), null);
-                    }
-                },
-                width: 5000,
-                height: 5000
-            });
+            window.plugins.socialsharing.share('CifrasDPS: ' + _url + '?pos=' + _url_params);
             break;
         case 'facebook':
             window.open(encodeURI('http://www.facebook.com/sharer.php?t=' + _msg_share_fb + '&u=' + _url + '?pos=' + _url_params), '_blank', '');
