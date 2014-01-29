@@ -78,7 +78,7 @@
             <div class="ui-btn-right" data-role="controlgroup" data-mini="true" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="abrirShare();">Compartir</a>
-                <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
                 <a id="updateBtn" href="#" data-role="button" style="display: none;" data-icon="wrench" data-iconpos="notext" onclick="abrirActualizar();">Actualizar</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
                 <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
@@ -92,7 +92,7 @@
 			            </select>
                         </td>
                         <td style="text-align: right;">
-                            <div id="botones" data-role="controlgroup" data-type="horizontal" style="margin-right: 10px;">
+                            <div id="botones" data-role="controlgroup" data-mini="true" data-type="horizontal" style="margin-right: 10px;margin-top: 10px;">
 
                             </div>                            
                         </td>
@@ -110,9 +110,11 @@
 		            <h1>DPS</h1>
                     <a href="#" data-role="button"  onclick="$('#acerca').popup('close');$('#tutorial').popup('open');">Tutorial</a>
 	            </div>
-	            <div data-role="content">
+	            <div data-role="content" style="font-size: small;">
                    <p style="text-align: center;">
                        <span style="font-size: large;"><b>CifrasDPS v1.0</b></span><br />
+                       Oficina Asesora de Planeaci&oacute;n, Monitoreo y Evaluaci&oacute;n<br />
+                       Oficina de Tecnolog&iacute;as de la Informaci&oacute;n<br />
                        2013 - Derechos Reservados<br />
                        <span id="actualizacion1"></span>                       
                    </p>
@@ -170,7 +172,7 @@
                    <table cellpadding="5" style="border-collapse: collapse;">
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="star">Selecci&oacute;n</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="star" class="ui-disabled">Selecci&oacute;n</a>
                             </td>
                             <td style="border: none;">
                                 Cambiar la selecci&oacute;n actual (Departamento, municipio, entidad o programa).
@@ -178,7 +180,7 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="home">Inicio</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="home" class="ui-disabled">Inicio</a>
                             </td>
                             <td style="border: none;">
                                 Ir a la selecci&oacute;n por defecto.
@@ -186,7 +188,7 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="link">Compartir</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="link" class="ui-disabled">Compartir</a>
                             </td>
                             <td style="border: none;">
                                 Compartir la selecci&oacute;n actual mediante Twitter o Facebook.
@@ -194,15 +196,15 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="page">Encuesta</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="dps" class="ui-disabled">Encuesta</a>
                             </td>
                             <td style="border: none;">
-                                Diligenciar una encuesta sobre la gestión del DPS.
+                                Diligenciar una encuesta sobre la gesti&oacute;n del DPS.
                             </td>
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question">Descripci&oacute;n</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question" class="ui-disabled">Descripci&oacute;n</a>
                             </td>
                             <td style="border: none;">
                                 Consultar la descripci&oacute;n del programa actualmente seleccionado.
@@ -223,8 +225,6 @@
                     <div data-role="controlgroup" data-type="horizontal">
                         <a href="#" id="btnS1" data-role="button" data-mini="true" data-icon="facebook" onclick="share('facebook');">Facebook</a>
                         <a href="#" id="btnS2" data-role="button" data-mini="true" data-icon="twitter" onclick="share('twitter');">Twitter</a>
-                        <a href="#" id="btnS3" data-role="button" data-mini="true" onclick="share(3);">Otras aplicaci&oacute;nes</a>
-
                     </div>
 	            </div>
             </div>
@@ -321,11 +321,12 @@
                 </div>
             </div>
             <div id="reporte" style="display: none;position:absolute;padding: 0px;width:100%;height:100%;overflow: auto;">
+                <div style="padding: 10px;">
                     <p id="actualizacion3" style="text-align: right;"></p>
                     <div id="tEntidades">
                         <div id="header1" style="width: 100%; text-align: center;"></div>
                         <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
-                            data-column-btn-text="Variables" align="center" style="width: 90%;text-align: center;">
+                            data-column-btn-text="Variables" align="center" style="width: 90%;text-align: center;font-size: small;">
                             <thead>
                                 <tr>
                                   <th data-priority="0">Entidad</th>
@@ -345,7 +346,7 @@
                     <a href="#" data-role="button" data-inline="true" onclick="updateReporte();">Volver</a>
                     <div id="header2" style="width: 100%; text-align: center;"></div>
                     <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke" 
-                        data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;">
+                        data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;font-size: small;">
                         <thead>
                             <tr>
                               <th data-priority="0">Programa</th>
@@ -361,6 +362,7 @@
                           </tbody>                    
                     </table>
                   </div>
+                    </div>
             </div>
          <div id="mapExt" style="position:absolute;padding: 0px;width:100%;height:100%;">
                  <div id="title" class="titleRampa">

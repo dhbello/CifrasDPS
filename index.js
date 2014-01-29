@@ -285,8 +285,8 @@ function init() {
     gl = new esri.layers.GraphicsLayer();
     var sr = new esri.renderer.SimpleRenderer(
                 new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([255, 0, 0, 0.5]), 2),
-                                                        new dojo.Color([255, 0, 0, 0.5])));
+                                new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color([0, 0, 0, 0.45]), 2),
+                                                        new dojo.Color([0, 0, 0, 0])));
     gl.setRenderer(sr);
 
     if (isPhoneGap()) {
@@ -478,14 +478,22 @@ function updatePrograma() {
         fpos = firstpos;
     };
 
-    prefixName = preffixes[fpos];
-    cPreffix = fpos;
-    var k;
-    for (k = 0; k < mapaColores[cPreffix].length; k++) {
-        try {
-            $("#cScale" + k).css("background", (new dojo.Color(mapaColores[cPreffix][k])).toHex());
-        } catch (err) {
+    if (fpos != -1) {
+
+        prefixName = preffixes[fpos];
+        cPreffix = fpos;
+        var k;
+        for (k = 0; k < mapaColores[cPreffix].length; k++) {
+            try {
+                $("#cScale" + k).css("background", (new dojo.Color(mapaColores[cPreffix][k])).toHex());
+            } catch (err) {
+            };
         };
+
+    } else {
+        $('#seleccion').popup('close');
+        $('#msgTXT').html('La consulta seleccionada no tiene datos.');
+        $('#msg').popup('open');
     };
 
     $("#botones").html(strBotones);
@@ -1162,11 +1170,11 @@ function abrirShare() {
             $('#msg').popup('open');
             return;
         };
+        share(3);
+    } else {
+        $('#share').popup('open');
     };
-    if (!isPhoneGap()) {
-        $("#btnS3").addClass('ui-disabled');
-    };
-    $('#share').popup('open');
+    
 }
 
 function share(id) {
@@ -1246,8 +1254,8 @@ function showResultsDepto(results) {
         try {
             gl.add(new esri.Graphic(results.features[i].geometry,
                                         new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 255, g: 0, b: 0, a: 0.45 }), 2),
-                                                                       new dojo.Color({ r: 255, g: 0, b: 0, a: 0.45 })),
+                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                                       new dojo.Color({ r: 0, g: 0, b: 0, a: 0 })),
                                         results.features[i].attributes,
                                         popcontent
                         ));
@@ -1279,8 +1287,8 @@ function showResultsMuni(results) {
         try {
             gl.add(new esri.Graphic(results.features[i].geometry,
                                         new esri.symbol.SimpleFillSymbol(esri.symbol.SimpleFillSymbol.STYLE_SOLID,
-                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 255, a: 0.45 }), 2),
-                                                                       new dojo.Color({ r: 0, g: 0, b: 255, a: 0.45 })),
+                                                                      new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color({ r: 0, g: 0, b: 0, a: 0.45 }), 2),
+                                                                       new dojo.Color({ r: 0, g: 0, b: 0, a: 0 })),
                                         results.features[i].attributes,
                                         popcontent
                         ));
@@ -1373,7 +1381,7 @@ function isPhoneGap() {
 }
 
 function abrirEncuesta(){
-    window.open(_url_encuesta, '_blank', '');
+    window.open(_url_encuesta, '_blank', 'EnableViewPortScale=yes');
 }
 
 function abrirTweet(id){
@@ -1439,7 +1447,11 @@ function transfer(pos, folderDir){
 
         fileTransfer.onprogress = function (progressEvent) {
             if (progressEvent.lengthComputable) {
-                $("#actualizacion7").html("Descargando archivo " + (pos + 1) + " de " + _data_web.length + "(" + parseInt((progressEvent.loaded / progressEvent.total) * 100) + "%)");
+                var valProg = (progressEvent.loaded / progressEvent.total);
+                if (valProg > 1) {
+                    valProg = 1;
+                };
+                $("#actualizacion7").html("Descargando archivo " + (pos + 1) + " de " + _data_web.length + "(" + parseInt(valProg * 100) + "%)");
             };
         };
 
