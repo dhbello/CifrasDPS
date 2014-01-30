@@ -314,9 +314,8 @@ function init() {
     } else {
         params = getUrlVars()["pos"];
     };
-    if (params == null) {
-        $('#acerca').popup('open');
-    } else {                
+    $('#acerca').popup('open');
+    if (params != null) {
         currentView = parseInt(params.split("A")[0]);
         $('#fdepto').val(params.split("A")[1]);
         $('#fdepto').selectmenu('refresh', true);
@@ -344,7 +343,7 @@ function init() {
         datoTipo = parseInt(params.split("A")[6]);
         cPreffix = parseInt(params.split("A")[7]);
         setView(currentView);
-    };
+    };    
     $("#barBtn" + currentView).addClass("ui-btn-active");
     updateDatos();
     updateSize();
@@ -489,11 +488,11 @@ function updatePrograma() {
             } catch (err) {
             };
         };
-
+        $('#msgMap').hide();
+        $('#msgChart').hide();
     } else {
-        $('#seleccion').popup('close');
-        $('#msgTXT').html('La consulta seleccionada no tiene datos.');
-        $('#msg').popup('open');
+        $('#msgMap').show();
+        $('#msgChart').show();
     };
 
     $("#botones").html(strBotones);

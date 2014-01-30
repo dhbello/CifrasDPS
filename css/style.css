@@ -10,7 +10,7 @@
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
 	.ui-icon-dps {
 		background-image: url("/images/Logo_DPS36x36.png");
-		background-size: 18px 18px;
+		background-size: 18px 18px !important;
 	}
 }
 
@@ -47,6 +47,21 @@ body
      margin: -3px;
     display: inline-block;
 }
+
+.msgWarning
+{
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.65);
+    border-radius: 3px;
+    box-shadow: 2px 2px 2px 0 rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    font-family: arial;
+    font-size: xx-small;
+    padding: 5px 10px;
+    position: absolute;
+    right: 20px;
+    z-index: 99;
+}
+
 
 .titleRampa
 {
