@@ -346,6 +346,7 @@ function init() {
     };    
     $("#barBtn" + currentView).addClass("ui-btn-active");
     updateDatos();
+    updateMapaDatos();
     updateSize();
 }
 

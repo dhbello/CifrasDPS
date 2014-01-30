@@ -4,12 +4,12 @@
 }
 
 .ui-icon-dps {
-	background-image: url("/images/Logo_DPS18x18.png");
+	background-image: url("../images/Logo_DPS18x18.png");
 }
 
 @media only screen and (-webkit-min-device-pixel-ratio: 2) {
 	.ui-icon-dps {
-		background-image: url("/images/Logo_DPS36x36.png");
+		background-image: url("../images/Logo_DPS36x36.png");
 		background-size: 18px 18px !important;
 	}
 }
