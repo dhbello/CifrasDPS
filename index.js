@@ -17,7 +17,8 @@ PARAMETROS CONFIGURABLES
 var _url = 'http://dps.azurewebsites.net/';
 
 // Ubicación de la encuesta a los usuarios
-var _url_encuesta = 'http://www.dps.gov.co';
+var _url_encuesta = 'http://www.dps.gov.co/contenido/mapa_sitio.aspx';
+var _url_dps = 'http://www.dps.gov.co';
 
 // Ubicación de los servicios de mapas que consume la aplicación
 var _map_url = 'http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer';
@@ -520,7 +521,7 @@ function updateReporte(){
     } else {
         periodoHeader = $("#ftime option:selected").text().toString().toUpperCase();
     };
-    var headerTXT = "<h3>INFORME SECTORIAL PERIODO " + periodoHeader + "<br />";
+    var headerTXT = "<h4>INFORME SECTORIAL PERIODO " + periodoHeader + "<br />";
     if ($('#fdepto')[0].value == "-999") {
         headerTXT = headerTXT + "CONSOLIDADO NACIONAL";
     } else {
@@ -530,7 +531,7 @@ function updateReporte(){
             headerTXT = headerTXT + "DEPARTAMENTO " + $('#fdepto').find('option:selected').text().toString().toUpperCase() + " - MUNICIPIO " + $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
         };
     };
-    headerTXT = headerTXT + "</h3>";
+    headerTXT = headerTXT + "</h4>";
 
     $("#header1").html(headerTXT);
     $("#tablaEntidades > tbody").html("");
@@ -585,7 +586,7 @@ function updateReporteDetalle(pos){
     } else {
         periodoHeader = $("#ftime option:selected").text().toString().toUpperCase();
     };
-    var headerTXT = "<h3>INFORME " + tentidades[pos].toString().toUpperCase() + " PERIODO " + periodoHeader + "<br />";
+    var headerTXT = "<h4>INFORME " + tentidades[pos].toString().toUpperCase() + " PERIODO " + periodoHeader + "<br />";
     if ($('#fdepto')[0].value == "-999") {
         headerTXT = headerTXT + "CONSOLIDADO NACIONAL";
     } else {
@@ -595,7 +596,7 @@ function updateReporteDetalle(pos){
             headerTXT = headerTXT + "DEPARTAMENTO " + $('#fdepto').find('option:selected').text().toString().toUpperCase() + " - MUNICIPIO " + $('#fmunicipio').find('option:selected').text().toString().toUpperCase();
         };
     };
-    headerTXT = headerTXT + "</h3>";
+    headerTXT = headerTXT + "</h4>";
 
     $("#header2").html(headerTXT);
 
@@ -1144,11 +1145,13 @@ function setView(id) {
         case 1:
             $("#lista").hide();
             $("#reporte").hide();
+            $('#tablaEntidades-popup').popup('close');
             $("#botones").show();
             $("#mapExt").css("right", "0px");
             break;
         case 2:
             $("#reporte").hide();
+            $('#tablaEntidades-popup').popup('close');
             $("#mapExt").css("right", "20000px");
             $("#botones").show();
             $("#lista").show();
@@ -1382,6 +1385,10 @@ function isPhoneGap() {
 
 function abrirEncuesta(){
     window.open(_url_encuesta, '_blank', 'EnableViewPortScale=yes');
+}
+
+function abrirDPS() {
+    window.open(_url_dps, '_blank', 'EnableViewPortScale=yes');
 }
 
 function abrirTweet(id){

@@ -78,7 +78,8 @@
             <div class="ui-btn-right" data-role="controlgroup" data-mini="true" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="abrirShare();">Compartir</a>
-                <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirDPS();">DPS</a>
                 <a id="updateBtn" href="#" data-role="button" style="display: none;" data-icon="wrench" data-iconpos="notext" onclick="abrirActualizar();">Actualizar</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
                 <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
@@ -155,10 +156,10 @@
 	            </div>
 	            <div data-role="content">
                    <p style="text-align: center;">
-                       <span style="font-size: large;"><b><span id="nombre_programa"></span></b></span><br /><br />
-                       <span id="descripcion_programa"></span>
+                       <span style="font-size: medium;"><b><span id="nombre_programa"></span></b></span><br /><br />
+                       <span id="descripcion_programa" style="font-size: small;"></span>
                    </p>
-                    <p id="actualizacion2" style="text-align: right;"></p>
+                    <p id="actualizacion2" style="text-align: right;font-size: small;"></p>
 	            </div>
             </div>
 
@@ -172,7 +173,7 @@
                    <table cellpadding="5" style="border-collapse: collapse;">
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="star" class="ui-disabled">Selecci&oacute;n</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="star" class="ui-disabled" style="opacity: 1;">Selecci&oacute;n</a>
                             </td>
                             <td style="border: none;">
                                 Cambiar la selecci&oacute;n actual (Departamento, municipio, entidad o programa).
@@ -180,7 +181,7 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="home" class="ui-disabled">Inicio</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="home" class="ui-disabled" style="opacity: 1;">Inicio</a>
                             </td>
                             <td style="border: none;">
                                 Ir a la selecci&oacute;n por defecto.
@@ -188,7 +189,7 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="link" class="ui-disabled">Compartir</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="link" class="ui-disabled" style="opacity: 1;">Compartir</a>
                             </td>
                             <td style="border: none;">
                                 Compartir la selecci&oacute;n actual mediante Twitter o Facebook.
@@ -196,7 +197,7 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="dps" class="ui-disabled">Encuesta</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="page" class="ui-disabled" style="opacity: 1;">Encuesta</a>
                             </td>
                             <td style="border: none;">
                                 Diligenciar una encuesta sobre la gesti&oacute;n del DPS.
@@ -204,7 +205,15 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question" class="ui-disabled">Descripci&oacute;n</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="dps" class="ui-disabled" style="opacity: 1;">DPS</a>
+                            </td>
+                            <td style="border: none;">
+                                Ir a la p&aacute;gina del DPS.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border: none;">
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question" class="ui-disabled" style="opacity: 1;">Descripci&oacute;n</a>
                             </td>
                             <td style="border: none;">
                                 Consultar la descripci&oacute;n del programa actualmente seleccionado.
@@ -323,7 +332,7 @@
             </div>
             <div id="reporte" style="display: none;position:absolute;padding: 0px;width:100%;height:100%;overflow: auto;">
                 <div style="padding: 10px;">
-                    <p id="actualizacion3" style="text-align: right;"></p>
+                    <p id="actualizacion3" style="text-align: right;font-size: small;"></p>
                     <div id="tEntidades">
                         <div id="header1" style="width: 100%; text-align: center;"></div>
                         <table data-role="table" id="tablaEntidades" data-mode="columntoggle" class="ui-responsive table-stroke" 
@@ -347,7 +356,7 @@
                     <a href="#" data-role="button" data-inline="true" onclick="updateReporte();">Volver</a>
                     <div id="header2" style="width: 100%; text-align: center;"></div>
                     <table data-role="table" id="tablaProgramas" data-mode="columntoggle" class="ui-responsive table-stroke" 
-                        data-column-btn-text="Columnas" align="center" style="width: 90%;text-align: center;font-size: small;">
+                        data-column-btn-text="Variables" align="center" style="width: 90%;text-align: center;font-size: small;">
                         <thead>
                             <tr>
                               <th data-priority="0">Programa</th>
