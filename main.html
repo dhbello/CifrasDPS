@@ -78,8 +78,8 @@
             <div class="ui-btn-right" data-role="controlgroup" data-mini="true" data-type="horizontal">
                 <a href="#" data-role="button" data-icon="home" data-iconpos="notext" onclick="home();">Limpiar consulta</a>
                 <a href="#" data-role="button" data-icon="link" data-iconpos="notext" onclick="abrirShare();">Compartir</a>
-                <a href="#" data-role="button" data-icon="page" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
-                <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirDPS();">DPS</a>
+                <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirEncuesta();">Encuesta</a>
+                <!-- <a href="#" data-role="button" data-icon="dps" data-iconpos="notext" onclick="abrirDPS();">DPS</a> -->
                 <a id="updateBtn" href="#" data-role="button" style="display: none;" data-icon="wrench" data-iconpos="notext" onclick="abrirActualizar();">Actualizar</a>
                 <a href="#" data-role="button" data-icon="question" data-iconpos="notext" onclick="$('#descripcion').popup('open');">Descripci&oacute;n</a>
                 <br /><span id="actualizacion4" style="float: right;font-size: xx-small;" ></span>
@@ -197,12 +197,13 @@
                         </tr>
                         <tr>
                             <td style="border: none;">
-                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="page" class="ui-disabled" style="opacity: 1;">Encuesta</a>
+                                <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="dps" class="ui-disabled" style="opacity: 1;">Encuesta</a>
                             </td>
                             <td style="border: none;">
                                 Diligenciar una encuesta sobre la gesti&oacute;n del DPS.
                             </td>
                         </tr>
+                       <!--
                         <tr>
                             <td style="border: none;">
                                 <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="dps" class="ui-disabled" style="opacity: 1;">DPS</a>
@@ -211,6 +212,7 @@
                                 Ir a la p&aacute;gina del DPS.
                             </td>
                         </tr>
+                       -->
                         <tr>
                             <td style="border: none;">
                                 <a href="#" data-role="button" data-inline="true" data-mini="true" data-icon="question" class="ui-disabled" style="opacity: 1;">Descripci&oacute;n</a>

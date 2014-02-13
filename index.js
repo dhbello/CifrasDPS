@@ -17,7 +17,7 @@ PARAMETROS CONFIGURABLES
 var _url = 'http://dps.azurewebsites.net/';
 
 // Ubicación de la encuesta a los usuarios
-var _url_encuesta = 'http://www.dps.gov.co/contenido/mapa_sitio.aspx';
+var _url_encuesta = 'http://www.dps.gov.co/Servicio_al_Ciudadano/Informacion_de_Contacto.aspx';
 var _url_dps = 'http://www.dps.gov.co';
 
 // Ubicación de los servicios de mapas que consume la aplicación
