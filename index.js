@@ -354,15 +354,17 @@ function init() {
 function home(){
     $('#fdepto').val(-999);
     $('#fdepto').selectmenu('refresh', true);
+    fdeptoChange();
     $('#fentidad').val(-999);
     $('#fentidad').selectmenu('refresh', true);
+    fentidadChange();
     for (var i = 0; i < programas.length; i++) {
         if (programas[i].PREFIJO == "dps"){
             $('#fprograma').val(i);
             $('#fprograma').selectmenu('refresh', true);
         };
     };
-    fdeptoChange();
+    updateDatos();
 }
 
 function fdeptoChange() {
@@ -402,6 +404,7 @@ function fentidadChange() {
     $('#fprograma').val(0);
     $('#fprograma').selectmenu('refresh', true);
     updatePrograma();
+    updateRuta();
 };
 
 function updateNacional() {
