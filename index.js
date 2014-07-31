@@ -1424,7 +1424,7 @@ function actualizar() {
         function (fs) {
             fs.root.getDirectory( "data", { create: true, exclusive: false }, 
                 function (dirEntry) {
-                    transfer(0, dirEntry);
+                    transfer(0, fs.root);
                 }, function () {
                     $("#actualizacion7").html("Error descargando archivos. Intente nuevamente m&aacute;s tarde.");
                 });
@@ -1448,7 +1448,7 @@ function transfer(pos, folderDir){
         return;
     };
 
-    folderDir.getFile(_data_web[pos][0], { create: true, exclusive: false },
+    folderDir.getFile("data/" + _data_web[pos][0], { create: true, exclusive: false },
     function (fileEntry) {
  
         $("#actualizacion7").html("Descargando archivo " + (pos + 1) + " de " + _data_web.length);
@@ -1465,7 +1465,7 @@ function transfer(pos, folderDir){
             };
         };
 
-        fileTransfer.download(uri, fileEntry.fullPath,
+        fileTransfer.download(uri, fileEntry.toURL(),
             function (entry) {
                 transfer(pos + 1, folderDir);
             },
